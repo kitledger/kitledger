@@ -3,7 +3,7 @@
 use App\Models\User;
 use Laravel\Passport\Client;
 use Laravel\Passport\PersonalAccessClient;
-use Laravel\Passport\Passport;
+use Illuminate\Support\Facades\Log;
 
 test('the command creates an access token', function () {
 
