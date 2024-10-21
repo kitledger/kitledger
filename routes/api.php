@@ -4,11 +4,11 @@ use App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+Route::middleware(['auth:api'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:api'])->group(function () {
     Route::post('/accounts', [Api\AccountApiController::class, 'store']);
     Route::put('/accounts/{account_id}', [Api\AccountApiController::class, 'update']);
 

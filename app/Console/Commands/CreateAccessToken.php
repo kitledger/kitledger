@@ -52,7 +52,7 @@ class CreateAccessToken extends Command
         if ($user_id) {
             $user = User::find($user_id);
 
-            $token = $user->createToken('CLI Token')->plainTextToken;
+            $token = $user->createToken('CLI Token')->accessToken;
 
             $this->info("Access token for user {$user->first_name} {$user->last_name} ({$user->email}):");
             $this->line($token);
