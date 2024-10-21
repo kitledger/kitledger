@@ -1,19 +1,12 @@
 <?php
 
 use App\Models\User;
-use Laravel\Passport\Client;
-use Laravel\Passport\PersonalAccessClient;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Artisan;
 
 test('the command creates an access token', function () {
 
     $user1 = User::factory()->create();
-	$client = Client::factory()->create(['personal_access_client' => true]);
-
-	// Create a personal access client
-	$personal_client = new PersonalAccessClient();
-	$personal_client->client_id = $client->id;
-	$personal_client->save();
+	Artisan::call('passport:client', ['--personal' => true, '--name' => 'CLI Token']);
 
     $this
         ->artisan('app:create-access-token')

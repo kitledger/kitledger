@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
 		Passport::loadKeysFrom(__DIR__.'/../../');
 
 		// This is used to hash the client secrets, so they are not stored in plain text.
-		Passport::hashClientSecrets();
+		//Passport::hashClientSecrets();
 
 
         ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
