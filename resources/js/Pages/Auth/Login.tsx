@@ -82,7 +82,7 @@ export default function Login({
 							onChange={(e) => setData("remember", e.target.checked)}
 							className="checkbox"
 						/>
-						<span className="ms-2 text-sm text-gray-600">Remember me</span>
+						<span className="ms-2 text-sm">Remember me</span>
 					</label>
 				</div>
 
