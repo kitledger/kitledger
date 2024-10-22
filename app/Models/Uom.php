@@ -9,10 +9,10 @@ use Ramsey\Uuid\Uuid;
 
 class Uom extends Model
 {
-	public function newUniqueId() :string
-	{
-		return Uuid::uuid7();
-	}
+    public function newUniqueId(): string
+    {
+        return Uuid::uuid7();
+    }
 
     public function canBeDeleted(): bool
     {

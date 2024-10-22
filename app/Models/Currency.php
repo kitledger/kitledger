@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
 class Currency extends Model implements DeletionProtected
@@ -25,10 +24,10 @@ class Currency extends Model implements DeletionProtected
         'decimal_separator',
     ];
 
-	public function newUniqueId() :string
-	{
-		return Uuid::uuid7();
-	}
+    public function newUniqueId(): string
+    {
+        return Uuid::uuid7();
+    }
 
     public static function findByIdOrIsoCode(string $id): Currency
     {

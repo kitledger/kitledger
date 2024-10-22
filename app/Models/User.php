@@ -15,10 +15,10 @@ class User extends Authenticatable implements DeletionProtected
 {
     use HasApiTokens, HasFactory, HasUuids, Notifiable;
 
-	public function newUniqueId() :string
-	{
-		return Uuid::uuid7();
-	}
+    public function newUniqueId(): string
+    {
+        return Uuid::uuid7();
+    }
 
     public function canBeDeleted(): bool
     {

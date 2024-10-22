@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
 use function Laravel\Prompts\search;

@@ -13,10 +13,10 @@ class EntityModel extends Model implements DeletionProtected
 {
     use HasFactory, HasUuids, IsIdSearchable;
 
-	public function newUniqueId() :string
-	{
-		return Uuid::uuid7();
-	}
+    public function newUniqueId(): string
+    {
+        return Uuid::uuid7();
+    }
 
     protected $fillable = [
         'ref_id',
