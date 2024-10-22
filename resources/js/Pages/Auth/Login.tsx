@@ -1,10 +1,6 @@
-import Checkbox from "@/Components/Checkbox";
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { error } from "console";
 import { FormEventHandler } from "react";
 
 export default function Login({
@@ -33,49 +29,58 @@ export default function Login({
 			<Head title="Log in" />
 
 			{status && (
-				<div className="mb-4 text-sm font-medium text-green-600">{status}</div>
+				<div className="mb-4 text-sm font-medium text-primary">{status}</div>
 			)}
 
 			<form onSubmit={submit}>
 				<div>
-					<InputLabel htmlFor="email" value="Email" />
+					<label className="label" htmlFor="email">Email</label>
 
-					<TextInput
+					<input
 						id="email"
 						type="email"
 						name="email"
 						value={data.email}
-						className="mt-1 block w-full"
+						className="mt-1 input input-bordered w-full"
 						autoComplete="username"
-						isFocused={true}
+						autoFocus={true}
 						onChange={(e) => setData("email", e.target.value)}
 					/>
-
-					<InputError message={errors.email} className="mt-2" />
+					{
+						errors.email && (
+						<label className="text-error">{errors.email}</label>
+						)
+					}
 				</div>
 
 				<div className="mt-4">
-					<InputLabel htmlFor="password" value="Password" />
+					<label className="label" htmlFor="password">Password</label>
 
-					<TextInput
+					<input
 						id="password"
 						type="password"
 						name="password"
 						value={data.password}
-						className="mt-1 block w-full"
+						className="mt-1 input input-bordered w-full"
 						autoComplete="current-password"
 						onChange={(e) => setData("password", e.target.value)}
 					/>
 
-					<InputError message={errors.password} className="mt-2" />
+					{
+						errors.password && (
+						<label className="text-error">{errors.password}</label>
+						)
+					}
 				</div>
 
 				<div className="mt-4 block">
 					<label className="flex items-center">
-						<Checkbox
+						<input
+							type="checkbox"
 							name="remember"
-							checked={data.remember}
+							defaultChecked={data.remember}
 							onChange={(e) => setData("remember", e.target.checked)}
+							className="checkbox"
 						/>
 						<span className="ms-2 text-sm text-gray-600">Remember me</span>
 					</label>
@@ -85,15 +90,15 @@ export default function Login({
 					{canResetPassword && (
 						<Link
 							href={route("password.request")}
-							className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+							className="link"
 						>
 							Forgot your password?
 						</Link>
 					)}
 
-					<PrimaryButton className="ms-4" disabled={processing}>
+					<button className="ms-4 btn btn-primary" disabled={processing}>
 						Log in
-					</PrimaryButton>
+					</button>
 				</div>
 			</form>
 		</GuestLayout>

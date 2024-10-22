@@ -1,0 +1,5 @@
+Font: IBM Plex Mono
+
+Colors:
+Dark: #042F2E
+Main: #22C55E

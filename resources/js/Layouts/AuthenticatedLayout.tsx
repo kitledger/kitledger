@@ -4,11 +4,19 @@ import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
 import { PropsWithChildren, ReactNode, useState } from "react";
+import { useEffect } from 'react';
+import { themeChange } from 'theme-change';
 
 export default function Authenticated({
 	header,
 	children,
 }: PropsWithChildren<{ header?: ReactNode }>) {
+
+	useEffect(() => {
+		themeChange(false)
+		// 👆 false parameter is required for react project
+	}, []);
+
 	const user = usePage().props.auth.user;
 
 	const [showingNavigationDropdown, setShowingNavigationDropdown] =

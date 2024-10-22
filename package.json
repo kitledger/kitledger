@@ -4,8 +4,8 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-		"format": "biome format --write ./resources/js",
-		"lint": "biome lint ./resources/js"
+        "format": "biome format --write ./resources/js",
+        "lint": "biome lint ./resources/js"
     },
     "author": "Alejandro Barrera Aponte",
     "license": "Apache-2.0",
@@ -20,6 +20,7 @@
         "@vitejs/plugin-react": "^4.2.0",
         "autoprefixer": "^10.4.12",
         "concurrently": "^9.0.1",
+        "daisyui": "^4.12.13",
         "postcss": "^8.4.31",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
@@ -28,6 +29,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "laravel-vite-plugin": "^1.0.5"
+        "laravel-vite-plugin": "^1.0.5",
+        "theme-change": "^2.5.0"
     }
 }
