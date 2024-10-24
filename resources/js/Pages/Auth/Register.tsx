@@ -26,6 +26,8 @@ export default function Register() {
 		<GuestLayout>
 			<Head title="Register" />
 
+			<h1 className="mb-4 text-xl font-semibold">Create an account</h1>
+
 			<form onSubmit={submit}>
 				<div>
 					<label className="label" htmlFor="first_name">Name</label>
@@ -35,7 +37,7 @@ export default function Register() {
 						type="text"
 						name="first_name"
 						value={data.first_name}
-						className="mt-1 input input-bordered w-full"
+						className="mt-1 input input-sm input-bordered w-full"
 						autoComplete="first_name"
 						autoFocus={true}
 						onChange={(e) => setData("first_name", e.target.value)}
@@ -57,7 +59,7 @@ export default function Register() {
 						type="text"
 						name="last_name"
 						value={data.last_name}
-						className="mt-1 input input-bordered w-full"
+						className="mt-1 input input-sm input-bordered w-full"
 						autoComplete="last_name"
 						onChange={(e) => setData("last_name", e.target.value)}
 						required
@@ -78,7 +80,7 @@ export default function Register() {
 						type="email"
 						name="email"
 						value={data.email}
-						className="mt-1 input input-bordered w-full"
+						className="mt-1 input input-sm input-bordered w-full"
 						autoComplete="username"
 						onChange={(e) => setData("email", e.target.value)}
 						required
@@ -99,7 +101,7 @@ export default function Register() {
 						type="password"
 						name="password"
 						value={data.password}
-						className="mt-1 input input-bordered w-full"
+						className="mt-1 input input-sm input-bordered w-full"
 						autoComplete="new-password"
 						onChange={(e) => setData("password", e.target.value)}
 						required
@@ -120,7 +122,7 @@ export default function Register() {
 						type="password"
 						name="password_confirmation"
 						value={data.password_confirmation}
-						className="mt-1 input input-bordered w-full"
+						className="mt-1 input input-sm input-bordered w-full"
 						autoComplete="new-password"
 						onChange={(e) => setData("password_confirmation", e.target.value)}
 						required
@@ -133,17 +135,17 @@ export default function Register() {
 					}
 				</div>
 
-				<div className="mt-4 flex items-center justify-end">
+				<button className="my-4 btn btn-sm btn-primary w-full" disabled={processing}>
+						Register
+				</button>
+
+				<div className="mt-8 flex items-center justify-center">
 					<Link
 						href={route("login")}
 						className="link"
 					>
 						Already registered?
 					</Link>
-
-					<button className="ms-4 btn btn-primary" disabled={processing}>
-						Register
-					</button>
 				</div>
 			</form>
 		</GuestLayout>

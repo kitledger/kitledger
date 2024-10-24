@@ -14,17 +14,24 @@ export default function Guest({ children }: PropsWithChildren) {
 	const theme = useTheme();
 
 	return (
-		<div className="flex min-h-screen flex-col items-cente pt-6 sm:justify-center sm:pt-0 bg-base-300">
-			<div>
+
+		<div className="flex flex-col lg:flex-row min-h-screen min-w-full">
+			<Link href="/" className="py-12 lg:hidden">
+				<figure className="w-48 h-auto mx-auto">
+					<img src={theme === 'dark' ? '/brand/logo-wt.svg' : '/brand/logo.svg'} alt="Logo" />
+				</figure>
+			</Link>
+			<div className="lg:w-1/2 lg:min-h-screen lg:flex lg:flex-col lg:items-center lg:justify-center">
+				<div className="w-full overflow-hidden px-6 py-6 sm:max-w-md mx-auto">
+					{children}
+				</div>
+			</div>
+			<div className="hidden lg:flex lg:flex-col lg:w-1/2 lg:min-h-screen lg:items-center lg:justify-center">
 				<Link href="/">
 					<figure className="w-48 h-auto mx-auto">
 						<img src={theme === 'dark' ? '/brand/logo-wt.svg' : '/brand/logo.svg'} alt="Logo" />
 					</figure>
 				</Link>
-			</div>
-
-			<div className="mt-6 w-full overflow-hidden px-6 py-6 sm:max-w-md mx-auto bg-base-100 shadow">
-				{children}
 			</div>
 		</div>
 	);

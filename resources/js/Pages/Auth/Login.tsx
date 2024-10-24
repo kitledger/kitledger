@@ -28,6 +28,8 @@ export default function Login({
 		<GuestLayout>
 			<Head title="Log in" />
 
+			<h1 className="mb-4 text-xl font-semibold">Log in</h1>
+
 			{status && (
 				<div className="mb-4 text-sm font-medium text-primary">{status}</div>
 			)}
@@ -41,7 +43,7 @@ export default function Login({
 						type="email"
 						name="email"
 						value={data.email}
-						className="mt-1 input input-bordered w-full"
+						className="mt-1 input input-sm input-bordered w-full"
 						autoComplete="username"
 						autoFocus={true}
 						onChange={(e) => setData("email", e.target.value)}
@@ -61,7 +63,7 @@ export default function Login({
 						type="password"
 						name="password"
 						value={data.password}
-						className="mt-1 input input-bordered w-full"
+						className="mt-1 input input-sm input-bordered w-full"
 						autoComplete="current-password"
 						onChange={(e) => setData("password", e.target.value)}
 					/>
@@ -80,13 +82,17 @@ export default function Login({
 							name="remember"
 							defaultChecked={data.remember}
 							onChange={(e) => setData("remember", e.target.checked)}
-							className="checkbox"
+							className="checkbox checkbox-sm"
 						/>
 						<span className="ms-2 text-sm">Remember me</span>
 					</label>
 				</div>
 
-				<div className="mt-4 flex items-center justify-end">
+				<button className="my-4 btn btn-sm btn-primary w-full" disabled={processing}>
+						Log in
+				</button>
+
+				<div className="mt-8 flex items-center justify-center">
 					{canResetPassword && (
 						<Link
 							href={route("password.request")}
@@ -95,10 +101,6 @@ export default function Login({
 							Forgot your password?
 						</Link>
 					)}
-
-					<button className="ms-4 btn btn-primary" disabled={processing}>
-						Log in
-					</button>
 				</div>
 			</form>
 		</GuestLayout>
