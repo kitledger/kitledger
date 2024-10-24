@@ -48,7 +48,7 @@ export default function Login({
 					/>
 					{
 						errors.email && (
-						<label className="text-error">{errors.email}</label>
+							<label className="text-error">{errors.email}</label>
 						)
 					}
 				</div>

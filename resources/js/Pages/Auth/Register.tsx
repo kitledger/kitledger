@@ -1,6 +1,5 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
@@ -29,103 +28,122 @@ export default function Register() {
 
 			<form onSubmit={submit}>
 				<div>
-					<InputLabel htmlFor="first_name" value="Name" />
+					<label className="label" htmlFor="first_name">Name</label>
 
-					<TextInput
+					<input
 						id="first_name"
+						type="text"
 						name="first_name"
 						value={data.first_name}
-						className="mt-1 block w-full"
+						className="mt-1 input input-bordered w-full"
 						autoComplete="first_name"
-						isFocused={true}
+						autoFocus={true}
 						onChange={(e) => setData("first_name", e.target.value)}
 						required
 					/>
 
-					<InputError message={errors.first_name} className="mt-2" />
+					{
+						errors.first_name && (
+							<label className="text-error">{errors.first_name}</label>
+						)
+					}
 				</div>
 
 				<div className="mt-4">
-					<InputLabel htmlFor="last_name" value="Last Name" />
+					<label className="label" htmlFor="last_name">Last Name</label>
 
-					<TextInput
+					<input
 						id="last_name"
+						type="text"
 						name="last_name"
 						value={data.last_name}
-						className="mt-1 block w-full"
+						className="mt-1 input input-bordered w-full"
 						autoComplete="last_name"
 						onChange={(e) => setData("last_name", e.target.value)}
 						required
 					/>
 
-					<InputError message={errors.last_name} className="mt-2" />
+					{
+						errors.last_name && (
+							<label className="text-error">{errors.last_name}</label>
+						)
+					}
 				</div>
 
 				<div className="mt-4">
-					<InputLabel htmlFor="email" value="Email" />
+					<label className="label" htmlFor="email">Email</label>
 
-					<TextInput
+					<input
 						id="email"
 						type="email"
 						name="email"
 						value={data.email}
-						className="mt-1 block w-full"
+						className="mt-1 input input-bordered w-full"
 						autoComplete="username"
 						onChange={(e) => setData("email", e.target.value)}
 						required
 					/>
 
-					<InputError message={errors.email} className="mt-2" />
+					{
+						errors.email && (
+							<label className="text-error">{errors.email}</label>
+						)
+					}
 				</div>
 
 				<div className="mt-4">
-					<InputLabel htmlFor="password" value="Password" />
+					<label className="label" htmlFor="password">Password</label>
 
-					<TextInput
+					<input
 						id="password"
 						type="password"
 						name="password"
 						value={data.password}
-						className="mt-1 block w-full"
+						className="mt-1 input input-bordered w-full"
 						autoComplete="new-password"
 						onChange={(e) => setData("password", e.target.value)}
 						required
 					/>
 
-					<InputError message={errors.password} className="mt-2" />
+					{
+						errors.password && (
+							<label className="text-error">{errors.password}</label>
+						)
+					}
 				</div>
 
 				<div className="mt-4">
-					<InputLabel
-						htmlFor="password_confirmation"
-						value="Confirm Password"
-					/>
+					<label className="label" htmlFor="password_confirmation">Password Confirmation</label>
 
-					<TextInput
+					<input
 						id="password_confirmation"
 						type="password"
 						name="password_confirmation"
 						value={data.password_confirmation}
-						className="mt-1 block w-full"
+						className="mt-1 input input-bordered w-full"
 						autoComplete="new-password"
 						onChange={(e) => setData("password_confirmation", e.target.value)}
 						required
 					/>
 
-					<InputError message={errors.password_confirmation} className="mt-2" />
+					{
+						errors.password_confirmation && (
+							<label className="text-error">{errors.password_confirmation}</label>
+						)
+					}
 				</div>
 
 				<div className="mt-4 flex items-center justify-end">
 					<Link
 						href={route("login")}
-						className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+						className="link"
 					>
 						Already registered?
 					</Link>
 
-					<PrimaryButton className="ms-4" disabled={processing}>
+					<button className="ms-4 btn btn-primary" disabled={processing}>
 						Register
-					</PrimaryButton>
+					</button>
 				</div>
 			</form>
 		</GuestLayout>

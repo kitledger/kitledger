@@ -1,22 +1,24 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import { Link } from "@inertiajs/react";
 import { PropsWithChildren } from "react";
-import { useEffect } from 'react'
-import { themeChange } from 'theme-change'
+import { useEffect } from 'react';
+import { themeChange } from 'theme-change';
+import { useTheme } from "@/Utils/Theme";
 
 export default function Guest({ children }: PropsWithChildren) {
 
 	useEffect(() => {
-		themeChange(false)
-		// 👆 false parameter is required for react project
+		themeChange(false);
 	}, []);
+
+	const theme = useTheme();
 
 	return (
 		<div className="flex min-h-screen flex-col items-cente pt-6 sm:justify-center sm:pt-0 bg-base-300">
 			<div>
 				<Link href="/">
 					<figure className="w-48 h-auto mx-auto">
-						<img src="/brand/logo.png" alt="Logo" />
+						<img src={theme === 'dark' ? '/brand/logo-wt.svg' : '/brand/logo.svg'} alt="Logo" />
 					</figure>
 				</Link>
 			</div>
