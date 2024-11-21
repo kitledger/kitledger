@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1732144808879,
+      "tag": "0000_natural_cammi",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1732144876100,
+      "tag": "0001_lush_mother_askani",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1732147437941,
+      "tag": "0002_familiar_virginia_dare",
+      "breakpoints": true
+    }
+  ]
+}
