@@ -7,11 +7,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/socialite": "^5.18",
         "laravel/tinker": "^2.10.1",
-        "laravel/wayfinder": "^0.1.4",
         "socialiteproviders/auth0": "^4.2",
         "socialiteproviders/cognito": "^4.1"
     },
@@ -62,9 +60,6 @@
         ],
 		"test": [
 			"./vendor/bin/pest"
-		],
-		"wayfinder": [
-			"@php artisan wayfinder:generate --path=resources/js/types/_wayfinder"
 		]
     },
     "extra": {

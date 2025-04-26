@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class OrgMiddleware
 {
@@ -24,9 +23,6 @@ class OrgMiddleware
             return abort(404);
         }
 
-		Inertia::share([
-			'organization' => $organization,
-		]);
 		$request->session()->put('organization', $organization);
 		return $next($request);
     }

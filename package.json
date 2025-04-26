@@ -13,11 +13,9 @@
         "postcss": "^8.5.3",
         "typescript": "^5.8.3",
         "vite": "^6.0.11",
-        "vite-plugin-run": "^0.6.1",
         "vue-tsc": "^2.2.8"
     },
     "dependencies": {
-        "@inertiajs/vue3": "^2.0.8",
         "@tailwindcss/forms": "^0.5.10",
         "@tailwindcss/postcss": "^4.1.4",
         "@tailwindcss/typography": "^0.5.16",
@@ -26,6 +24,7 @@
         "axios": "^1.7.4",
         "daisyui": "^5.0.27",
         "fuse.js": "^7.1.0",
+        "lucide": "^0.503.0",
         "lucide-vue-next": "^0.501.0",
         "reka-ui": "^2.2.0",
         "tailwindcss": "^4.0.0",

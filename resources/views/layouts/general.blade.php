@@ -4,9 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title inertia>{{ config('app.name', 'Kitledger') }}</title>
+        <title>{{ config('app.name', 'Kitledger') }}</title>
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
+		<meta name="view-transition" content="same-origin" />
 
 		<!-- Add favicon -->
 		<link rel="icon" href="/brand/icon.png" type="image/png"/>
@@ -27,13 +28,12 @@
         </script>
 
         <!-- Scripts -->
-        @vite(['resources/js/app.ts', 'resources/css/app.css', "resources/js/pages/{$page['component']}.vue"])
-        @inertiaHead
+        @vite(['resources/js/app.ts', 'resources/css/app.css'])
 		<script>
 			window.translations = JSON.parse('{!! json_encode(__('*')) !!}');
 		</script>
     </head>
     <body>
-        @inertia
+		@yield('general_content')
     </body>
 </html>

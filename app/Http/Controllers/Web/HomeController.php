@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -18,7 +17,7 @@ class HomeController extends Controller
 
 		$organizations = $user->organizations;
 
-        return Inertia::render('Home', [
+        return view('pages.home', [
 			'organizations' => $organizations,
 		]);
     }
