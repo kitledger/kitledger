@@ -7,7 +7,6 @@
         <title>{{ config('app.name', 'Kitledger') }}</title>
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
-		<meta name="view-transition" content="same-origin" />
 
 		<!-- Add favicon -->
 		<link rel="icon" href="/brand/icon.png" type="image/png"/>

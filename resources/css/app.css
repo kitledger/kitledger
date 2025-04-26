@@ -11,7 +11,11 @@
 @source '../**/*.js';
 @source '../**/*.vue';
 
-/* 4. Root Variables */
+/* Complementary css files */
+@import './transitions.css';
+
+
+/* 5. Root Variables */
 :root {
     --font-sans: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;

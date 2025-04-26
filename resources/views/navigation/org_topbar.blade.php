@@ -9,7 +9,7 @@
 			</span>
 			<div class="p-0 text-xs font-mono breadcrumbs">
 				<ul>
-					<li><a>Home</a></li>
+					<li><a href="/home">Home</a></li>
 					<li><a>Documents</a></li>
 					<li>Add Document</li>
 				</ul>
