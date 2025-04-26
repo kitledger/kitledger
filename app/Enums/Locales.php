@@ -2,8 +2,8 @@
 
 namespace App\Enums;
 
-enum Locales :string
+enum Locales: string
 {
     case EN = 'en';
-	case ES = 'es';
+    case ES = 'es';
 }

@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web;
 use App\Http\Middleware\OrgMiddleware;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('pages.landing');
@@ -18,15 +18,15 @@ Route::get('/login', [Auth\AuthController::class, 'login'])->name('login');
  * Restricted area.
  */
 Route::middleware(['auth'])->group(function () {
-	Route::get('/home', Web\HomeController::class)->name('home');
-	Route::post('/organizations', [Web\OrganizationController::class, 'store'])->name('organizations.store');
+    Route::get('/home', Web\HomeController::class)->name('home');
+    Route::post('/organizations', [Web\OrganizationController::class, 'store'])->name('organizations.store');
 });
 
 /**
  * Organization Area
  */
 Route::prefix('/web/{organization_id}')->middleware(['auth', OrgMiddleware::class])->group(function () {
-	Route::get('/', Web\DashboardController::class)->name('dashboard');
+    Route::get('/', Web\DashboardController::class)->name('dashboard');
 });
 
 /**

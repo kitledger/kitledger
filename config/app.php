@@ -123,14 +123,14 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-	/**
-	 * Identifies the hosting region
-	 */
-	'region' => env('APP_REGION', 'cl-centra-l1'),
+    /**
+     * Identifies the hosting region
+     */
+    'region' => env('APP_REGION', 'cl-centra-l1'),
 
-	/**
-	 * Identifies the version of the application
-	 */
-	'version' => env('APP_VERSION', '1.0.0'),
+    /**
+     * Identifies the version of the application
+     */
+    'version' => env('APP_VERSION', '1.0.0'),
 
 ];

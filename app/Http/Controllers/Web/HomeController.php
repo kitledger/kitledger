@@ -13,12 +13,12 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request)
     {
-		$user = Auth::user();
+        $user = Auth::user();
 
-		$organizations = $user->organizations;
+        $organizations = $user->organizations;
 
         return view('pages.home', [
-			'organizations' => $organizations,
-		]);
+            'organizations' => $organizations,
+        ]);
     }
 }

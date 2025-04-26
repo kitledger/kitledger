@@ -22,7 +22,7 @@
 					<legend class="fieldset-legend">New Organization</legend>
 
 					<label class="label">Name</label>
-					<input type="text" class="input" placeholder="My amazing Organization" name="name" />
+					<input type="text" class="input" placeholder="My amazing Organization" value="{{ old('name') }}" name="name" />
 					@error('name')
 					<span class="text-red-500 text-sm">{{ $message }}</span>
 					@enderror
