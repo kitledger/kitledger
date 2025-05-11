@@ -32,11 +32,73 @@ Where possible, Kitledger uses embedded services rather than external dependenci
 - SQLite for transactional data storage
 - DuckDB for analytics and reporting
 - Local filesystem for document storage
-- Future extensions may include embedded caching with BadgerDB
+
+### Database Architecture
+
+Kitledger's database architecture embodies our design principles through a carefully crafted approach that maximizes performance without sacrificing reliability:
+
+#### Dual SQLite Deployment
+
+Kitledger leverages SQLite's versatility through a dual-connection strategy:
+- **Persistent Store**: A disk-based SQLite database with WAL journaling for all transactional data, ensuring durability and ACID compliance
+- **In-Memory Cache**: A parallel SQLite `:memory:` database that mirrors frequently accessed data structures, delivering sub-millisecond response times for common operations
+
+This approach eliminates the need for external caching services while maintaining the simplicity of a single database technology, reducing cognitive overhead and deployment complexity.
+
+#### Strategic Caching
+
+The in-memory SQLite instance caches:
+- Account balances and current positions
+- Recent transactions (typically 30-90 days)
+- Frequently accessed reference data
+- Search query results
+- Common report templates
+
+By optimizing SQLite's in-memory mode with targeted pragma settings, Kitledger achieves cache performance rivaling specialized caching systems while maintaining perfect schema alignment with the persistent store.
+
+#### Analytical Processing with DuckDB
+
+For complex reporting and multi-dimensional analysis, Kitledger seamlessly integrates DuckDB:
+- Direct connection to the SQLite database via foreign data wrappers
+- Zero data duplication between transactional and analytical stores
+- Column-oriented processing for lightning-fast aggregations across millions of entries
+- Materialized views for commonly requested reports, refreshed on configurable schedules
+
+DuckDB's ability to query SQLite directly creates a unified data layer where each engine handles the workloads it excels at - SQLite for transactional integrity, DuckDB for analytical processing.
+
+#### Integrated Full-Text Search
+
+Rather than introducing a third database for search capabilities, Kitledger uses:
+- SQLite's FTS5 extension for high-performance transactional document search
+- DuckDB's analytical capabilities for complex search queries that require aggregation
+- Automatic indexing of transaction narratives, accounting dimensions, and document metadata
+
+This approach supports sophisticated search across millions of entries while maintaining our commitment to simplicity and vertical scaling.
+
+#### Performance Optimization
+
+Every aspect of Kitledger's database layer is tuned for performance:
+- Strategic indexing based on access patterns
+- Connection pooling optimized for modern multi-core CPUs
+- Intelligent query construction that leverages each engine's strengths
+- Automatic cache invalidation and refresh cycles
+- Prepared statements for common operations
+- Batch processing for high-volume operations
+
+These optimizations ensure that even as your ledger grows to millions of entries, response times remain predictable and well below our 100ms target for interactive operations.
 
 ### Vertical Scaling Focus
 
 Kitledger is designed to scale vertically, utilizing the full capabilities of modern hardware. Our target scale is to support the largest possible client whose accounting needs can be served by the most powerful single server available.
+
+As transaction volumes grow, Kitledger's database strategy scales vertically by:
+1. Expanding in-memory cache coverage
+2. Adjusting cache refresh intervals based on write patterns
+3. Optimizing indexing strategies for larger datasets
+4. Leveraging additional CPU cores through increased connection pooling
+5. Utilizing larger memory allocations for DuckDB analytical queries
+
+This approach allows single-instance deployments to scale from thousands to tens of millions of transactions while maintaining performance targets, maximizing hardware utilization before distributed architectures become necessary.
 
 ### Multi-Instance (Not Multi-Tenant)
 
