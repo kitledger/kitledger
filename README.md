@@ -158,7 +158,6 @@ This model provides both the rigor of traditional accounting and the flexibility
 - **Language**: Go (chosen for performance, simplicity, and compilation to a single binary)
 - **Primary Database**: SQLite (embedded, ACID-compliant, surprisingly scalable)
 - **Analytics Engine**: DuckDB (column-oriented for fast analytical queries)
-- **Web Interface**: Server-rendered HTML enhanced with HTMX and targeted JavaScript libraries
 - **API Layer**: RESTful endpoints with minimal overhead
 
 ## Project Status
