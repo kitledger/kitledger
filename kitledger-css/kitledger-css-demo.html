@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kitledger CSS Framework Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="kitledger.css">
+  <style>
+    /* Theme toggle styling */
+    .theme-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 100;
+      display: flex;
+      gap: 10px;
+    }
+    
+    section {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--kl-border-color);
+    }
+    
+    .component-demo {
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="theme-toggle">
+    <button class="kl-btn kl-btn-sm" onclick="document.body.classList.toggle('kl-dark')">Toggle Dark Mode</button>
+    <button class="kl-btn kl-btn-sm" onclick="document.body.classList.toggle('kl-terminal-mode')">Toggle Terminal Mode</button>
+  </div>
+  
+  <div class="kl-container kl-mt-6">
+    <header class="kl-mb-6">
+      <h1>Kitledger CSS Framework</h1>
+      <p class="kl-text-secondary">A minimalist, dependency-free CSS framework optimized for accounting/ERP applications</p>
+    </header>
+    
+    <!-- Typography Section -->
+    <section id="typography">
+      <h2>Typography</h2>
+      <div class="kl-row kl-mt-4">
+        <div class="kl-col-12">
+          <h1>Heading 1</h1>
+          <h2>Heading 2</h2>
+          <h3>Heading 3</h3>
+          <h4>Heading 4</h4>
+          <h5>Heading 5</h5>
+          <h6>Heading 6</h6>
+          <p>Regular paragraph text. The framework is designed with accounting and ERP applications in mind.</p>
+          <p class="kl-text-sm">Small text for detailed information.</p>
+          <p class="kl-text-xs">Extra small text for footnotes and fine print.</p>
+          <p class="kl-text-lg">Larger text for emphasis or introductions.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Buttons Section -->
+    <section id="buttons">
+      <h2>Buttons</h2>
+      <div class="kl-row kl-mt-4">
+        <div class="kl-col-12">
+          <button class="kl-btn kl-btn-primary kl-mr-2">Primary</button>
+          <button class="kl-btn kl-btn-secondary kl-mr-2">Secondary</button>
+          <button class="kl-btn kl-btn-success kl-mr-2">Success</button>
+          <button class="kl-btn kl-btn-danger kl-mr-2">Danger</button>
+          <button class="kl-btn kl-btn-outline kl-mr-2">Outline</button>
+          <button class="kl-btn kl-btn-ghost kl-mr-2">Ghost</button>
+        </div>
+      </div>
+      
+      <div class="kl-row kl-mt-4">
+        <div class="kl-col-12">
+          <button class="kl-btn kl-btn-primary-soft kl-mr-2">Primary Soft</button>
+          <button class="kl-btn kl-btn-secondary-soft kl-mr-2">Secondary Soft</button>
+          <button class="kl-btn kl-btn-success-soft kl-mr-2">Success Soft</button>
+          <button class="kl-btn kl-btn-danger-soft kl-mr-2">Danger Soft</button>
+        </div>
+      </div>
+      
+      <div class="kl-row kl-mt-4">
+        <div class="kl-col-12">
+          <button class="kl-btn kl-btn-primary kl-btn-sm kl-mr-2">Small</button>
+          <button class="kl-btn kl-btn-primary kl-mr-2">Default</button>
+          <button class="kl-btn kl-btn-primary kl-btn-lg kl-mr-2">Large</button>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Forms Section -->
+    <section id="forms">
+      <h2>Forms</h2>
+      <div class="kl-row kl-mt-4">
+        <div class="kl-col-md-6">
+          <div class="kl-form-group">
+            <label class="kl-form-label" for="account-id">Account ID</label>
+            <input type="text" class="kl-form-control" id="account-id" placeholder="Enter account ID">
+            <small class="kl-form-text">Example: 1010-001</small>
+          </div>
+          
+          <div class="kl-form-group">
+            <label class="kl-form-label" for="account-name">Account Name</label>
+            <input type="text" class="kl-form-control" id="account-name" placeholder="Enter account name">
+          </div>
+          
+          <div class="kl-form-group">
+            <label class="kl-form-label" for="account-type">Account Type</label>
+            <select class="kl-form-control" id="account-type">
+              <option>Asset</option>
+              <option>Liability</option>
+              <option>Equity</option>
+              <option>Revenue</option>
+              <option>Expense</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="kl-col-md-6">
+          <div class="kl-form-group">
+            <label class="kl-form-label" for="amount">Amount</label>
+            <div class="kl-input-group">
+              <div class="kl-input-group-prepend">
+                <span class="kl-input-group-text">$</span>
+              </div>
+              <input type="text" class="kl-form-control" id="amount" placeholder="0.00">
+            </div>
+          </div>
+          
+          <div class="kl-form-group">
+            <label class="kl-form-label">Transaction Type</label>
+            <div>
+              <label class="kl-mr-3">
+                <input type="radio" name="transaction-type" checked> Debit
+              </label>
+              <label>
+                <input type="radio" name="transaction-type"> Credit
+              </label>
+            </div>
+          </div>
+          
+          <div class="kl-form-group">
+            <label class="kl-form-label" for="description">Description</label>
+            <textarea class="kl-form-control" id="description" rows="3" placeholder="Enter transaction description"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Tables Section -->
+    <section id="tables">
+      <h2>Tables</h2>
+      <div class="kl-row kl-mt-4">
+        <div class="kl-col-12">
+          <h4>Standard Table</h4>
+          <table class="kl-table kl-table-hover">
+            <thead>
+              <tr>
+                <th>Account</th>
+                <th>Description</th>
+                <th class="kl-text-right">Debit</th>
+                <th class="kl-text-right">Credit</th>
+                <th class="kl-text-right">Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1010-001</td>
+                <td>Cash - Operating Account</td>
+                <td class="kl-text-right">10,000.00</td>
+                <td class="kl-text-right">0.00</td>
+                <td class="kl-text-right">10,000.00</td>
+              </tr>
+              <tr>
+                <td>2010-001</td>
+                <td>Accounts Payable</td>
+                <td class="kl-text-right">0.00</td>
+                <td class="kl-text-right">5,000.00</td>
+                <td class="kl-text-right">-5,000.00</td>
+              </tr>
+              <tr>
+                <td>4010-001</td>
+                <td>Sales Revenue</td>
+                <td class="kl-text-right">0.00</td>
+                <td class="kl-text-right">15,000.00</td>
+                <td class="kl-text-right">-15,000.00</td>
+              </tr>
+              <tr>
+                <td>5010-001</td>
+                <td>Cost of Goods Sold</td>
+                <td class="kl-text-right">8,000.00</td>
+                <td class="kl-text-right">0.00</td>
+                <td class="kl-text-right">8,000.00</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2"><strong>Total</strong></td>
+                <td class="kl-text-right"><strong>18,000.00</strong></td>
+                <td class="kl-text-right"><strong>20,000.00</strong></td>
+                <td class="kl-text-right"><strong>-2,000.00</strong></td>
+              </tr>
+            </tfoot>
+          </table>
+          
+          <h4 class="kl-mt-4">Accounting Table</h4>
+          <table class="kl-table kl-table-accounting kl-table-striped">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Journal Entry</th>
+                <th>Account</th>
+                <th>Description</th>
+                <th class="kl-currency">Debit</th>
+                <th class="kl-currency">Credit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2025-05-01</td>
+                <td>JE-20250501-001</td>
+                <td>1010-001</td>
+                <td>Cash - Operating Account</td>
+                <td class="kl-currency kl-debit">5,000.00</td>
+                <td class="kl-currency"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td>4010-001</td>
+                <td>Sales Revenue</td>
+                <td class="kl-currency"></td>
+                <td class="kl-currency kl-credit">5,000.00</td>
+              </tr>
+              <tr>
+                <td>2025-05-02</td>
+                <td>JE-20250502-001</td>
+                <td>5010-001</td>
+                <td>Cost of Goods Sold</td>
+                <td class="kl-currency kl-debit">3,000.00</td>
+                <td class="kl-currency"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td>1020-001</td>
+                <td>Inventory</td>
+                <td class="kl-currency"></td>
+                <td class="kl-currency kl-credit">3,000.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Accounting Specific Components -->
+    <section id="accounting-components">
+      <h2>Accounting-Specific Components</h2>
+      
+      <!-- Journal Entry -->
+      <div class="component-demo">
+        <h4>Journal Entry</h4>
+        <div class="kl-journal-entry">
+          <div class="kl-journal-entry-header">
+            <div>JE-20250510-001</div>
+            <div>May 10, 2025</div>
+          </div>
+          <div class="kl-journal-entry-body">
+            <table class="kl-table kl-table-sm kl-table-accounting kl-mb-0">
+              <thead>
+                <tr>
+                  <th>Account</th>
+                  <th>Description</th>
+                  <th class="kl-currency">Debit</th>
+                  <th class="kl-currency">Credit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="kl-account-code">1010-001</span></td>
+                  <td>Cash - Operating Account</td>
+                  <td class="kl-currency kl-debit">2,500.00</td>
+                  <td class="kl-currency"></td>
+                </tr>
+                <tr>
+                  <td><span class="kl-account-code">4010-001</span></td>
+                  <td>Sales Revenue</td>
+                  <td class="kl-currency"></td>
+                  <td class="kl-currency kl-credit">2,500.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="kl-journal-entry-footer">
+            <div>Payment received for Invoice #INV-2025-042</div>
+            <div>Approved by: John Smith</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Financial Statement -->
+      <div class="component-demo">
+        <h4>Financial Statement</h4>
+        <div class="kl-financial-statement">
+          <div class="kl-section-heading">Income Statement</div>
+          <div class="kl-row">
+            <div>Revenue</div>
+            <div></div>
+          </div>
+          <div class="kl-row kl-indent-1">
+            <div>Sales Revenue</div>
+            <div>15,000.00</div>
+          </div>
+          <div class="kl-row kl-indent-1">
+            <div>Service Revenue</div>
+            <div>7,500.00</div>
+          </div>
+          <div class="kl-row kl-row-total">
+            <div>Total Revenue</div>
+            <div>22,500.00</div>
+          </div>
+          <div class="kl-row">
+            <div>Expenses</div>
+            <div></div>
+          </div>
+          <div class="kl-row kl-indent-1">
+            <div>Cost of Goods Sold</div>
+            <div>8,000.00</div>
+          </div>
+          <div class="kl-row kl-indent-1">
+            <div>Operating Expenses</div>
+            <div>5,000.00</div>
+          </div>
+          <div class="kl-row kl-indent-1">
+            <div>Salaries</div>
+            <div>7,500.00</div>
+          </div>
+          <div class="kl-row kl-row-total">
+            <div>Total Expenses</div>
+            <div>20,500.00</div>
+          </div>
+          <div class="kl-row kl-row-total">
+            <div>Net Income</div>
+            <div>2,000.00</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Data Entry Grid -->
+      <div class="component-demo">
+        <h4>Data Entry Grid</h4>
+        <table class="kl-data-grid">
+          <thead>
+            <tr>
+              <th>Item Code</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Unit Price</th>
+              <th>Discount %</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ITEM-001</td>
+              <td>Widget A</td>
+              <td class="kl-cell-numeric kl-cell-editable">5</td>
+              <td class="kl-cell-numeric">10.00</td>
+              <td class="kl-cell-numeric kl-cell-editable">0</td>
+              <td class="kl-cell-numeric kl-cell-formula">50.00</td>
+            </tr>
+            <tr>
+              <td>ITEM-002</td>
+              <td>Widget B</td>
+              <td class="kl-cell-numeric kl-cell-editable">3</td>
+              <td class="kl-cell-numeric">15.00</td>
+              <td class="kl-cell-numeric kl-cell-editable">10</td>
+              <td class="kl-cell-numeric kl-cell-formula">40.50</td>
+            </tr>
+            <tr>
+              <td>ITEM-003</td>
+              <td>Widget C</td>
+              <td class="kl-cell-numeric kl-cell-editable">2</td>
+              <td class="kl-cell-numeric">25.00</td>
+              <td class="kl-cell-numeric kl-cell-editable">5</td>
+              <td class="kl-cell-numeric kl-cell-formula">47.50</td>
+            </tr>
+            <tr>
+              <td>ITEM-004</td>
+              <td>Widget D</td>
+              <td class="kl-cell-numeric kl-cell-editable">1</td>
+              <td class="kl-cell-numeric">100.00</td>
+              <td class="kl-cell-numeric kl-cell-editable">20</td>
+              <td class="kl-cell-numeric kl-cell-formula">80.00</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5" class="kl-text-right"><strong>Total:</strong></td>
+              <td class="kl-cell-numeric"><strong>218.00</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+    
+    <!-- Command Bar & Navigation -->
+    <section id="interface-components">
+      <h2>Interface Components</h2>
+      
+      <!-- Command Bar -->
+      <div class="component-demo">
+        <h4>Command Bar</h4>
+        <div class="kl-command-bar">
+          <span class="kl-command-prefix">$</span>
+          <input type="text" class="kl-command-input" placeholder="Type a command (e.g., 'new journal', 'find invoice INV-2025-042')" />
+        </div>
+      </div>
+      
+      <!-- Sidebar -->
+      <div class="component-demo">
+        <h4>Sidebar Navigation</h4>
+        <div class="kl-flex">
+          <div class="kl-sidebar" style="height: 300px;">
+            <div class="kl-sidebar-section">General Ledger</div>
+            <ul class="kl-sidebar-menu">
+              <li class="kl-sidebar-item">
+                <a href="#" class="kl-sidebar-link kl-active">Dashboard</a>
+              </li>
+              <li class="kl-sidebar-item">
+                <a href="#" class="kl-sidebar-link">Accounts</a>
+              </li>
+              <li class="kl-sidebar-item">
+                <a href="#" class="kl-sidebar-link">Journal Entries</a>
+              </li>
+              <li class="kl-sidebar-item">
+                <a href="#" class="kl-sidebar-link">Financial Reports</a>
+              </li>
+            </ul>
+            
+            <div class="kl-sidebar-section">Transactions</div>
+            <ul class="kl-sidebar-menu">
+              <li class="kl-sidebar-item">
+                <a href="#" class="kl-sidebar-link">Invoices</a>
+              </li>
+              <li class="kl-sidebar-item">
+                <a href="#" class="kl-sidebar-link">Bills</a>
+              </li>
+              <li class="kl-sidebar-item">
+                <a href="#" class="kl-sidebar-link">Payments</a>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="kl-p-4">
+            <h4>Main Content Area</h4>
+            <p>This is where the main content would go, adjacent to the sidebar navigation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Cards and Alerts -->
+    <section id="cards-alerts">
+      <h2>Cards & Alerts</h2>
+      
+      <!-- Cards -->
+      <div class="component-demo">
+        <h4>Cards</h4>
+        <div class="kl-row">
+          <div class="kl-col-md-4 kl-mb-4">
+            <div class="kl-card">
+              <div class="kl-card-header">
+                Account Summary
+              </div>
+              <div class="kl-card-body">
+                <h5 class="kl-card-title">Cash - Operating</h5>
+                <h6 class="kl-card-subtitle">Account #1010-001</h6>
+                <p>Current Balance: <strong>$15,450.00</strong></p>
+                <p>7-day Change: <span class="kl-text-success">+$2,500.00</span></p>
+              </div>
+              <div class="kl-card-footer">
+                <a href="#" class="kl-btn kl-btn-sm kl-btn-primary">View Transactions</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="kl-col-md-4 kl-mb-4">
+            <div class="kl-card">
+              <div class="kl-card-header">
+                Accounts Receivable
+              </div>
+              <div class="kl-card-body">
+                <h5 class="kl-card-title">Outstanding Invoices</h5>
+                <h6 class="kl-card-subtitle">As of May 17, 2025</h6>
+                <p>Total Due: <strong>$27,850.00</strong></p>
+                <p>Overdue: <span class="kl-text-danger">$4,200.00</span></p>
+              </div>
+              <div class="kl-card-footer">
+                <a href="#" class="kl-btn kl-btn-sm kl-btn-primary">Manage Invoices</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="kl-col-md-4 kl-mb-4">
+            <div class="kl-card">
+              <div class="kl-card-header">
+                Monthly Profit
+              </div>
+              <div class="kl-card-body">
+                <h5 class="kl-card-title">May 2025</h5>
+                <h6 class="kl-card-subtitle">Month-to-date</h6>
+                <p>Revenue: <strong>$42,500.00</strong></p>
+                <p>Expenses: <strong>$31,200.00</strong></p>
+                <p>Profit: <span class="kl-text-success">$11,300.00</span></p>
+              </div>
+              <div class="kl-card-footer">
+                <a href="#" class="kl-btn kl-btn-sm kl-btn-primary">View Report</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Alerts -->
+      <div class="component-demo">
+        <h4>Alerts</h4>
+        <div class="kl-alert kl-alert-primary">
+          This is a primary alert. May be used for important information.
+        </div>
+        
+        <div class="kl-alert kl-alert-success">
+          This is a success alert. Transaction has been successfully processed.
+        </div>
+        
+        <div class="kl-alert kl-alert-warning">
+          This is a warning alert. You have 3 invoices that are about to become overdue.
+        </div>
+        
+        <div class="kl-alert kl-alert-danger">
+          This is a danger alert. There is a discrepancy in the journal entry. Debits and credits do not match.
+        </div>
+        
+        <div class="kl-alert kl-alert-info">
+          This is an info alert. The fiscal year will end in 45 days.
+        </div>
+      </div>
+    </section>
+    
+    <!-- Badges and Steps -->
+    <section id="badges-steps">
+      <h2>Badges & Steps</h2>
+      
+      <!-- Badges -->
+      <div class="component-demo">
+        <h4>Badges</h4>
+        <span class="kl-badge kl-badge-primary kl-mr-2">New</span>
+        <span class="kl-badge kl-badge-secondary kl-mr-2">Pending</span>
+        <span class="kl-badge kl-badge-success kl-mr-2">Approved</span>
+        <span class="kl-badge kl-badge-danger kl-mr-2">Rejected</span>
+        <span class="kl-badge kl-badge-warning kl-mr-2">Attention</span>
+        <span class="kl-badge kl-badge-info kl-mr-2">Info</span>
+      </div>
+      
+      <!-- Steps -->
+      <div class="component-demo">
+        <h4>Steps</h4>
+        <div class="kl-steps">
+          <div class="kl-step kl-step-completed">
+            <div class="kl-step-circle">1</div>
+            <div>Create</div>
+          </div>
+          <div class="kl-step kl-step-active">
+            <div class="kl-step-circle">2</div>
+            <div>Review</div>
+          </div>
+          <div class="kl-step">
+            <div class="kl-step-circle">3</div>
+            <div>Approve</div>
+          </div>
+          <div class="kl-step">
+            <div class="kl-step-circle">4</div>
+            <div>Post</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <footer class="kl-mt-6 kl-text-center kl-text-secondary kl-mb-6">
+      <p>Kitledger CSS Framework Demo - © 2025</p>
+    </footer>
+  </div>
+</body>
+</html>
