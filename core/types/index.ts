@@ -21,8 +21,8 @@ export type UpdateAccount = Pick<
  * Balance Types
  */
 export enum BalanceType {
-	DEBIT = 'debit',
-	CREDIT = 'credit',
+	DEBIT = 'DEBIT',
+	CREDIT = 'CREDIT',
 }
 
 /**
