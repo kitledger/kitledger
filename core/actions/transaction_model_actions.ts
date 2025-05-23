@@ -1,8 +1,8 @@
-import { db } from '../services/database/db.ts';
-import { transaction_models } from '../services/database/schema.ts';
+import { db } from '../services/database/db.js';
+import { transaction_models } from '../services/database/schema.js';
 import z from 'zod';
-import { NewTransactionModel } from '../types/index.ts';
-import { valueIsAvailable } from '../services/database/validation.ts';
+import { type NewTransactionModel } from '../types/index.js';
+import { valueIsAvailable } from '../services/database/validation.js';
 
 /**
  * Check if the name is available

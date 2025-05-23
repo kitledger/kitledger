@@ -1,10 +1,10 @@
-import { db } from '../services/database/db.ts';
-import { ledgers, unit_types } from '../services/database/schema.ts';
+import { db } from '../services/database/db.js';
+import { ledgers, unit_types } from '../services/database/schema.js';
 import z from 'zod';
 import { eq, or } from 'drizzle-orm';
-import { valueIsAvailable } from '../services/database/validation.ts';
-import { validate as validateUuid } from '@std/uuid/unstable-v7';
-import { NewLedger } from '../types/index.ts';
+import { valueIsAvailable } from '../services/database/validation.js';
+import { validate as validateUuid } from 'uuid';
+import { type NewLedger } from '../types/index.js';
 
 /**
  * Check if the name is available

@@ -1,0 +1,50 @@
+{
+  "name": "kitledger",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Programmable platform for building accounting ledgers",
+  "keywords": [
+    "ledger",
+    "platform",
+    "open",
+    "source",
+    "erp",
+    "accounting"
+  ],
+  "homepage": "https://github.com/entropytechnologies/kitledger#readme",
+  "bugs": {
+    "url": "https://github.com/entropytechnologies/kitledger/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/entropytechnologies/kitledger.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Alejandro Barrera Aponte <abarreraaponte@icloud.com>",
+  "type": "module",
+  "main": "main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+	"prettier": "prettier --write .",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.14.2",
+    "drizzle-kit": "^0.31.1",
+    "drizzle-orm": "^0.43.1",
+    "hono": "^4.7.10",
+    "postgres": "^3.4.7",
+    "tsx": "^4.19.4",
+    "uuid": "^11.1.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.0.3",
+    "@types/node": "^22.15.21",
+    "prettier": "3.5.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
+  }
+}

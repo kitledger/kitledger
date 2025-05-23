@@ -1,5 +1,5 @@
-import { InferInsertModel, InferSelectModel } from 'drizzle-orm';
-import { accounts, entity_models, ledgers, transaction_models, unit_types } from '../services/database/schema.ts';
+import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import { accounts, entity_models, ledgers, transaction_models, unit_types } from '../services/database/schema.js';
 
 /**
  * Account types

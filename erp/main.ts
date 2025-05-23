@@ -1,8 +1,9 @@
-import { createServer } from './server.ts';
-import { createDatabase } from '../core/services/database/db.ts';
-import { postgresUrl, postgresConfig } from './config.ts';
+import { serve } from '@hono/node-server'
+import { createServer } from './server.js';
+import { createDatabase } from '../core/services/database/db.js';
+import { postgresUrl, postgresConfig } from './config.js';
 
-const port = Number(Deno.env.get('KL_SERVER_PORT') || 3000);
+const port = Number(process.env.KL_SERVER_PORT || 3000);
 console.log(`Server is running on port ${port}`);
 
 const dbEngine = createDatabase({
@@ -18,4 +19,7 @@ const server = createServer({
   database: dbEngine.db,
 });
 
-Deno.serve({ port }, server.fetch);
+serve({
+	fetch: server.fetch,
+	port: port,
+});

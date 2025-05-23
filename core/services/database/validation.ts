@@ -1,4 +1,4 @@
-import { PgTableWithColumns } from 'drizzle-orm/pg-core';
+import { type PgTableWithColumns } from 'drizzle-orm/pg-core';
 import { db } from './db.ts';
 import { eq } from 'drizzle-orm';
 import z from 'zod';

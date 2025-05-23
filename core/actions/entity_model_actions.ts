@@ -1,8 +1,8 @@
-import { db } from '../services/database/db.ts';
-import { entity_models } from '../services/database/schema.ts';
+import { db } from '../services/database/db.js';
+import { entity_models } from '../services/database/schema.js';
 import z from 'zod';
-import { valueIsAvailable } from '../services/database/validation.ts';
-import { NewEntityModel } from '../types/index.ts';
+import { valueIsAvailable } from '../services/database/validation.js';
+import { type NewEntityModel } from '../types/index.js';
 
 /**
  * Check if the name is available

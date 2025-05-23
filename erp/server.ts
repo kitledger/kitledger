@@ -1,10 +1,10 @@
-import { type Context, Hono } from '@hono/hono';
-import { createUnitTypeRouter } from './handlers/unit_type_handler.ts';
-import { createLedgerRouter } from './handlers/ledger_handler.ts';
-import { createAccountRouter } from './handlers/account_handler.ts';
-import {createEntityModelRouter } from './handlers/entity_model_handler.ts';
-import { createTransactionModelRouter } from './handlers/transaction_model_handler.ts';
-import { type KitledgerDatabase } from './main.ts';
+import { type Context, Hono } from 'hono';
+import { createUnitTypeRouter } from './handlers/unit_type_handler.js';
+import { createLedgerRouter } from './handlers/ledger_handler.js';
+import { createAccountRouter } from './handlers/account_handler.js';
+import {createEntityModelRouter } from './handlers/entity_model_handler.js';
+import { createTransactionModelRouter } from './handlers/transaction_model_handler.js';
+import { type KitledgerDatabase } from './main.js';
 
 export type ServerConfig = {
 	database: KitledgerDatabase;

@@ -1,8 +1,8 @@
-import { db } from '../services/database/db.ts';
-import { unit_types } from '../services/database/schema.ts';
+import { db } from '../services/database/db.js';
+import { unit_types } from '../services/database/schema.js';
 import z from 'zod';
-import { NewUnitType } from '../types/index.ts';
-import { valueIsAvailable } from '../services/database/validation.ts';
+import { type NewUnitType } from '../types/index.js';
+import { valueIsAvailable } from '../services/database/validation.js';
 
 /**
  * Check if the name is available

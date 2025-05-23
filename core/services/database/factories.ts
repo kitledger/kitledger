@@ -1,13 +1,13 @@
 import { faker } from '@faker-js/faker';
 import {
 	BalanceType,
-	NewAccount,
-	NewEntityModel,
-	NewLedger,
-	NewTransactionModel,
-	NewUnitType,
-} from '../../types/index.ts';
-import { generate as uuid } from '@std/uuid/unstable-v7';
+	type NewAccount,
+	type NewEntityModel,
+	type NewLedger,
+	type NewTransactionModel,
+	type NewUnitType,
+} from '../../types/index.js';
+import { v7 as uuid } from 'uuid';
 
 abstract class Factory {
 	abstract make(type?: string): NewLedger | NewAccount | NewUnitType | NewEntityModel | NewTransactionModel;

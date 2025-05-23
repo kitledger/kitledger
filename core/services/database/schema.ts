@@ -1,5 +1,5 @@
 import {
-	AnyPgColumn,
+	type AnyPgColumn,
 	boolean,
 	char,
 	index,
@@ -13,8 +13,8 @@ import {
 	varchar,
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
-import { BalanceType } from '../../types/index.ts';
-import { MetaType, TransactionLineType } from './validation.ts';
+import { BalanceType } from '../../types/index.js';
+import type { MetaType, TransactionLineType } from './validation.js';
 export const balance_type_pg_enum = pgEnum('balance_type', [BalanceType.DEBIT, BalanceType.CREDIT]);
 
 export const ledgers = pgTable('ledgers', {
