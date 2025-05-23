@@ -1,5 +1,5 @@
 import { assertEquals } from '@std/assert/equals';
-import { server } from '../../erp/router.ts';
+import { server } from '../../erp/server.ts';
 import { EntityModelFactory } from '../../core/services/database/factories.ts';
 import { EntityModel, NewEntityModel } from '../../core/types/index.ts';
 

@@ -1,5 +1,5 @@
 import { assertEquals } from '@std/assert/equals';
-import { server } from '../../erp/router.ts';
+import { server } from '../../erp/server.ts';
 import { AccountFactory, LedgerFactory, UnitTypeFactory } from '../../core/services/database/factories.ts';
 import { create } from '../../core/actions/ledger_actions.ts';
 import { create as createUnitType } from '../../core/actions/unit_type_actions.ts';
