@@ -22,14 +22,12 @@ async function _internalMigrateDb(): Promise<void> {
     throw new Error("Database not initialized. Cannot migrate.");
   }
   const migrationFolder = join(String(import.meta.dirname ?? '.'), "./migrations");
-  console.log(`Migrating database using migrations from: ${migrationFolder}`);
   try {
     await migrate(_db, {
       migrationsFolder: migrationFolder,
       migrationsTable: 'kl_core_migrations',
       migrationsSchema: 'public',
     });
-    console.log("Database migration completed.");
   } catch (error) {
     console.error("Error during database migration:", error);
     throw error;
@@ -66,7 +64,17 @@ export function createDatabase(config: DatabaseConfig) {
     if (!postgresUrl) {
         throw new Error("postgresUrl is required in DatabaseConfig.");
     }
-    _queryClient = postgres(postgresUrl, { max: maxConnections });
+    _queryClient = postgres(postgresUrl, {
+		max: maxConnections,
+		onnotice: (e) => {
+			/**
+			 * Not show the warnings of skipped migrations or instructions.
+			 */
+			if(!e.message.includes('skipping')) {
+				console.log(e.message);
+			}
+		} 
+	});
     _db = drizzle(_queryClient, { schema: schema });
     _isInitialized = true;
     _currentConfig = config;
