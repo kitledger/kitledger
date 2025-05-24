@@ -1,10 +1,10 @@
-import { getDbInstance } from '../services/database/db.js';
-import { kl_core_accounts, kl_core_ledgers, BalanceType } from '../services/database/schema.js';
-import z from 'zod';
-import { eq, or } from 'drizzle-orm';
-import { valueIsAvailable } from '../services/database/validation.js';
-import { validate as validateUuid } from 'uuid';
-import { type NewAccount } from '../types/index.js';
+import { getDbInstance } from "../services/database/db.js";
+import { kl_core_accounts, kl_core_ledgers, BalanceType } from "../services/database/schema.js";
+import z from "zod";
+import { eq, or } from "drizzle-orm";
+import { valueIsAvailable } from "../services/database/validation.js";
+import { validate as validateUuid } from "uuid";
+import { type NewAccount } from "../types/index.js";
 
 /**
  * Check if the name is available
@@ -12,7 +12,7 @@ import { type NewAccount } from '../types/index.js';
  * @returns Promise<boolean>
  */
 async function nameIsAvailable(name: string): Promise<boolean> {
-	return await valueIsAvailable(kl_core_accounts, 'name', name);
+	return await valueIsAvailable(kl_core_accounts, "name", name);
 }
 
 /**
@@ -21,7 +21,7 @@ async function nameIsAvailable(name: string): Promise<boolean> {
  * @returns :Promise<boolean>
  */
 async function refIdIsAvailable(ref_id: string): Promise<boolean> {
-	return await valueIsAvailable(kl_core_accounts, 'ref_id', ref_id);
+	return await valueIsAvailable(kl_core_accounts, "ref_id", ref_id);
 }
 
 /**
@@ -30,59 +30,57 @@ async function refIdIsAvailable(ref_id: string): Promise<boolean> {
  * @returns :Promise<boolean>
  */
 async function altIdIsAvailable(alt_id: string): Promise<boolean> {
-	return await valueIsAvailable(kl_core_accounts, 'alt_id', alt_id);
+	return await valueIsAvailable(kl_core_accounts, "alt_id", alt_id);
 }
 
 export async function validateCreation(data: NewAccount) {
 	const db = getDbInstance();
-	const validationSchema = z.object({
-		id: z.string().uuid(),
-		ref_id: z.string()
-			.max(64, { message: 'Ref ID must be less than 64 characters' })
-			.refine(refIdIsAvailable, {
-				message: 'Ref ID already exists',
-			})
-			.optional()
-			.nullable(),
-		alt_id: z.string()
-			.max(64, { message: 'Alt ID must be less than 64 characters' })
-			.refine(altIdIsAvailable, {
-				message: 'Alt ID already exists',
-			})
-			.optional()
-			.nullable(),
-		name: z.string()
-			.max(255, { message: 'Name must be less than 255 characters' })
-			.refine(nameIsAvailable, {
-				message: 'Name already exists',
+	const validationSchema = z
+		.object({
+			id: z.string().uuid(),
+			ref_id: z
+				.string()
+				.max(64, { message: "Ref ID must be less than 64 characters" })
+				.refine(refIdIsAvailable, {
+					message: "Ref ID already exists",
+				})
+				.optional()
+				.nullable(),
+			alt_id: z
+				.string()
+				.max(64, { message: "Alt ID must be less than 64 characters" })
+				.refine(altIdIsAvailable, {
+					message: "Alt ID already exists",
+				})
+				.optional()
+				.nullable(),
+			name: z.string().max(255, { message: "Name must be less than 255 characters" }).refine(nameIsAvailable, {
+				message: "Name already exists",
 			}),
-		balance_type: z.enum([BalanceType.DEBIT, BalanceType.CREDIT]).optional().nullable(),
-		ledger_id: z.string().optional().nullable(),
-		parent_id: z.string().uuid().optional().nullable(),
-		meta: z.any().optional().nullable(),
-		active: z.boolean().optional().nullable(),
-	})
+			balance_type: z.enum([BalanceType.DEBIT, BalanceType.CREDIT]).optional().nullable(),
+			ledger_id: z.string().optional().nullable(),
+			parent_id: z.string().uuid().optional().nullable(),
+			meta: z.any().optional().nullable(),
+			active: z.boolean().optional().nullable(),
+		})
 		.superRefine(async (data, ctx) => {
 			if (data.parent_id) {
 				const is_uuid = validateUuid(data.parent_id);
 
 				const filters = is_uuid
 					? {
-						where: eq(kl_core_accounts.id, data.parent_id),
-					}
+							where: eq(kl_core_accounts.id, data.parent_id),
+						}
 					: {
-						where: or(
-							eq(kl_core_accounts.ref_id, data.parent_id),
-							eq(kl_core_accounts.alt_id, data.parent_id),
-						),
-					};
+							where: or(eq(kl_core_accounts.ref_id, data.parent_id), eq(kl_core_accounts.alt_id, data.parent_id)),
+						};
 
 				// Verify that parent_id exists
 				const parent = await db.query.kl_core_accounts.findFirst(filters);
 				if (!parent) {
 					ctx.addIssue({
-						path: ['parent_id'],
-						message: 'Parent ID does not exist',
+						path: ["parent_id"],
+						message: "Parent ID does not exist",
 						code: z.ZodIssueCode.custom,
 					});
 				} else {
@@ -95,34 +93,33 @@ export async function validateCreation(data: NewAccount) {
 				// Require balance_type and ledger_id if parent_id is not provided
 				if (!data.balance_type) {
 					ctx.addIssue({
-						path: ['balance_type'],
-						message: 'balance_type is required when parent_id is not provided',
+						path: ["balance_type"],
+						message: "balance_type is required when parent_id is not provided",
 						code: z.ZodIssueCode.custom,
 					});
 				}
 
 				if (!data.ledger_id) {
 					ctx.addIssue({
-						path: ['ledger_id'],
-						message: 'ledger_id is required when parent_id is not provided',
+						path: ["ledger_id"],
+						message: "ledger_id is required when parent_id is not provided",
 						code: z.ZodIssueCode.custom,
 					});
 				} else {
 					const is_uuid = validateUuid(data.ledger_id);
 
-					const filters = is_uuid ? { where: eq(kl_core_ledgers.id, data.ledger_id) } : {
-						where: or(
-							eq(kl_core_ledgers.ref_id, data.ledger_id),
-							eq(kl_core_ledgers.alt_id, data.ledger_id),
-						),
-					};
+					const filters = is_uuid
+						? { where: eq(kl_core_ledgers.id, data.ledger_id) }
+						: {
+								where: or(eq(kl_core_ledgers.ref_id, data.ledger_id), eq(kl_core_ledgers.alt_id, data.ledger_id)),
+							};
 
 					const ledger = await db.query.kl_core_ledgers.findFirst(filters);
 
 					if (!ledger) {
 						ctx.addIssue({
-							path: ['ledger_id'],
-							message: 'Ledger ID does not exist',
+							path: ["ledger_id"],
+							message: "Ledger ID does not exist",
 							code: z.ZodIssueCode.custom,
 						});
 					} else {

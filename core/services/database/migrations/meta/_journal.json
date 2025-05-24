@@ -5,15 +5,15 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1748097564411,
-      "tag": "0000_icy_slapstick",
+      "when": 1748101636605,
+      "tag": "0000_common_blue_blade",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1748097578209,
-      "tag": "0001_sparkling_smasher",
+      "when": 1748101722693,
+      "tag": "0001_flippant_penance",
       "breakpoints": true
     }
   ]

@@ -1,12 +1,12 @@
-import { type Context, Hono } from 'hono';
-import { create, validateCreation } from '../../core/actions/unit_type_actions.js';
-import { v7 as uuid } from 'uuid';
+import { type Context, Hono } from "hono";
+import { create, validateCreation } from "../../core/actions/unit_type_actions.js";
+import { v7 as uuid } from "uuid";
 
 export function createUnitTypeRouter() {
 	const router = new Hono();
-	const GENERIC_ERROR_MESSAGE = 'Internal server error';
+	const GENERIC_ERROR_MESSAGE = "Internal server error";
 
-	router.post('/', async (c: Context) => {
+	router.post("/", async (c: Context) => {
 		const body = await c.req.json();
 		body.id = uuid();
 

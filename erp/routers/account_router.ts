@@ -1,14 +1,13 @@
-import { type Context, Hono } from 'hono';
-import { create, validateCreation } from '../../core/actions/account_actions.js';
-import type { NewAccount } from '../../core/types/index.js';
-import { v7 as uuid } from 'uuid';
+import { type Context, Hono } from "hono";
+import { create, validateCreation } from "../../core/actions/account_actions.js";
+import type { NewAccount } from "../../core/types/index.js";
+import { v7 as uuid } from "uuid";
 
 export function createAccountRouter() {
-
 	const router = new Hono();
-	const GENERIC_ERROR_MESSAGE = 'Internal server error';
+	const GENERIC_ERROR_MESSAGE = "Internal server error";
 
-	router.post('/', async (c: Context) => {
+	router.post("/", async (c: Context) => {
 		const body = await c.req.json();
 		body.id = uuid();
 
@@ -20,9 +19,7 @@ export function createAccountRouter() {
 		}
 
 		try {
-			const result = await create(
-				validation_result.data as NewAccount,
-			);
+			const result = await create(validation_result.data as NewAccount);
 			return c.json(result[0]);
 		} catch (error) {
 			// IMPLEMENT_LOGGER

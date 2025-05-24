@@ -30,7 +30,7 @@
     "db:custom": "drizzle-kit generate --custom --config=core/services/database/drizzle.config.ts",
     "db:generate": "drizzle-kit generate --config=core/services/database/drizzle.config.ts",
     "dev": "tsx watch --env-file=.env erp/main.ts",
-    "prettier": "prettier --write .",
+	"format": "prettier --write \"**/*.{ts,tsx,vue}\"",
     "test": "vitest --run",
 	"test:ui": "vitest --ui",
     "typecheck": "tsc --noEmit"

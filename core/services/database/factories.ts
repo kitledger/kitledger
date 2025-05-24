@@ -1,20 +1,11 @@
-import { faker } from '@faker-js/faker';
-import {
-	type NewAccount,
-	type NewEntityModel,
-	type NewLedger,
-	type NewTransactionModel,
-	type NewUnitType,
-} from '../../types/index.js';
-import { v7 as uuid } from 'uuid';
-import { BalanceType } from './schema.js';
+import { faker } from "@faker-js/faker";
+import { type NewAccount, type NewEntityModel, type NewLedger, type NewTransactionModel, type NewUnitType } from "../../types/index.js";
+import { v7 as uuid } from "uuid";
+import { BalanceType } from "./schema.js";
 
 abstract class Factory {
 	abstract make(type?: string): NewLedger | NewAccount | NewUnitType | NewEntityModel | NewTransactionModel;
-	abstract makeMany(
-		count: number,
-		type?: string,
-	): NewLedger[] | NewAccount[] | NewUnitType[] | NewEntityModel[] | NewTransactionModel[];
+	abstract makeMany(count: number, type?: string): NewLedger[] | NewAccount[] | NewUnitType[] | NewEntityModel[] | NewTransactionModel[];
 }
 
 export class LedgerFactory extends Factory {
@@ -23,12 +14,12 @@ export class LedgerFactory extends Factory {
 		type;
 
 		return {
-			'id': uuid(),
-			'ref_id': uuid(),
-			'alt_id': uuid(),
-			'name': faker.company.name(),
-			'description': faker.company.catchPhrase(),
-			'active': true,
+			id: uuid(),
+			ref_id: uuid(),
+			alt_id: uuid(),
+			name: faker.company.name(),
+			description: faker.company.catchPhrase(),
+			active: true,
 		};
 	}
 
@@ -43,13 +34,13 @@ export class AccountFactory extends Factory {
 		type;
 
 		return {
-			'id': uuid(),
-			'ref_id': uuid(),
-			'alt_id': uuid(),
-			'name': faker.company.name(),
-			'balance_type': [BalanceType.DEBIT, BalanceType.CREDIT][Math.floor(Math.random() * 2)],
-			'ledger_id': uuid(),
-			'active': true,
+			id: uuid(),
+			ref_id: uuid(),
+			alt_id: uuid(),
+			name: faker.company.name(),
+			balance_type: [BalanceType.DEBIT, BalanceType.CREDIT][Math.floor(Math.random() * 2)],
+			ledger_id: uuid(),
+			active: true,
 		};
 	}
 
@@ -63,10 +54,10 @@ export class UnitTypeFactory extends Factory {
 		type;
 
 		return {
-			'id': uuid(),
-			'ref_id': uuid(),
-			'alt_id': uuid(),
-			'name': faker.word.words(2),
+			id: uuid(),
+			ref_id: uuid(),
+			alt_id: uuid(),
+			name: faker.word.words(2),
 		};
 	}
 
@@ -80,10 +71,10 @@ export class EntityModelFactory extends Factory {
 		type;
 
 		return {
-			'id': uuid(),
-			'ref_id': uuid(),
-			'alt_id': uuid(),
-			'name': faker.company.name(),
+			id: uuid(),
+			ref_id: uuid(),
+			alt_id: uuid(),
+			name: faker.company.name(),
 		};
 	}
 
@@ -97,10 +88,10 @@ export class TransactionModelFactory extends Factory {
 		type;
 
 		return {
-			'id': uuid(),
-			'ref_id': uuid(),
-			'alt_id': uuid(),
-			'name': faker.company.name(),
+			id: uuid(),
+			ref_id: uuid(),
+			alt_id: uuid(),
+			name: faker.company.name(),
 		};
 	}
 
