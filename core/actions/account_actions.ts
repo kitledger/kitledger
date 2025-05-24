@@ -1,10 +1,12 @@
-import { db } from '../services/database/db.js';
-import { accounts, ledgers } from '../services/database/schema.js';
+import { getDbInstance } from '../services/database/db.js';
+import { kl_core_accounts, kl_core_ledgers } from '../services/database/schema.js';
 import z from 'zod';
 import { eq, or } from 'drizzle-orm';
 import { valueIsAvailable } from '../services/database/validation.js';
 import { validate as validateUuid } from 'uuid';
 import { BalanceType, type NewAccount } from '../types/index.js';
+
+const db = getDbInstance();
 
 /**
  * Check if the name is available
@@ -12,7 +14,7 @@ import { BalanceType, type NewAccount } from '../types/index.js';
  * @returns Promise<boolean>
  */
 async function nameIsAvailable(name: string): Promise<boolean> {
-	return await valueIsAvailable(accounts, 'name', name);
+	return await valueIsAvailable(kl_core_accounts, 'name', name);
 }
 
 /**
@@ -21,7 +23,7 @@ async function nameIsAvailable(name: string): Promise<boolean> {
  * @returns :Promise<boolean>
  */
 async function refIdIsAvailable(ref_id: string): Promise<boolean> {
-	return await valueIsAvailable(accounts, 'ref_id', ref_id);
+	return await valueIsAvailable(kl_core_accounts, 'ref_id', ref_id);
 }
 
 /**
@@ -30,7 +32,7 @@ async function refIdIsAvailable(ref_id: string): Promise<boolean> {
  * @returns :Promise<boolean>
  */
 async function altIdIsAvailable(alt_id: string): Promise<boolean> {
-	return await valueIsAvailable(accounts, 'alt_id', alt_id);
+	return await valueIsAvailable(kl_core_accounts, 'alt_id', alt_id);
 }
 
 export async function validateCreation(data: NewAccount) {
@@ -67,17 +69,17 @@ export async function validateCreation(data: NewAccount) {
 
 				const filters = is_uuid
 					? {
-						where: eq(accounts.id, data.parent_id),
+						where: eq(kl_core_accounts.id, data.parent_id),
 					}
 					: {
 						where: or(
-							eq(accounts.ref_id, data.parent_id),
-							eq(accounts.alt_id, data.parent_id),
+							eq(kl_core_accounts.ref_id, data.parent_id),
+							eq(kl_core_accounts.alt_id, data.parent_id),
 						),
 					};
 
 				// Verify that parent_id exists
-				const parent = await db.query.accounts.findFirst(filters);
+				const parent = await db.query.kl_core_accounts.findFirst(filters);
 				if (!parent) {
 					ctx.addIssue({
 						path: ['parent_id'],
@@ -109,14 +111,14 @@ export async function validateCreation(data: NewAccount) {
 				} else {
 					const is_uuid = validateUuid(data.ledger_id);
 
-					const filters = is_uuid ? { where: eq(ledgers.id, data.ledger_id) } : {
+					const filters = is_uuid ? { where: eq(kl_core_ledgers.id, data.ledger_id) } : {
 						where: or(
-							eq(ledgers.ref_id, data.ledger_id),
-							eq(ledgers.alt_id, data.ledger_id),
+							eq(kl_core_ledgers.ref_id, data.ledger_id),
+							eq(kl_core_ledgers.alt_id, data.ledger_id),
 						),
 					};
 
-					const ledger = await db.query.ledgers.findFirst(filters);
+					const ledger = await db.query.kl_core_ledgers.findFirst(filters);
 
 					if (!ledger) {
 						ctx.addIssue({
@@ -140,5 +142,5 @@ export async function validateCreation(data: NewAccount) {
  * @returns Promise<InferSelectModel<typeof accounts>>
  */
 export async function create(data: NewAccount) {
-	return await db.insert(accounts).values(data).returning();
+	return await db.insert(kl_core_accounts).values(data).returning();
 }

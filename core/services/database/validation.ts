@@ -1,7 +1,9 @@
 import { type PgTableWithColumns } from 'drizzle-orm/pg-core';
-import { db } from './db.ts';
+import { getDbInstance } from './db.js';
 import { eq } from 'drizzle-orm';
 import z from 'zod';
+
+const db = getDbInstance();
 
 export const MetaSchema = z.record(
 	z.string(),

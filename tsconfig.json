@@ -18,6 +18,7 @@
     "noFallthroughCasesInSwitch": true,
     "declaration": true,
     "sourceMap": true,
-    "removeComments": true
-  }
+    "removeComments": true,
+  },
+  "exclude": ["node_modules", "tests", "dist"],
 }

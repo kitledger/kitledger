@@ -15,9 +15,7 @@ await dbEngine.migrateDb();
 
 export type KitledgerDatabase = typeof dbEngine.db;
 
-const server = createServer({
-  database: dbEngine.db,
-});
+export const server = createServer();
 
 serve({
 	fetch: server.fetch,

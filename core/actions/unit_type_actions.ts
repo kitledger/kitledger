@@ -1,8 +1,10 @@
-import { db } from '../services/database/db.js';
-import { unit_types } from '../services/database/schema.js';
+import { getDbInstance } from '../services/database/db.js';
+import { kl_core_unit_types } from '../services/database/schema.js';
 import z from 'zod';
 import { type NewUnitType } from '../types/index.js';
 import { valueIsAvailable } from '../services/database/validation.js';
+
+const db = getDbInstance();
 
 /**
  * Check if the name is available
@@ -10,7 +12,7 @@ import { valueIsAvailable } from '../services/database/validation.js';
  * @returns Promise<boolean>
  */
 async function nameIsAvailable(name: string) {
-	return await valueIsAvailable(unit_types, 'name', name);
+	return await valueIsAvailable(kl_core_unit_types, 'name', name);
 }
 
 /**
@@ -19,7 +21,7 @@ async function nameIsAvailable(name: string) {
  * @returns Promise<boolean>
  */
 async function refIdIsAvailable(ref_id: string) {
-	return await valueIsAvailable(unit_types, 'ref_id', ref_id);
+	return await valueIsAvailable(kl_core_unit_types, 'ref_id', ref_id);
 }
 
 /**
@@ -28,7 +30,7 @@ async function refIdIsAvailable(ref_id: string) {
  * @returns Promise<boolean>
  */
 async function altIdIsAvailable(alt_id: string) {
-	return await valueIsAvailable(unit_types, 'alt_id', alt_id);
+	return await valueIsAvailable(kl_core_unit_types, 'alt_id', alt_id);
 }
 
 export async function validateCreation(data: NewUnitType) {
@@ -63,5 +65,5 @@ export async function validateCreation(data: NewUnitType) {
  * @returns Promise<UnitType>
  */
 export async function create(data: NewUnitType) {
-	return await db.insert(unit_types).values(data).returning();
+	return await db.insert(kl_core_unit_types).values(data).returning();
 }

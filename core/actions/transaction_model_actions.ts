@@ -1,8 +1,10 @@
-import { db } from '../services/database/db.js';
-import { transaction_models } from '../services/database/schema.js';
+import { getDbInstance } from '../services/database/db.js';
+import { kl_core_transaction_models } from '../services/database/schema.js';
 import z from 'zod';
 import { type NewTransactionModel } from '../types/index.js';
 import { valueIsAvailable } from '../services/database/validation.js';
+
+const db = getDbInstance();
 
 /**
  * Check if the name is available
@@ -10,7 +12,7 @@ import { valueIsAvailable } from '../services/database/validation.js';
  * @returns Promise<boolean>
  */
 async function nameIsAvailable(name: string): Promise<boolean> {
-	return await valueIsAvailable(transaction_models, 'name', name);
+	return await valueIsAvailable(kl_core_transaction_models, 'name', name);
 }
 
 /**
@@ -19,7 +21,7 @@ async function nameIsAvailable(name: string): Promise<boolean> {
  * @returns :Promise<boolean>
  */
 async function refIdIsAvailable(ref_id: string): Promise<boolean> {
-	return await valueIsAvailable(transaction_models, 'ref_id', ref_id);
+	return await valueIsAvailable(kl_core_transaction_models, 'ref_id', ref_id);
 }
 
 /**
@@ -28,7 +30,7 @@ async function refIdIsAvailable(ref_id: string): Promise<boolean> {
  * @returns :Promise<boolean>
  */
 async function altIdIsAvailable(alt_id: string): Promise<boolean> {
-	return await valueIsAvailable(transaction_models, 'alt_id', alt_id);
+	return await valueIsAvailable(kl_core_transaction_models, 'alt_id', alt_id);
 }
 
 /**
@@ -67,5 +69,5 @@ export async function validateCreation(data: NewTransactionModel) {
  * @param data
  */
 export async function create(data: NewTransactionModel) {
-	return await db.insert(transaction_models).values(data).returning();
+	return await db.insert(kl_core_transaction_models).values(data).returning();
 }

@@ -1,10 +1,12 @@
-import { db } from '../services/database/db.js';
-import { ledgers, unit_types } from '../services/database/schema.js';
+import { getDbInstance } from '../services/database/db.js';
+import { kl_core_ledgers, kl_core_unit_types } from '../services/database/schema.js';
 import z from 'zod';
 import { eq, or } from 'drizzle-orm';
 import { valueIsAvailable } from '../services/database/validation.js';
 import { validate as validateUuid } from 'uuid';
 import { type NewLedger } from '../types/index.js';
+
+const db = getDbInstance();
 
 /**
  * Check if the name is available
@@ -12,7 +14,7 @@ import { type NewLedger } from '../types/index.js';
  * @returns Promise<boolean>
  */
 async function nameIsAvailable(name: string) {
-	return await valueIsAvailable(ledgers, 'name', name);
+	return await valueIsAvailable(kl_core_ledgers, 'name', name);
 }
 
 /**
@@ -21,7 +23,7 @@ async function nameIsAvailable(name: string) {
  * @returns Promise<boolean>
  */
 async function refIdIsAvailable(ref_id: string) {
-	return await valueIsAvailable(ledgers, 'ref_id', ref_id);
+	return await valueIsAvailable(kl_core_ledgers, 'ref_id', ref_id);
 }
 
 /**
@@ -30,7 +32,7 @@ async function refIdIsAvailable(ref_id: string) {
  * @returns Promise<boolean>
  */
 async function altIdIsAvailable(alt_id: string) {
-	return await valueIsAvailable(ledgers, 'alt_id', alt_id);
+	return await valueIsAvailable(kl_core_ledgers, 'alt_id', alt_id);
 }
 
 /**
@@ -65,16 +67,16 @@ export async function validateCreation(data: NewLedger) {
 
 				const filters = is_uuid
 					? {
-						where: eq(unit_types.id, unit_type_id),
+						where: eq(kl_core_unit_types.id, unit_type_id),
 					}
 					: {
 						where: or(
-							eq(unit_types.ref_id, unit_type_id),
-							eq(unit_types.alt_id, unit_type_id),
+							eq(kl_core_unit_types.ref_id, unit_type_id),
+							eq(kl_core_unit_types.alt_id, unit_type_id),
 						),
 					};
 
-				const existing_uom_type = await db.query.unit_types.findFirst(
+				const existing_uom_type = await db.query.kl_core_unit_types.findFirst(
 					filters,
 				);
 
@@ -101,5 +103,5 @@ export async function validateCreation(data: NewLedger) {
  * @returns Promise<InferSelectModel<typeof ledgers>>
  */
 export async function create(data: NewLedger) {
-	return await db.insert(ledgers).values(data).returning();
+	return await db.insert(kl_core_ledgers).values(data).returning();
 }

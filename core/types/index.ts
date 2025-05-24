@@ -1,11 +1,11 @@
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
-import { accounts, entity_models, ledgers, transaction_models, unit_types } from '../services/database/schema.js';
+import { kl_core_accounts, kl_core_entity_models, kl_core_ledgers, kl_core_transaction_models, kl_core_unit_types } from '../services/database/schema.js';
 
 /**
  * Account types
  */
-export type Account = InferSelectModel<typeof accounts>;
-export type NewAccount = InferInsertModel<typeof accounts>;
+export type Account = InferSelectModel<typeof kl_core_accounts>;
+export type NewAccount = InferInsertModel<typeof kl_core_accounts>;
 export type RefinedNewAccount =
 	& Omit<NewAccount, 'ledger_id' | 'balance_type'>
 	& {
@@ -28,20 +28,20 @@ export enum BalanceType {
 /**
  * Entity Model types
  */
-export type EntityModel = InferSelectModel<typeof entity_models>;
-export type NewEntityModel = InferInsertModel<typeof entity_models>;
+export type EntityModel = InferSelectModel<typeof kl_core_entity_models>;
+export type NewEntityModel = InferInsertModel<typeof kl_core_entity_models>;
 
 /**
  * Transaction Model types
  */
-export type TransactionModel = InferSelectModel<typeof transaction_models>;
-export type NewTransactionModel = InferInsertModel<typeof transaction_models>;
+export type TransactionModel = InferSelectModel<typeof kl_core_transaction_models>;
+export type NewTransactionModel = InferInsertModel<typeof kl_core_transaction_models>;
 
 /**
  * Ledger types
  */
-export type Ledger = InferSelectModel<typeof ledgers>;
-export type NewLedger = InferInsertModel<typeof ledgers>;
+export type Ledger = InferSelectModel<typeof kl_core_ledgers>;
+export type NewLedger = InferInsertModel<typeof kl_core_ledgers>;
 export type UpdateLedger = Pick<
 	NewLedger,
 	'ref_id' | 'alt_id' | 'name' | 'description' | 'active'
@@ -50,5 +50,5 @@ export type UpdateLedger = Pick<
 /**
  * Unit Type types
  */
-export type UnitType = InferSelectModel<typeof unit_types>;
-export type NewUnitType = InferInsertModel<typeof unit_types>;
+export type UnitType = InferSelectModel<typeof kl_core_unit_types>;
+export type NewUnitType = InferInsertModel<typeof kl_core_unit_types>;

@@ -1,9 +1,8 @@
-import { type Context, Hono } from '@hono/hono';
-import { create, validateCreation } from '../../core/actions/entity_model_actions.ts';
-import { generate as uuid } from '@std/uuid/unstable-v7';
-import type { ServerConfig } from '../server.ts';
+import { type Context, Hono } from 'hono';
+import { create, validateCreation } from '../../core/actions/unit_type_actions.js';
+import { v7 as uuid } from 'uuid';
 
-export function createEntityModelRouter(config: ServerConfig) {
+export function createUnitTypeRouter() {
 	const router = new Hono();
 	const GENERIC_ERROR_MESSAGE = 'Internal server error';
 

@@ -27,8 +27,10 @@
     "test": "tests"
   },
   "scripts": {
+	"dev": "tsx watch erp/main.ts",
 	"prettier": "prettier --write .",
-    "test": "vitest"
+    "test": "vitest",
+	"typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.2",

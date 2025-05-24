@@ -1,8 +1,10 @@
-import { db } from '../services/database/db.js';
-import { entity_models } from '../services/database/schema.js';
+import { getDbInstance } from '../services/database/db.js';
+import { kl_core_entity_models } from '../services/database/schema.js';
 import z from 'zod';
 import { valueIsAvailable } from '../services/database/validation.js';
 import { type NewEntityModel } from '../types/index.js';
+
+const db = getDbInstance();
 
 /**
  * Check if the name is available
@@ -10,7 +12,7 @@ import { type NewEntityModel } from '../types/index.js';
  * @returns Promise<boolean>
  */
 async function nameIsAvailable(name: string): Promise<boolean> {
-	return await valueIsAvailable(entity_models, 'name', name);
+	return await valueIsAvailable(kl_core_entity_models, 'name', name);
 }
 
 /**
@@ -19,7 +21,7 @@ async function nameIsAvailable(name: string): Promise<boolean> {
  * @returns :Promise<boolean>
  */
 async function refIdIsAvailable(ref_id: string): Promise<boolean> {
-	return await valueIsAvailable(entity_models, 'ref_id', ref_id);
+	return await valueIsAvailable(kl_core_entity_models, 'ref_id', ref_id);
 }
 
 /**
@@ -28,7 +30,7 @@ async function refIdIsAvailable(ref_id: string): Promise<boolean> {
  * @returns :Promise<boolean>
  */
 async function altIdIsAvailable(alt_id: string): Promise<boolean> {
-	return await valueIsAvailable(entity_models, 'alt_id', alt_id);
+	return await valueIsAvailable(kl_core_entity_models, 'alt_id', alt_id);
 }
 
 /**
@@ -67,5 +69,5 @@ export async function validateCreation(data: NewEntityModel) {
  * @param data
  */
 export async function create(data: NewEntityModel) {
-	return await db.insert(entity_models).values(data).returning();
+	return await db.insert(kl_core_entity_models).values(data).returning();
 }

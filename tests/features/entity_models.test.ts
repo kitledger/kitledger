@@ -1,65 +1,55 @@
-import { assertEquals } from '@std/assert/equals';
-import { server } from '../../erp/server.ts';
-import { EntityModelFactory } from '../../core/services/database/factories.ts';
-import { EntityModel, NewEntityModel } from '../../core/types/index.ts';
+import { describe, test, expect } from 'vitest';
+import { server } from '../../erp/main';
+import { EntityModelFactory } from '../../core/services/database/factories';
+import type { EntityModel, NewEntityModel } from '../../core/types/index';
 
-async function makeRequest(data: NewEntityModel | EntityModel, method: string, endpoint: string): Promise<Response> {
-	const req = new Request(
-		`http://localhost:${Deno.env.get('KL_SERVER_PORT')}${endpoint}`,
-		{
-			method: method,
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data),
-		},
-	);
-
-	return await server.fetch(req);
+async function makeRequest(
+    data: NewEntityModel | Partial<EntityModel>, // Using Partial for flexibility
+    method: string,
+    endpoint: string,
+): Promise<Response> {
+    const port = process.env.KL_SERVER_PORT || '8000';
+    const url = `http://localhost:${port}${endpoint}`;
+    const req = new Request(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    return await server.fetch(req);
 }
 
-const SUCCESS_REF_ID = `T${Math.floor(Math.random() * 99)}`;
+const SUCCESS_REF_ID = `T${Math.floor(Math.random() * 9999)}`;
 
-Deno.test({
-	name: 'Create a valid entity model',
-	async fn() {
-		const test_data = (new EntityModelFactory()).make();
-		test_data.ref_id = SUCCESS_REF_ID;
+// Using .sequential to maintain similar execution order to Deno's default for interdependent tests.
+describe.sequential('EntityModel API', () => {
+    test('Create a valid entity model', async () => {
+        const entityModelPayload = (new EntityModelFactory()).make();
+        entityModelPayload.ref_id = SUCCESS_REF_ID;
 
-		const res = await makeRequest(test_data, 'POST', '/api/entity-models');
-		const json: EntityModel = await res.json();
+        const res = await makeRequest(entityModelPayload, 'POST', '/api/entity-models');
+        const json: EntityModel = await res.json();
 
-		assertEquals(res.status, 200);
-		assertEquals(json.id.length, 36);
-	},
-	sanitizeOps: false,
-	sanitizeResources: false,
-});
+        expect(res.status).toBe(200);
+        expect(json.id).toHaveLength(36);
+    });
 
-Deno.test({
-	name: 'Invalid name fails validation',
-	async fn() {
-		const test_data = (new EntityModelFactory()).make();
-		test_data.name = 'A'.repeat(256);
+    test('Invalid name fails validation', async () => {
+        const entityModelPayload = (new EntityModelFactory()).make();
+        entityModelPayload.name = 'A'.repeat(256);
 
-		const res = await makeRequest(test_data, 'POST', '/api/entity-models');
+        const res = await makeRequest(entityModelPayload, 'POST', '/api/entity-models');
 
-		assertEquals(res.status, 422);
-	},
-	sanitizeOps: false,
-	sanitizeResources: false,
-});
+        expect(res.status).toBe(422);
+    });
 
-Deno.test({
-	name: 'Repeated Ref ID fails validation',
-	async fn() {
-		const test_data = (new EntityModelFactory()).make();
-		test_data.ref_id = SUCCESS_REF_ID;
+    test('Repeated Ref ID fails validation', async () => {
+        const entityModelPayload = (new EntityModelFactory()).make();
+        entityModelPayload.ref_id = SUCCESS_REF_ID;
 
-		const res = await makeRequest(test_data, 'POST', '/api/entity-models');
+        const res = await makeRequest(entityModelPayload, 'POST', '/api/entity-models');
 
-		assertEquals(res.status, 422);
-	},
-	sanitizeOps: false,
-	sanitizeResources: false,
+        expect(res.status).toBe(422);
+    });
 });

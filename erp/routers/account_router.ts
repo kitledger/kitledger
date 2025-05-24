@@ -1,9 +1,10 @@
-import { type Context, Hono } from '@hono/hono';
-import { create, validateCreation } from '../../core/actions/ledger_actions.ts';
-import { generate as uuid } from '@std/uuid/unstable-v7';
-import type { ServerConfig } from '../server.ts';
+import { type Context, Hono } from 'hono';
+import { create, validateCreation } from '../../core/actions/account_actions.js';
+import type { NewAccount } from '../../core/types/index.js';
+import { v7 as uuid } from 'uuid';
 
-export function createLedgerRouter(config: ServerConfig) {
+export function createAccountRouter() {
+
 	const router = new Hono();
 	const GENERIC_ERROR_MESSAGE = 'Internal server error';
 
@@ -13,12 +14,15 @@ export function createLedgerRouter(config: ServerConfig) {
 
 		const validation_result = await validateCreation(body);
 
+		// Return 422 if Zod Error
 		if (!validation_result.success) {
 			return c.json(validation_result.error.issues, 422);
 		}
 
 		try {
-			const result = await create(validation_result.data);
+			const result = await create(
+				validation_result.data as NewAccount,
+			);
 			return c.json(result[0]);
 		} catch (error) {
 			// IMPLEMENT_LOGGER

@@ -1,11 +1,8 @@
-import { type Context, Hono } from '@hono/hono';
-import { create, validateCreation } from '../../core/actions/account_actions.ts';
-import { NewAccount } from '../../core/types/index.ts';
-import { generate as uuid } from '@std/uuid/unstable-v7';
-import type { ServerConfig } from '../server.ts';
+import { type Context, Hono } from 'hono';
+import { create, validateCreation } from '../../core/actions/transaction_model_actions.js';
+import { v7 as uuid } from 'uuid';
 
-export function createAccountRouter(config: ServerConfig) {
-
+export function createTransactionModelRouter() {
 	const router = new Hono();
 	const GENERIC_ERROR_MESSAGE = 'Internal server error';
 
@@ -21,9 +18,7 @@ export function createAccountRouter(config: ServerConfig) {
 		}
 
 		try {
-			const result = await create(
-				validation_result.data as NewAccount,
-			);
+			const result = await create(validation_result.data);
 			return c.json(result[0]);
 		} catch (error) {
 			// IMPLEMENT_LOGGER
