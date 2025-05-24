@@ -4,7 +4,7 @@ import { createLedgerRouter } from './routers/ledger_router.js';
 import { createAccountRouter } from './routers/account_router.js';
 import {createEntityModelRouter } from './routers/entity_model_router.js';
 import { createTransactionModelRouter } from './routers/transaction_model_router.js';
-import { type KitledgerDatabase } from './main.js';
+import type { KitledgerDatabase } from '../core/services/database/db.js';
 
 export type ServerConfig = {
 	database: KitledgerDatabase;

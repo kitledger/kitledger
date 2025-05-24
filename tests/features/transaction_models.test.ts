@@ -1,7 +1,15 @@
 import { describe, test, expect } from 'vitest';
-import { server } from '../../erp/main';
+import { createServer } from '../../erp/server';
+import { createDatabase } from '../../core/services/database/db';
+import { postgresUrl, postgresConfig } from '../../erp/config';
 import { TransactionModelFactory } from '../../core/services/database/factories';
 import type { NewTransactionModel, TransactionModel } from '../../core/types/index';
+
+createDatabase({
+	postgresUrl,
+	maxConnections: postgresConfig.max_connections,
+});
+const server = createServer();
 
 async function makeRequest(
     data: NewTransactionModel | Partial<TransactionModel>, // Using Partial for flexibility

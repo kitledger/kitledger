@@ -4,8 +4,6 @@ import z from 'zod';
 import { valueIsAvailable } from '../services/database/validation.js';
 import { type NewEntityModel } from '../types/index.js';
 
-const db = getDbInstance();
-
 /**
  * Check if the name is available
  * @param name
@@ -69,5 +67,6 @@ export async function validateCreation(data: NewEntityModel) {
  * @param data
  */
 export async function create(data: NewEntityModel) {
+	const db = getDbInstance();
 	return await db.insert(kl_core_entity_models).values(data).returning();
 }

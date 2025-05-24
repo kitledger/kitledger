@@ -1,9 +1,17 @@
 import { describe, test, expect } from 'vitest';
-import { server } from '../../erp/main';
+import { createServer } from '../../erp/server';
+import { createDatabase } from '../../core/services/database/db';
+import { postgresUrl, postgresConfig } from '../../erp/config';
 import { AccountFactory, LedgerFactory, UnitTypeFactory } from '../../core/services/database/factories';
 import { create as createLedger } from '../../core/actions/ledger_actions';
 import { create as createUnitType } from '../../core/actions/unit_type_actions';
 import type { Account, NewAccount } from '../../core/types/index';
+
+createDatabase({
+	postgresUrl,
+	maxConnections: postgresConfig.max_connections,
+});
+const server = createServer();
 
 const sample_ledger_data = (new LedgerFactory()).make();
 const uom_type_array = await createUnitType(

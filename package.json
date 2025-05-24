@@ -27,10 +27,13 @@
     "test": "tests"
   },
   "scripts": {
-	"dev": "tsx watch erp/main.ts",
-	"prettier": "prettier --write .",
-    "test": "vitest",
-	"typecheck": "tsc --noEmit"
+    "db:custom": "drizzle-kit generate --custom --config=core/services/database/drizzle.config.ts",
+    "db:generate": "drizzle-kit generate --config=core/services/database/drizzle.config.ts",
+    "dev": "tsx watch --env-file=.env erp/main.ts",
+    "prettier": "prettier --write .",
+    "test": "vitest --run",
+	"test:ui": "vitest --ui",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.2",
@@ -45,6 +48,7 @@
   "devDependencies": {
     "@faker-js/faker": "^9.0.3",
     "@types/node": "^22.15.21",
+    "@vitest/ui": "^3.1.4",
     "prettier": "3.5.3",
     "typescript": "^5.8.3",
     "vitest": "^3.1.4"

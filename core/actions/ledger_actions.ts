@@ -6,8 +6,6 @@ import { valueIsAvailable } from '../services/database/validation.js';
 import { validate as validateUuid } from 'uuid';
 import { type NewLedger } from '../types/index.js';
 
-const db = getDbInstance();
-
 /**
  * Check if the name is available
  * @param name
@@ -41,6 +39,7 @@ async function altIdIsAvailable(alt_id: string) {
  * @returns Promise<z.infer<typeof validationSchema>>
  */
 export async function validateCreation(data: NewLedger) {
+	const db = getDbInstance();
 	const validationSchema = z.object({
 		id: z.string().uuid(),
 		ref_id: z.string()
@@ -103,5 +102,6 @@ export async function validateCreation(data: NewLedger) {
  * @returns Promise<InferSelectModel<typeof ledgers>>
  */
 export async function create(data: NewLedger) {
+	const db = getDbInstance();
 	return await db.insert(kl_core_ledgers).values(data).returning();
 }

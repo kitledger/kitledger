@@ -1,7 +1,15 @@
 import { describe, test, expect } from 'vitest';
-import { server } from '../../erp/main';
+import { createServer } from '../../erp/server';
+import { createDatabase } from '../../core/services/database/db';
+import { postgresUrl, postgresConfig } from '../../erp/config';
 import { EntityModelFactory } from '../../core/services/database/factories';
 import type { EntityModel, NewEntityModel } from '../../core/types/index';
+
+createDatabase({
+	postgresUrl,
+	maxConnections: postgresConfig.max_connections,
+});
+const server = createServer();
 
 async function makeRequest(
     data: NewEntityModel | Partial<EntityModel>, // Using Partial for flexibility

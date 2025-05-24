@@ -4,8 +4,6 @@ import z from 'zod';
 import { type NewTransactionModel } from '../types/index.js';
 import { valueIsAvailable } from '../services/database/validation.js';
 
-const db = getDbInstance();
-
 /**
  * Check if the name is available
  * @param name
@@ -69,5 +67,6 @@ export async function validateCreation(data: NewTransactionModel) {
  * @param data
  */
 export async function create(data: NewTransactionModel) {
+	const db = getDbInstance();
 	return await db.insert(kl_core_transaction_models).values(data).returning();
 }

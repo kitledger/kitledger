@@ -26,7 +26,7 @@ async function _internalMigrateDb(): Promise<void> {
   try {
     await migrate(_db, {
       migrationsFolder: migrationFolder,
-      migrationsTable: 'migrations',
+      migrationsTable: 'kl_core_migrations',
       migrationsSchema: 'public',
     });
     console.log("Database migration completed.");

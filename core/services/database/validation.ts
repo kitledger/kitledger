@@ -3,8 +3,6 @@ import { getDbInstance } from './db.js';
 import { eq } from 'drizzle-orm';
 import z from 'zod';
 
-const db = getDbInstance();
-
 export const MetaSchema = z.record(
 	z.string(),
 	z.union([z.string(), z.number(), z.boolean(), z.null()]),
@@ -23,6 +21,7 @@ export async function valueIsAvailable(
 	key: string,
 	value: string,
 ) {
+	const db = getDbInstance();
 	const results = await db.select()
 		.from(table)
 		.where(eq(table[key], value));

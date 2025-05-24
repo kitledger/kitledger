@@ -1,5 +1,5 @@
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
-import { kl_core_accounts, kl_core_entity_models, kl_core_ledgers, kl_core_transaction_models, kl_core_unit_types } from '../services/database/schema.js';
+import { kl_core_accounts, kl_core_entity_models, kl_core_ledgers, kl_core_transaction_models, kl_core_unit_types, BalanceType } from '../services/database/schema.js';
 
 /**
  * Account types
@@ -16,14 +16,6 @@ export type UpdateAccount = Pick<
 	NewAccount,
 	'ref_id' | 'alt_id' | 'name' | 'balance_type' | 'meta' | 'active'
 >;
-
-/**
- * Balance Types
- */
-export enum BalanceType {
-	DEBIT = 'DEBIT',
-	CREDIT = 'CREDIT',
-}
 
 /**
  * Entity Model types

@@ -1,12 +1,10 @@
 import { getDbInstance } from '../services/database/db.js';
-import { kl_core_accounts, kl_core_ledgers } from '../services/database/schema.js';
+import { kl_core_accounts, kl_core_ledgers, BalanceType } from '../services/database/schema.js';
 import z from 'zod';
 import { eq, or } from 'drizzle-orm';
 import { valueIsAvailable } from '../services/database/validation.js';
 import { validate as validateUuid } from 'uuid';
-import { BalanceType, type NewAccount } from '../types/index.js';
-
-const db = getDbInstance();
+import { type NewAccount } from '../types/index.js';
 
 /**
  * Check if the name is available
@@ -36,6 +34,7 @@ async function altIdIsAvailable(alt_id: string): Promise<boolean> {
 }
 
 export async function validateCreation(data: NewAccount) {
+	const db = getDbInstance();
 	const validationSchema = z.object({
 		id: z.string().uuid(),
 		ref_id: z.string()
@@ -142,5 +141,6 @@ export async function validateCreation(data: NewAccount) {
  * @returns Promise<InferSelectModel<typeof accounts>>
  */
 export async function create(data: NewAccount) {
+	const db = getDbInstance();
 	return await db.insert(kl_core_accounts).values(data).returning();
 }

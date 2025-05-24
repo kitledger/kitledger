@@ -4,8 +4,6 @@ import z from 'zod';
 import { type NewUnitType } from '../types/index.js';
 import { valueIsAvailable } from '../services/database/validation.js';
 
-const db = getDbInstance();
-
 /**
  * Check if the name is available
  * @param name
@@ -65,5 +63,6 @@ export async function validateCreation(data: NewUnitType) {
  * @returns Promise<UnitType>
  */
 export async function create(data: NewUnitType) {
+	const db = getDbInstance();
 	return await db.insert(kl_core_unit_types).values(data).returning();
 }

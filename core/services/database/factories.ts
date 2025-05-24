@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker';
 import {
-	BalanceType,
 	type NewAccount,
 	type NewEntityModel,
 	type NewLedger,
@@ -8,6 +7,7 @@ import {
 	type NewUnitType,
 } from '../../types/index.js';
 import { v7 as uuid } from 'uuid';
+import { BalanceType } from './schema.js';
 
 abstract class Factory {
 	abstract make(type?: string): NewLedger | NewAccount | NewUnitType | NewEntityModel | NewTransactionModel;
