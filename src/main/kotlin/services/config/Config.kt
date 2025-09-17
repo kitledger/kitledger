@@ -9,13 +9,8 @@ data class AuthConfig(
     val jwtAlgorithm: String
 )
 
-data class Address(
-    val host: String,
-    val port: Int
-)
-
 data class CorsConfig(
-    val origin: Any,
+    val origin: List<String>?,
     val allowMethods: List<String>?,
     val allowHeaders: List<String>?,
     val maxAge: Long?,
@@ -59,7 +54,7 @@ object AppConfig {
 
     private val corsAllowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
 
-    private val corsAllowedOrigins: Any = System.getenv("KL_CORS_ALLOWED_ORIGINS")?.split(",") ?: "*"
+    private val corsAllowedOrigins: List<String> = System.getenv("KL_CORS_ALLOWED_ORIGINS")?.split(",") ?: emptyList()
 
     private val corsCredentials = false
 
