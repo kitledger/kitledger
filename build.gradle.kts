@@ -1,5 +1,6 @@
 val exposedVersion: String by project
 val flywayVersion: String by project
+val graalVmPolyglotVersion: String by project
 val hikaricpVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
@@ -31,6 +32,8 @@ dependencies {
     implementation("org.flywaydb:flyway-core:$flywayVersion")
     implementation("org.flywaydb:flyway-database-postgresql:$flywayVersion")
     implementation("org.postgresql:postgresql:${postgresDriverVersion}")
+    implementation("org.graalvm.polyglot:polyglot:$graalVmPolyglotVersion")
+    implementation("org.graalvm.polyglot:js-community:$graalVmPolyglotVersion")
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 }
