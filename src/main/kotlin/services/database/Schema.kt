@@ -9,6 +9,7 @@ import org.jetbrains.exposed.v1.json.jsonb
 import kotlinx.serialization.json.Json
 import java.util.UUID
 import kotlin.time.ExperimentalTime
+import com.kitledger.domain.auth.SystemPermissionEnum
 
 // Enums and Custom Types
 enum class BalanceType {
@@ -19,7 +20,7 @@ typealias BaseMetaProperty = Map<String, Any?>
 
 // Tables
 
-object Accounts : Table("accounts") {
+object AccountsTable : Table("accounts") {
     val id: Column<UUID> = uuid("id")
     val refId = varchar("ref_id", 64)
     val altId = varchar("alt_id", 64).nullable()
@@ -40,15 +41,16 @@ object Accounts : Table("accounts") {
     override val primaryKey = PrimaryKey(id)
 }
 
-object ApiTokens : Table("api_tokens") {
+object ApiTokensTable : Table("api_tokens") {
     val id: Column<UUID> = uuid("id")
     val userId = uuid("user_id")
     val name = varchar("name", 64)
+    val createdAt = timestamp("created_at")
     val revokedAt = timestamp("revoked_at").nullable()
     override val primaryKey = PrimaryKey(id)
 }
 
-object EntityModels : Table("entity_models") {
+object EntityModelsTable : Table("entity_models") {
     val id: Column<UUID> = uuid("id")
     val refId = varchar("ref_id", 64)
     val altId = varchar("alt_id", 64).nullable()
@@ -60,7 +62,7 @@ object EntityModels : Table("entity_models") {
     override val primaryKey = PrimaryKey(id)
 }
 
-object Ledgers : Table("ledgers") {
+object LedgersTable : Table("ledgers") {
     val id: Column<UUID> = uuid("id")
     val refId = varchar("ref_id", 64)
     val altId = varchar("alt_id", 64).nullable()
@@ -74,7 +76,7 @@ object Ledgers : Table("ledgers") {
     override val primaryKey = PrimaryKey(id)
 }
 
-object PermissionAssignments : Table("permission_assignments") {
+object PermissionAssignmentsTable : Table("permission_assignments") {
     val id: Column<UUID> = uuid("id")
     val permissionId = uuid("permission_id")
     val userId = uuid("user_id").nullable()
@@ -85,7 +87,7 @@ object PermissionAssignments : Table("permission_assignments") {
     override val primaryKey = PrimaryKey(id)
 }
 
-object Permissions : Table("permissions") {
+object PermissionsTable : Table("permissions") {
     val id: Column<UUID> = uuid("id")
     val name = varchar("name", 64)
     val description = varchar("description", 255).nullable()
@@ -95,7 +97,7 @@ object Permissions : Table("permissions") {
     override val primaryKey = PrimaryKey(id)
 }
 
-object Roles : Table("roles") {
+object RolesTable : Table("roles") {
     val id: Column<UUID> = uuid("id")
     val name = varchar("name", 64)
     val description = varchar("description", 255).nullable()
@@ -105,7 +107,7 @@ object Roles : Table("roles") {
     override val primaryKey = PrimaryKey(id)
 }
 
-object Sessions : Table("sessions") {
+object SessionsTable : Table("sessions") {
     val id: Column<UUID> = uuid("id")
     val userId = uuid("user_id")
     val token = varchar("token", 64)
@@ -113,9 +115,9 @@ object Sessions : Table("sessions") {
     val expiresAt = timestamp("expires_at")
 }
 
-object SystemPermissions : Table("system_permissions") {
+object SystemPermissionsTable : Table("system_permissions") {
     val id: Column<UUID> = uuid("id")
-    val permission = varchar("permission", 64)
+    val permission = enumerationByName<SystemPermissionEnum>("permission", 64)
     val userId = uuid("user_id")
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
@@ -123,7 +125,7 @@ object SystemPermissions : Table("system_permissions") {
     override val primaryKey = PrimaryKey(id)
 }
 
-object TransactionModels : Table("transaction_models") {
+object TransactionModelsTable : Table("transaction_models") {
     val id: Column<UUID> = uuid("id")
     val refId = varchar("ref_id", 64)
     val altId = varchar("alt_id", 64).nullable()
@@ -135,7 +137,7 @@ object TransactionModels : Table("transaction_models") {
     override val primaryKey = PrimaryKey(id)
 }
 
-object UnitModels : Table("unit_models") {
+object UnitModelsTable : Table("unit_models") {
     val id: Column<UUID> = uuid("id")
     val refId = varchar("ref_id", 64)
     val altId = varchar("alt_id", 64).nullable()
@@ -148,7 +150,7 @@ object UnitModels : Table("unit_models") {
     override val primaryKey = PrimaryKey(id)
 }
 
-object Users : Table("users") {
+object UsersTable : Table("users") {
     val id: Column<UUID> = uuid("id")
     val firstName = varchar("first_name", 64)
     val lastName = varchar("last_name", 64)
@@ -160,7 +162,7 @@ object Users : Table("users") {
     override val primaryKey = PrimaryKey(id)
 }
 
-object UserRoles : Table("user_roles") {
+object UserRolesTable : Table("user_roles") {
     val id: Column<UUID> = uuid("id")
     val userId = uuid("user_id")
     val roleId = uuid("role_id")

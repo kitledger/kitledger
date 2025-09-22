@@ -1,0 +1,137 @@
+package com.kitledger.domain.auth
+
+import java.time.Instant
+import java.util.UUID
+
+enum class SystemPermissionEnum {
+    KL_SYSTEM_ADMIN
+}
+
+/**
+ * Api Token Model and core types
+ */
+data class ApiTokenInsert(
+    val userId: UUID,
+    val name: String,
+)
+
+data class ApiToken(
+    val id: UUID,
+    val userId: UUID,
+    val name: String,
+    val createdAt: Instant,
+    val revokedAt: Instant? = null,
+)
+
+/**
+ * Permission Assignment Model and core types
+ * This is a pivot table for the many-to-many relationship between users and permissions
+ */
+data class PermissionAssignmentInsert(
+    val userId: UUID?,
+    val roleId: UUID?,
+    val permissionId: UUID,
+)
+
+data class PermissionAssignment(
+    val id: UUID,
+    val userId: UUID?,
+    val roleId: UUID?,
+    val permissionId: UUID,
+    val createdAt: Instant,
+    val updatedAt: Instant,
+    val deletedAt: Instant? = null,
+)
+
+/**
+ * Permission Model and core types
+ */
+data class PermissionInsert(
+    val name: String,
+    val description: String?,
+)
+
+data class Permission(
+    val id: UUID,
+    val name: String,
+    val description: String?,
+    val createdAt: Instant,
+    val updatedAt: Instant,
+    val deletedAt: Instant? = null,
+)
+
+
+/**
+ * Role Model and core types
+ */
+data class RoleInsert(
+    val name: String,
+    val description: String?,
+)
+
+data class Role(
+    val id: UUID,
+    val name: String,
+    val description: String?,
+    val createdAt: Instant,
+    val updatedAt: Instant,
+    val deletedAt: Instant? = null,
+)
+
+/**
+ * System Permission Model and core types
+ */
+data class SystemPermissionInsert(
+    val permission: SystemPermissionEnum,
+    val userId: UUID
+)
+
+data class SystemPermission(
+    val id: UUID,
+    val permission: SystemPermissionEnum,
+    val userId: UUID,
+    val createdAt: Instant,
+    val updatedAt: Instant,
+    val deletedAt: Instant? = null,
+)
+
+/**
+ * User Model and core types
+ */
+
+data class UserInsert(
+    val firstName: String,
+    val lastName: String,
+    val email: String,
+    var passwordHash: String,
+)
+
+data class User(
+    val id: UUID,
+    val firstName: String,
+    val lastName: String,
+    val email: String,
+    var passwordHash: String,
+    val createdAt: Instant,
+    val updatedAt: Instant,
+    val deletedAt: Instant? = null,
+)
+
+/**
+ * User Role Model and core types
+ * This is a pivot table for the many-to-many relationship between users and roles
+ */
+
+data class UserRoleInsert (
+    val userId: UUID,
+    val roleId: UUID,
+)
+
+data class UserRole(
+    val id: UUID,
+    val userId: UUID,
+    val roleId: UUID,
+    val createdAt: Instant,
+    val updatedAt: Instant,
+    val deletedAt: Instant? = null,
+)

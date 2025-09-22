@@ -18,6 +18,7 @@ CREATE TABLE "api_tokens" (
     "id" uuid PRIMARY KEY NOT NULL,
     "user_id" uuid NOT NULL,
     "name" varchar(64) NOT NULL,
+    "created_at" timestamp DEFAULT now() NOT NULL,
     "revoked_at" timestamp
 );
 
