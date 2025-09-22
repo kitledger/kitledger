@@ -24,7 +24,7 @@ fun Application.module() {
 
     context.eval("js", script)
 
-    Migration.run()
+    //Migration.run()
     DatabaseFactory.init()
     configureRouting()
 }

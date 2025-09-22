@@ -5,6 +5,7 @@ val hikaricpVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val postgresDriverVersion: String by project
+val r2dbcPoolVersion: String by project
 
 plugins {
     kotlin("jvm") version "2.2.20"
@@ -25,13 +26,13 @@ dependencies {
     implementation("io.ktor:ktor-server-core")
     implementation("io.ktor:ktor-server-config-yaml")
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-r2dbc:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-json:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-kotlin-datetime:$exposedVersion")
-    implementation("com.zaxxer:HikariCP:$hikaricpVersion")
     implementation("org.flywaydb:flyway-core:$flywayVersion")
     implementation("org.flywaydb:flyway-database-postgresql:$flywayVersion")
-    implementation("org.postgresql:postgresql:${postgresDriverVersion}")
+    implementation("org.postgresql:r2dbc-postgresql:${postgresDriverVersion}")
+    implementation("io.r2dbc:r2dbc-pool:${r2dbcPoolVersion}")
     implementation("org.graalvm.polyglot:polyglot:$graalVmPolyglotVersion")
     implementation("org.graalvm.polyglot:js-community:$graalVmPolyglotVersion")
     testImplementation("io.ktor:ktor-server-test-host")

@@ -24,6 +24,20 @@ data class ApiToken(
 )
 
 /**
+ * Only used as the result of commands and actions that create a root super user.
+ * it includes plain text password and api token making it suitable to be shown only once, upon creation.
+ * For later instances use a plain User.
+ */
+data class NewSuperUser(
+    val id: UUID,
+    val firstName: String,
+    val lastName: String,
+    val email: String,
+    val password: String,
+    val apiToken: String,
+)
+
+/**
  * Permission Assignment Model and core types
  * This is a pivot table for the many-to-many relationship between users and permissions
  */
