@@ -20,7 +20,6 @@ data class CorsConfig(
 
 data class DbConfig(
     val url: String,
-    val ssl: Boolean,
     val max: Int
 )
 
@@ -79,7 +78,6 @@ object AppConfig {
     val dbConfig: DbConfig by lazy {
         DbConfig(
             url = System.getenv("KL_POSTGRES_URL") ?: "jdbc:postgres://localhost:5432/kitledger",
-            ssl = System.getenv("KL_POSTGRES_SSL")?.toBooleanStrictOrNull() ?: false,
             max = System.getenv("KL_POSTGRES_MAX_CONNECTIONS")?.toIntOrNull() ?: 10
         )
     }

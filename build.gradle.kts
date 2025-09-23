@@ -1,7 +1,7 @@
 val exposedVersion: String by project
 val flywayVersion: String by project
 val graalVmPolyglotVersion: String by project
-val hikaricpVersion: String by project
+val jdbcPostgresDriverVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val postgresDriverVersion: String by project
@@ -32,6 +32,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core:$flywayVersion")
     implementation("org.flywaydb:flyway-database-postgresql:$flywayVersion")
     implementation("org.postgresql:r2dbc-postgresql:${postgresDriverVersion}")
+    implementation("org.postgresql:postgresql:${jdbcPostgresDriverVersion}")
     implementation("io.r2dbc:r2dbc-pool:${r2dbcPoolVersion}")
     implementation("org.graalvm.polyglot:polyglot:$graalVmPolyglotVersion")
     implementation("org.graalvm.polyglot:js-community:$graalVmPolyglotVersion")

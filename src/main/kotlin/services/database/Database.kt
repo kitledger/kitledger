@@ -6,10 +6,28 @@ import com.kitledger.services.config.AppConfig
 object DatabaseFactory {
     fun init() {
         val config = AppConfig.dbConfig
-        val dbUrl = if (config.ssl) "${config.url}?ssl=true" else config.url
+
+        val queryParams = mutableListOf<String>()
+
+        if (!config.url.contains("maxSize=")) {
+            queryParams.add("maxSize=${config.max}")
+        }
+        if (!config.url.contains("initialSize=")) {
+            queryParams.add("initialSize=5")
+        }
+        if (!config.url.contains("validationQuery=")) {
+            queryParams.add("validationQuery=SELECT%201")
+        }
+
+        val finalUrl = if (queryParams.isNotEmpty()) {
+            val separator = if (config.url.contains("?")) "&" else "?"
+            config.url + separator + queryParams.joinToString("&")
+        } else {
+            config.url
+        }
 
         R2dbcDatabase.connect(
-            url = dbUrl,
+            url = finalUrl,
             driver = "postgresql",
         )
     }
