@@ -8,6 +8,8 @@ import io.ktor.server.application.*
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.graalvm.polyglot.Context
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 
 suspend fun main(args: Array<String>) {
 
@@ -20,14 +22,14 @@ suspend fun main(args: Array<String>) {
     if (args.isEmpty() || args[0] == "serve") {
         // Start the server
         embeddedServer(Netty, port = AppConfig.serverConfig.port, host = "0.0.0.0") {
-            module()
+            module(AppConfig)
         }.start(wait = true)
     } else {
         execute(args)
     }
 }
 
-fun Application.module() {
+fun Application.module(config : AppConfig) {
 
     val context = Context.create("js")
 
