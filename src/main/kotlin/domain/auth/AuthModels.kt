@@ -1,7 +1,10 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.kitledger.domain.auth
 
-import java.time.Instant
+import kotlin.time.Instant
 import java.util.UUID
+import kotlin.time.ExperimentalTime
 
 enum class SystemPermissionEnum {
     KL_SYSTEM_ADMIN
@@ -54,7 +57,6 @@ data class PermissionAssignment(
     val permissionId: UUID,
     val createdAt: Instant,
     val updatedAt: Instant,
-    val deletedAt: Instant? = null,
 )
 
 /**
@@ -71,7 +73,6 @@ data class Permission(
     val description: String?,
     val createdAt: Instant,
     val updatedAt: Instant,
-    val deletedAt: Instant? = null,
 )
 
 
@@ -89,7 +90,6 @@ data class Role(
     val description: String?,
     val createdAt: Instant,
     val updatedAt: Instant,
-    val deletedAt: Instant? = null,
 )
 
 /**
@@ -106,7 +106,6 @@ data class SystemPermission(
     val userId: UUID,
     val createdAt: Instant,
     val updatedAt: Instant,
-    val deletedAt: Instant? = null,
 )
 
 /**
@@ -128,7 +127,6 @@ data class User(
     var passwordHash: String,
     val createdAt: Instant,
     val updatedAt: Instant,
-    val deletedAt: Instant? = null,
 )
 
 /**
@@ -147,5 +145,4 @@ data class UserRole(
     val roleId: UUID,
     val createdAt: Instant,
     val updatedAt: Instant,
-    val deletedAt: Instant? = null,
 )

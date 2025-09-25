@@ -11,13 +11,13 @@ import org.graalvm.polyglot.Context
 
 suspend fun main(args: Array<String>) {
 
+    // Run database migrations
+    Migration.run()
+
+    // Setup a DB connection pool with R2DBC
+    DatabaseFactory.init()
+
     if (args.isEmpty() || args[0] == "serve") {
-        // Run database migrations
-        Migration.run()
-
-        // Setup a DB connection pool with R2DBC
-        DatabaseFactory.init()
-
         // Start the server
         embeddedServer(Netty, port = AppConfig.serverConfig.port, host = "0.0.0.0") {
             module()

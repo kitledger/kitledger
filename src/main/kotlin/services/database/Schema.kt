@@ -37,7 +37,6 @@ object AccountsTable : Table("accounts") {
     val active = bool("active").default(true)
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
-    val deletedAt = timestamp("deleted_at").nullable()
     override val primaryKey = PrimaryKey(id)
 }
 
@@ -58,7 +57,6 @@ object EntityModelsTable : Table("entity_models") {
     val active = bool("active").default(true)
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
-    val deletedAt = timestamp("deleted_at").nullable()
     override val primaryKey = PrimaryKey(id)
 }
 
@@ -72,7 +70,6 @@ object LedgersTable : Table("ledgers") {
     val active = bool("active").default(true)
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
-    val deletedAt = timestamp("deleted_at").nullable()
     override val primaryKey = PrimaryKey(id)
 }
 
@@ -83,7 +80,6 @@ object PermissionAssignmentsTable : Table("permission_assignments") {
     val roleId = uuid("role_id").nullable()
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
-    val deletedAt = timestamp("deleted_at").nullable()
     override val primaryKey = PrimaryKey(id)
 }
 
@@ -93,7 +89,6 @@ object PermissionsTable : Table("permissions") {
     val description = varchar("description", 255).nullable()
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
-    val deletedAt = timestamp("deleted_at").nullable()
     override val primaryKey = PrimaryKey(id)
 }
 
@@ -103,7 +98,6 @@ object RolesTable : Table("roles") {
     val description = varchar("description", 255).nullable()
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
-    val deletedAt = timestamp("deleted_at").nullable()
     override val primaryKey = PrimaryKey(id)
 }
 
@@ -121,7 +115,6 @@ object SystemPermissionsTable : Table("system_permissions") {
     val userId = uuid("user_id")
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
-    val deletedAt = timestamp("deleted_at").nullable()
     override val primaryKey = PrimaryKey(id)
 }
 
@@ -133,7 +126,6 @@ object TransactionModelsTable : Table("transaction_models") {
     val active = bool("active").default(true)
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
-    val deletedAt = timestamp("deleted_at").nullable()
     override val primaryKey = PrimaryKey(id)
 }
 
@@ -146,7 +138,6 @@ object UnitModelsTable : Table("unit_models") {
     val baseUnitId = uuid("base_unit_id").nullable()
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
-    val deletedAt = timestamp("deleted_at").nullable()
     override val primaryKey = PrimaryKey(id)
 }
 
@@ -158,7 +149,6 @@ object UsersTable : Table("users") {
     val passwordHash = text("password_hash")
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
-    val deletedAt = timestamp("deleted_at").nullable()
     override val primaryKey = PrimaryKey(id)
 }
 
@@ -168,6 +158,5 @@ object UserRolesTable : Table("user_roles") {
     val roleId = uuid("role_id")
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
-    val deletedAt = timestamp("deleted_at").nullable()
     override val primaryKey = PrimaryKey(id)
 }

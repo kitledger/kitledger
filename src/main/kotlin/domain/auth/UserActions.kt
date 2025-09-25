@@ -1,9 +1,19 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.kitledger.domain.auth
 
-import kotlin.random.Random
 import com.kitledger.services.utils.generateUuidV7
+import com.kitledger.services.database.UsersTable
+import com.kitledger.services.database.SystemPermissionsTable
+import kotlin.random.Random
+import org.jetbrains.exposed.v1.r2dbc.transactions.suspendTransaction
+import org.jetbrains.exposed.v1.core.ResultRow
+import org.jetbrains.exposed.v1.r2dbc.insert
+import kotlin.time.ExperimentalTime
+import kotlin.time.Clock
 
-suspend fun createSuperUser(firstName: String, lastName: String, email: String) : Result<String> {
+
+suspend fun createSuperUser(firstName: String, lastName: String, email: String) : Result<NewSuperUser> {
 
     try {
         val randomPassword = generateRandomPassword()
@@ -13,10 +23,46 @@ suspend fun createSuperUser(firstName: String, lastName: String, email: String) 
         }
 
         val hashedPassword = hashPassword(randomPassword)
-
         val userId = generateUuidV7()
 
-        return Result.success(userId.toString())
+        val superUser = suspendTransaction {
+            val userResult = UsersTable.insert {
+                it[UsersTable.id] = userId
+                it[UsersTable.firstName] = firstName
+                it[UsersTable.lastName] = lastName
+                it[UsersTable.email] = email
+                it[UsersTable.passwordHash] = hashedPassword
+                it[UsersTable.createdAt] = Clock.System.now()
+                it[UsersTable.updatedAt] = Clock.System.now()
+            }
+
+            val user = userResult.resultedValues?.get(0)?.toUser()
+                ?: throw IllegalStateException("Failed to insert user")
+
+            SystemPermissionsTable.insert {
+                it[SystemPermissionsTable.id] = generateUuidV7()
+                it[SystemPermissionsTable.permission] = SystemPermissionEnum.KL_SYSTEM_ADMIN
+                it[SystemPermissionsTable.userId] = user.id
+                it[SystemPermissionsTable.createdAt] = Clock.System.now()
+                it[SystemPermissionsTable.updatedAt] = Clock.System.now()
+            }
+
+            val apiToken = createToken(userId) ?: throw IllegalStateException("Failed to create API token")
+            val tokenId = apiToken.id
+
+            // Pending: SIGN THE TOKEN
+
+            NewSuperUser(
+                userId,
+                firstName,
+                lastName,
+                email,
+                randomPassword,
+                tokenId.toString()
+            )
+        }
+
+        return Result.success(superUser)
     }
 
     catch (e: Exception) {
@@ -34,4 +80,26 @@ private fun generateRandomPassword(length: Int = 20) : String {
     }
 
     return passwordBuilder.toString()
+}
+
+fun ResultRow.toUser(): User {
+    return User(
+        id = this[UsersTable.id],
+        firstName = this[UsersTable.firstName],
+        lastName = this[UsersTable.lastName],
+        email = this[UsersTable.email],
+        passwordHash = this[UsersTable.passwordHash],
+        createdAt = this[UsersTable.createdAt],
+        updatedAt = this[UsersTable.updatedAt],
+    )
+}
+
+fun ResultRow.toSystemPermission(): SystemPermission {
+    return SystemPermission(
+        id = this[SystemPermissionsTable.id],
+        permission = this[SystemPermissionsTable.permission],
+        userId = this[SystemPermissionsTable.userId],
+        createdAt = this[SystemPermissionsTable.createdAt],
+        updatedAt = this[SystemPermissionsTable.updatedAt],
+    )
 }

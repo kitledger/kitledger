@@ -20,7 +20,7 @@ val commands = arrayOf<Command>(
             val user = createSuperUser(args[0], args[1], args[2])
 
             user.onSuccess {
-                println("createSuperUser: $it")
+                println(it)
             }
             user.onFailure {
                 println("Unable to create super user: ${it.message} ${args.joinToString(" ")}")
