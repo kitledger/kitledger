@@ -9,7 +9,7 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.graalvm.polyglot.Context
 
-fun main(args: Array<String>) {
+suspend fun main(args: Array<String>) {
 
     if (args.isEmpty() || args[0] == "serve") {
         // Run database migrations

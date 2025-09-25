@@ -1,13 +1,14 @@
 package com.kitledger.services.cli
 
 import com.kitledger.services.database.Migration
+import com.kitledger.domain.auth.createSuperUser
 import kotlin.system.exitProcess
 
 data class Command(
     val name: String,
     val description: String,
     val usage: String,
-    val handler: (args: Array<String>) -> Unit
+    val handler: suspend (args: Array<String>) -> Unit
 )
 
 val commands = arrayOf<Command>(
@@ -16,7 +17,14 @@ val commands = arrayOf<Command>(
         description = "Create a super user",
         usage = "createSuperUser <first> <last> <email>",
         handler = { args ->
-            println("createSuperUser: ${args.joinToString(" ")}")
+            val user = createSuperUser(args[0], args[1], args[2])
+
+            user.onSuccess {
+                println("createSuperUser: $it")
+            }
+            user.onFailure {
+                println("Unable to create super user: ${it.message} ${args.joinToString(" ")}")
+            }
         }
     ),
     Command(
@@ -37,7 +45,7 @@ val commands = arrayOf<Command>(
     )
 )
 
-fun execute(args: Array<String>) {
+suspend fun execute(args: Array<String>) {
     val commandName = args.getOrNull(0)
 
     // Handle 'help' command separately

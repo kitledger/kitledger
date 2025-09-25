@@ -1,3 +1,4 @@
+val argon2JvmVersion: String by project
 val exposedVersion: String by project
 val flywayVersion: String by project
 val graalVmPolyglotVersion: String by project
@@ -6,6 +7,7 @@ val kotlinVersion: String by project
 val logbackVersion: String by project
 val postgresDriverVersion: String by project
 val r2dbcPoolVersion: String by project
+val uuidGeneratorVersion: String by project
 
 plugins {
     kotlin("jvm") version "2.2.20"
@@ -36,6 +38,8 @@ dependencies {
     implementation("io.r2dbc:r2dbc-pool:${r2dbcPoolVersion}")
     implementation("org.graalvm.polyglot:polyglot:$graalVmPolyglotVersion")
     implementation("org.graalvm.polyglot:js-community:$graalVmPolyglotVersion")
+    implementation("de.mkammerer:argon2-jvm:$argon2JvmVersion")
+    implementation("com.fasterxml.uuid:java-uuid-generator:$uuidGeneratorVersion")
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 }
