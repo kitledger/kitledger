@@ -8,8 +8,6 @@ import io.ktor.server.application.*
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.graalvm.polyglot.Context
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
 
 suspend fun main(args: Array<String>) {
 

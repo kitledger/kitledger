@@ -50,7 +50,7 @@ suspend fun createSuperUser(firstName: String, lastName: String, email: String) 
             val apiToken = createToken(userId) ?: throw IllegalStateException("Failed to create API token")
             val tokenId = apiToken.id
 
-            // Pending: SIGN THE TOKEN
+            val signedToken = signToken(TokenType.API, tokenId) ?: throw IllegalStateException("Failed to sign token")
 
             NewSuperUser(
                 userId,
@@ -58,7 +58,7 @@ suspend fun createSuperUser(firstName: String, lastName: String, email: String) 
                 lastName,
                 email,
                 randomPassword,
-                tokenId.toString()
+                signedToken
             )
         }
 

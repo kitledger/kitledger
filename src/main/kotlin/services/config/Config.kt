@@ -6,7 +6,6 @@ import kotlin.jvm.JvmStatic
 data class AuthConfig(
     val secret: String,
     val pastSecrets: List<String>,
-    val jwtAlgorithm: String
 )
 
 data class CorsConfig(
@@ -36,7 +35,6 @@ data class SessionConfig(
 object AppConfig {
 
     // Authentication secrets configuration values and defaults.
-    private val jwtAlgorithm = "HS256"
 
     private val authSecret: String = System.getenv("KL_AUTH_SECRET")
         ?: throw Error("KL_AUTH_SECRET environment variable is not set.")
@@ -70,7 +68,6 @@ object AppConfig {
         AuthConfig(
             secret = authSecret,
             pastSecrets = pastSecrets,
-            jwtAlgorithm = jwtAlgorithm
         )
     }
 

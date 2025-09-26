@@ -1,4 +1,5 @@
 val argon2JvmVersion: String by project
+val auth0JwtVersion: String by project
 val exposedVersion: String by project
 val flywayVersion: String by project
 val graalVmPolyglotVersion: String by project
@@ -26,8 +27,7 @@ dependencies {
     implementation("io.ktor:ktor-server-netty")
     implementation("io.ktor:ktor-server-core")
     implementation("io.ktor:ktor-server-config-yaml")
-    implementation("io.ktor:ktor-server-auth")
-    implementation("io.ktor:ktor-server-auth-jwt")
+    implementation("com.auth0:java-jwt:$auth0JwtVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-r2dbc:$exposedVersion")

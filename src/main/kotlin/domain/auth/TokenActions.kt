@@ -10,6 +10,11 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Clock
 import java.util.UUID
 
+enum class TokenType {
+    API,
+    SESSION
+}
+
 suspend fun createToken(userId: UUID, name: String = "Api Token") :ApiToken? {
 
     try {
