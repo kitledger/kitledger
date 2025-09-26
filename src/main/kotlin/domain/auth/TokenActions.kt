@@ -4,8 +4,11 @@ package com.kitledger.domain.auth
 
 import com.kitledger.services.utils.generateUuidV7
 import com.kitledger.services.database.ApiTokensTable
+import kotlinx.coroutines.flow.firstOrNull
 import org.jetbrains.exposed.v1.core.ResultRow
+import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.r2dbc.insert
+import org.jetbrains.exposed.v1.r2dbc.select
 import kotlin.time.ExperimentalTime
 import kotlin.time.Clock
 import java.util.UUID
@@ -13,6 +16,16 @@ import java.util.UUID
 enum class TokenType {
     API,
     SESSION
+}
+
+suspend fun getTokenUserId(token : UUID) :String? {
+    val tokenResult = ApiTokensTable.select(ApiTokensTable.userId)
+        .where { ApiTokensTable.id eq token }
+        .firstOrNull()
+
+    val userId = tokenResult?.get(ApiTokensTable.userId)
+
+    return userId?.toString()
 }
 
 suspend fun createToken(userId: UUID, name: String = "Api Token") :ApiToken? {
