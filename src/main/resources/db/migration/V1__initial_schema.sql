@@ -75,6 +75,13 @@ CREATE TABLE "roles" (
      CONSTRAINT "roles_name_unique" UNIQUE("name")
 );
 
+CREATE UNLOGGED TABLE "sessions" (
+    "id" uuid PRIMARY KEY NOT NULL,
+    "user_id" uuid NOT NULL,
+    "created_at" timestamp DEFAULT now() NOT NULL,
+    "expires_at" timestamp NOT NULL
+);
+
 CREATE TABLE "system_permissions" (
     "id" uuid PRIMARY KEY NOT NULL,
     "permission" varchar(64) NOT NULL,

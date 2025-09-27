@@ -18,14 +18,14 @@ enum class TokenType {
     SESSION
 }
 
-suspend fun getTokenUserId(token : UUID) :String? {
+suspend fun getTokenUserId(token : UUID) :UUID? {
     val tokenResult = ApiTokensTable.select(ApiTokensTable.userId)
         .where { ApiTokensTable.id eq token }
         .firstOrNull()
 
     val userId = tokenResult?.get(ApiTokensTable.userId)
 
-    return userId?.toString()
+    return userId
 }
 
 suspend fun createToken(userId: UUID, name: String = "Api Token") :ApiToken? {

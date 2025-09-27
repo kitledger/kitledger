@@ -104,7 +104,6 @@ object RolesTable : Table("roles") {
 object SessionsTable : Table("sessions") {
     val id: Column<UUID> = uuid("id")
     val userId = uuid("user_id")
-    val token = varchar("token", 64)
     val createdAt = timestamp("created_at")
     val expiresAt = timestamp("expires_at")
 }

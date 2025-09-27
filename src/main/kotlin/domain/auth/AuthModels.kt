@@ -93,6 +93,21 @@ data class Role(
 )
 
 /**
+ * Session Model and core types
+ */
+data class SessionInsert(
+    val userId: UUID,
+    val expiresAt: Instant,
+)
+
+data class Session(
+    val id: UUID,
+    val userId: UUID,
+    val createdAt: Instant,
+    val expiresAt: Instant,
+)
+
+/**
  * System Permission Model and core types
  */
 data class SystemPermissionInsert(
