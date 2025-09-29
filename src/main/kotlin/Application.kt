@@ -8,6 +8,8 @@ import io.ktor.server.application.*
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.graalvm.polyglot.Context
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
 
 suspend fun main(args: Array<String>) {
 
@@ -28,6 +30,10 @@ suspend fun main(args: Array<String>) {
 }
 
 fun Application.module(config : AppConfig) {
+
+    install(ContentNegotiation) {
+        json()
+    }
 
     val context = Context.create("js")
 

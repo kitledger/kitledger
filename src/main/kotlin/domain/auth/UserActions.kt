@@ -85,20 +85,22 @@ private fun generateRandomPassword(length: Int = 20) : String {
 }
 
 suspend fun getSessionUserFromJwtPayload(jwt: JwtPayload) : SessionUser? {
-    try {
-        val userId = when (jwt.tokenType) {
-            TokenType.API -> {
-                getTokenUserId(jwt.tokenId) ?: return null
+    return try {
+        suspendTransaction {
+            val userId = when (jwt.tokenType) {
+                TokenType.API -> {
+                    getTokenUserId(jwt.tokenId) ?: return@suspendTransaction null
+                }
+
+                TokenType.SESSION -> {
+                    getSessionUserId(jwt.tokenId) ?: return@suspendTransaction null
+                }
             }
 
-            TokenType.SESSION -> {
-                getSessionUserId(jwt.tokenId) ?: return null
-            }
+            val userResult = UsersTable.selectAll().where { UsersTable.id eq userId }.firstOrNull() ?: return@suspendTransaction null
+
+            return@suspendTransaction userResult.toSessionUser()
         }
-
-        val userResult = UsersTable.selectAll().where { UsersTable.id eq userId }.firstOrNull() ?: return null
-
-        return userResult.toSessionUser()
     }
 
     catch (e: Exception) {
