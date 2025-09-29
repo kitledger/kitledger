@@ -3,6 +3,9 @@ package com.kitledger.services.database
 import org.flywaydb.core.Flyway
 import com.kitledger.services.config.AppConfig
 
+/**
+ * Runs database migrations.
+ */
 object Migration {
     fun run() {
         val config = AppConfig.dbConfig
@@ -19,6 +22,11 @@ object Migration {
         println("Database migration finished.")
     }
 
+    /**
+     * Converts a R2DBC URL to a JDBC URL.
+     * @param r2dbcUrl the R2DBC URL to convert.
+     * @return the converted JDBC URL as a string.
+     */
     private fun convertR2dbcToJdbc(r2dbcUrl: String): String {
         if (!r2dbcUrl.startsWith("r2dbc:")) {
             throw IllegalArgumentException("URL must start with 'r2dbc:': $r2dbcUrl")

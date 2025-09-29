@@ -8,6 +8,9 @@ import io.ktor.server.plugins.statuspages.*
 import com.kitledger.services.http.middleware.*
 import com.kitledger.services.http.handlers.apiV1Routing
 
+/**
+ * Configures the routing of the application.
+ */
 fun Application.configureRouting() {
     routing {
 

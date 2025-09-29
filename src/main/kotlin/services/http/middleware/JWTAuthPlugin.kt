@@ -6,6 +6,9 @@ import com.kitledger.domain.auth.verifyToken
 import com.kitledger.domain.auth.getSessionUserFromJwtPayload
 import io.ktor.server.auth.authentication
 
+/**
+ * Represents the JWT authentication plugin.
+ */
 val JWTAuthPlugin = createRouteScopedPlugin(name = "JWTAuthPlugin") {
     onCall { call ->
         try {

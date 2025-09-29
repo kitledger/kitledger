@@ -3,11 +3,18 @@ package com.kitledger.services.config
 import kotlin.jvm.JvmStatic
 
 // 1) Define the types
+
+/**
+ * Represents the Authentication configuration for the application.
+ */
 data class AuthConfig(
     val secret: String,
     val pastSecrets: List<String>,
 )
 
+/**
+ * Represents the CORS configuration for the application.
+ */
 data class CorsConfig(
     val origin: List<String>?,
     val allowMethods: List<String>?,
@@ -17,16 +24,25 @@ data class CorsConfig(
     val exposeHeaders: List<String>?
 )
 
+/**
+ * Represents the database configuration for the application.
+ */
 data class DbConfig(
     val url: String,
     val max: Int
 )
 
+/**
+ * Represents the HTTP server configuration for the application.
+ */
 data class ServerConfig(
     val port: Int,
     val cors: CorsConfig
 )
 
+/**
+ * Represents the session configuration for the application.
+ */
 data class SessionConfig(
     val ttl: Long
 )

@@ -15,6 +15,11 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
 
+/**
+ * Retrieves the userId associated with a session.
+ * @param sessionId the session ID.
+ * @return the user ID, or null if the session does not exist.
+ */
 suspend fun getSessionUserId(sessionId: UUID) :UUID? {
     val sessionResult = SessionsTable.select(SessionsTable.userId)
         .where { SessionsTable.id eq sessionId }
@@ -25,6 +30,11 @@ suspend fun getSessionUserId(sessionId: UUID) :UUID? {
     return userId
 }
 
+/**
+ * Starts a new session for a user.
+ * @param userId the user ID.
+ * @return the session, or null if it could not be started.
+ */
 suspend fun startSession(userId: UUID) : Session? {
 
     try {
@@ -47,6 +57,9 @@ suspend fun startSession(userId: UUID) : Session? {
     }
 }
 
+/**
+ * Converts a result row to a session.
+ */
 fun ResultRow.toSession(): Session {
     return Session(
         id = this[SessionsTable.id],

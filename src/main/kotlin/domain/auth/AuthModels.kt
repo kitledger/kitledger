@@ -6,18 +6,24 @@ import kotlin.time.Instant
 import java.util.UUID
 import kotlin.time.ExperimentalTime
 
+/**
+ * List of allowed system permissions
+ */
 enum class SystemPermissionEnum {
     KL_SYSTEM_ADMIN
 }
 
 /**
- * Api Token Model and core types
+ * API Token Model used for Inserts
  */
 data class ApiTokenInsert(
     val userId: UUID,
     val name: String,
 )
 
+/**
+ * API token model used for Selects
+ */
 data class ApiToken(
     val id: UUID,
     val userId: UUID,
@@ -41,7 +47,7 @@ data class NewSuperUser(
 )
 
 /**
- * Permission Assignment Model and core types
+ * Permission Assignment Model used for Inserts
  * This is a pivot table for the many-to-many relationship between users and permissions
  */
 data class PermissionAssignmentInsert(
@@ -50,6 +56,10 @@ data class PermissionAssignmentInsert(
     val permissionId: UUID,
 )
 
+/**
+ * Permission Assignment Model and core types
+ * This is a pivot table for the many-to-many relationship between users and permissions
+ */
 data class PermissionAssignment(
     val id: UUID,
     val userId: UUID?,
@@ -60,13 +70,16 @@ data class PermissionAssignment(
 )
 
 /**
- * Permission Model and core types
+ * Permission Model used for Inserts
  */
 data class PermissionInsert(
     val name: String,
     val description: String?,
 )
 
+/**
+ * Permission Model used for Queries and Select
+ */
 data class Permission(
     val id: UUID,
     val name: String,
@@ -77,13 +90,16 @@ data class Permission(
 
 
 /**
- * Role Model and core types
+ * Role Model used for Inserts
  */
 data class RoleInsert(
     val name: String,
     val description: String?,
 )
 
+/**
+ * Role Model used for Queries and Select
+ */
 data class Role(
     val id: UUID,
     val name: String,
@@ -93,13 +109,16 @@ data class Role(
 )
 
 /**
- * Session Model and core types
+ * Session Model used for Inserts
  */
 data class SessionInsert(
     val userId: UUID,
     val expiresAt: Instant,
 )
 
+/**
+ * Session Model used for Queries and Select
+ */
 data class Session(
     val id: UUID,
     val userId: UUID,
@@ -107,6 +126,10 @@ data class Session(
     val expiresAt: Instant,
 )
 
+/**
+ * Simplified Model used for retrieving the User Model from a Session or API Token.
+ * Hides properties like the password hash.
+ */
 data class SessionUser(
     val id: UUID,
     val firstName: String,
@@ -116,13 +139,16 @@ data class SessionUser(
 )
 
 /**
- * System Permission Model and core types
+ * System Permission Model used for Insert
  */
 data class SystemPermissionInsert(
     val permission: SystemPermissionEnum,
     val userId: UUID
 )
 
+/**
+ * System Permission Model used for Queries and Select
+ */
 data class SystemPermission(
     val id: UUID,
     val permission: SystemPermissionEnum,
@@ -132,9 +158,8 @@ data class SystemPermission(
 )
 
 /**
- * User Model and core types
+ * User Model used for Inserts
  */
-
 data class UserInsert(
     val firstName: String,
     val lastName: String,
@@ -142,6 +167,9 @@ data class UserInsert(
     var passwordHash: String,
 )
 
+/**
+ * User Model used for Queries and Select
+ */
 data class User(
     val id: UUID,
     val firstName: String,
@@ -153,15 +181,18 @@ data class User(
 )
 
 /**
- * User Role Model and core types
+ * User Role Model used for Inserts
  * This is a pivot table for the many-to-many relationship between users and roles
  */
-
 data class UserRoleInsert (
     val userId: UUID,
     val roleId: UUID,
 )
 
+/**
+ * User Role Model used for Queries and Select
+ * This is a pivot table for the many-to-many relationship between users and roles
+ */
 data class UserRole(
     val id: UUID,
     val userId: UUID,

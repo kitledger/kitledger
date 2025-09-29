@@ -15,6 +15,13 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Clock
 
 
+/**
+ * Creates a super user (System or Root User) with complete system permissions.
+ * @param firstName the user's first name.
+ * @param lastName the user's last name.
+ * @param email the user's email.
+ * @return a result type with the NewSuperUser object on success, or an exception on failure.
+ */
 suspend fun createSuperUser(firstName: String, lastName: String, email: String) : Result<NewSuperUser> {
 
     try {
@@ -72,6 +79,11 @@ suspend fun createSuperUser(firstName: String, lastName: String, email: String) 
     }
 }
 
+/**
+ * Generates a random password.
+ * @param length the length of the password.
+ * @return the password as a string.
+ */
 private fun generateRandomPassword(length: Int = 20) : String {
     val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9') + "!@#$%^&*()_+-=".toList()
 
@@ -84,6 +96,11 @@ private fun generateRandomPassword(length: Int = 20) : String {
     return passwordBuilder.toString()
 }
 
+/**
+ * Retrieves a session user from a JWT payload.
+ * @param jwt the JWT payload.
+ * @return the session user, or null if it could not be retrieved.
+ */
 suspend fun getSessionUserFromJwtPayload(jwt: JwtPayload) : SessionUser? {
     return try {
         suspendTransaction {
@@ -109,6 +126,9 @@ suspend fun getSessionUserFromJwtPayload(jwt: JwtPayload) : SessionUser? {
     }
 }
 
+/**
+ * Converts a result row to a user.
+ */
 fun ResultRow.toUser(): User {
     return User(
         id = this[UsersTable.id],
@@ -121,6 +141,9 @@ fun ResultRow.toUser(): User {
     )
 }
 
+/**
+ * Converts a result row to a system permission.
+ */
 fun ResultRow.toSystemPermission(): SystemPermission {
     return SystemPermission(
         id = this[SystemPermissionsTable.id],
@@ -131,6 +154,9 @@ fun ResultRow.toSystemPermission(): SystemPermission {
     )
 }
 
+/**
+ * Converts a result row to a session user.
+ */
 fun ResultRow.toSessionUser() : SessionUser {
     return SessionUser(
         id = this[UsersTable.id],

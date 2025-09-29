@@ -13,11 +13,19 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Clock
 import java.util.UUID
 
+/**
+ * Identifies the types of JWT tokens we use.
+ */
 enum class TokenType {
     API,
     SESSION
 }
 
+/**
+ * Retrieves the user id associated with a token.
+ * @param token the token to identify.
+ * @return the user id, or null if the token is invalid.
+ */
 suspend fun getTokenUserId(token : UUID) :UUID? {
     val tokenResult = ApiTokensTable.select(ApiTokensTable.userId)
         .where { ApiTokensTable.id eq token }
@@ -28,6 +36,12 @@ suspend fun getTokenUserId(token : UUID) :UUID? {
     return userId
 }
 
+/**
+ * Creates a new API token for a user.
+ * @param userId the user ID.
+ * @param name the name of the token.
+ * @return the token, or null if it could not be created.
+ */
 suspend fun createToken(userId: UUID, name: String = "Api Token") :ApiToken? {
 
     try {
@@ -50,6 +64,9 @@ suspend fun createToken(userId: UUID, name: String = "Api Token") :ApiToken? {
     }
 }
 
+/**
+ * Converts a result row to an API token.
+ */
 fun ResultRow.toApiToken(): ApiToken {
     return ApiToken(
         id = this[ApiTokensTable.id],

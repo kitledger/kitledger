@@ -3,11 +3,19 @@ package com.kitledger.services.http.handlers
 import com.kitledger.services.http.middleware.JWTAuthPlugin
 import io.ktor.server.routing.*
 import io.ktor.server.response.*
+
+/**
+ * Middleware stack for the API v1 routes.
+ * @param body the route configuration.
+ */
 fun Route.v1ApiMiddlewareStack(body: Route.() -> Unit) {
     install(JWTAuthPlugin)
     body()
 }
 
+/**
+ * Configures the API v1 router.
+ */
 fun Route.apiV1Routing() {
     route("/api/v1") {
         v1ApiMiddlewareStack {

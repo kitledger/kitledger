@@ -4,6 +4,9 @@ import com.kitledger.services.database.Migration
 import com.kitledger.domain.auth.createSuperUser
 import kotlin.system.exitProcess
 
+/**
+ * Represents a command that can be executed from the CLI.
+ */
 data class Command(
     val name: String,
     val description: String,
@@ -11,6 +14,9 @@ data class Command(
     val handler: suspend (args: Array<String>) -> Unit
 )
 
+/**
+ * List of available commands and their handlers.
+ */
 val commands = arrayOf<Command>(
     Command(
         name = "createSuperUser",
@@ -45,6 +51,10 @@ val commands = arrayOf<Command>(
     )
 )
 
+/**
+ * Executes a command based on the provided arguments.
+ * @param args the command arguments.
+ */
 suspend fun execute(args: Array<String>) {
     val commandName = args.getOrNull(0)
 

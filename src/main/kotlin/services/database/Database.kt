@@ -3,6 +3,10 @@ package com.kitledger.services.database
 import org.jetbrains.exposed.v1.r2dbc.R2dbcDatabase
 import com.kitledger.services.config.AppConfig
 
+/**
+ * Creates a database connection.
+ * @return the database connection.
+ */
 object DatabaseFactory {
     fun init() {
         val config = AppConfig.dbConfig

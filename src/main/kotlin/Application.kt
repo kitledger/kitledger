@@ -13,10 +13,14 @@ import io.ktor.serialization.kotlinx.json.*
 
 suspend fun main(args: Array<String>) {
 
-    // Run database migrations
+    /**
+     * Run the database migrations
+     */
     Migration.run()
 
-    // Setup a DB connection pool with R2DBC
+    /**
+     * Initialize the database connection
+     */
     DatabaseFactory.init()
 
     if (args.isEmpty() || args[0] == "serve") {
@@ -29,6 +33,11 @@ suspend fun main(args: Array<String>) {
     }
 }
 
+/**
+ * Extension function for the main Module
+ * @param config the application configuration
+ * @receiver Application
+ */
 fun Application.module(config : AppConfig) {
 
     install(ContentNegotiation) {
