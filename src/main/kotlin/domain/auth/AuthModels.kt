@@ -107,6 +107,14 @@ data class Session(
     val expiresAt: Instant,
 )
 
+data class SessionUser(
+    val id: UUID,
+    val firstName: String,
+    val lastName: String,
+    val email: String,
+    val createdAt: Instant,
+)
+
 /**
  * System Permission Model and core types
  */

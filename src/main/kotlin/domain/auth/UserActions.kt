@@ -5,10 +5,12 @@ package com.kitledger.domain.auth
 import com.kitledger.services.utils.generateUuidV7
 import com.kitledger.services.database.UsersTable
 import com.kitledger.services.database.SystemPermissionsTable
+import kotlinx.coroutines.flow.firstOrNull
 import kotlin.random.Random
 import org.jetbrains.exposed.v1.r2dbc.transactions.suspendTransaction
 import org.jetbrains.exposed.v1.core.ResultRow
-import org.jetbrains.exposed.v1.r2dbc.insert
+import org.jetbrains.exposed.v1.r2dbc.*
+import org.jetbrains.exposed.v1.core.eq
 import kotlin.time.ExperimentalTime
 import kotlin.time.Clock
 
@@ -82,6 +84,29 @@ private fun generateRandomPassword(length: Int = 20) : String {
     return passwordBuilder.toString()
 }
 
+suspend fun getSessionUserFromJwtPayload(jwt: JwtPayload) : SessionUser? {
+    try {
+        val userId = when (jwt.tokenType) {
+            TokenType.API -> {
+                getTokenUserId(jwt.tokenId) ?: return null
+            }
+
+            TokenType.SESSION -> {
+                getSessionUserId(jwt.tokenId) ?: return null
+            }
+        }
+
+        val userResult = UsersTable.selectAll().where { UsersTable.id eq userId }.firstOrNull() ?: return null
+
+        return userResult.toSessionUser()
+    }
+
+    catch (e: Exception) {
+        println(e.toString())
+        return null;
+    }
+}
+
 fun ResultRow.toUser(): User {
     return User(
         id = this[UsersTable.id],
@@ -101,5 +126,15 @@ fun ResultRow.toSystemPermission(): SystemPermission {
         userId = this[SystemPermissionsTable.userId],
         createdAt = this[SystemPermissionsTable.createdAt],
         updatedAt = this[SystemPermissionsTable.updatedAt],
+    )
+}
+
+fun ResultRow.toSessionUser() : SessionUser {
+    return SessionUser(
+        id = this[UsersTable.id],
+        firstName = this[UsersTable.firstName],
+        lastName = this[UsersTable.lastName],
+        email = this[UsersTable.email],
+        createdAt = this[UsersTable.createdAt]
     )
 }
