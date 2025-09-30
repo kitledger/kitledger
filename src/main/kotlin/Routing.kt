@@ -1,12 +1,13 @@
 package com.kitledger
 
-import io.ktor.http.HttpStatusCode
+import com.kitledger.services.http.handlers.apiV1Routing
+import com.kitledger.services.http.middleware.AuthorizationException
+import com.kitledger.services.http.middleware.ValidationException
+import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.plugins.statuspages.*
-import com.kitledger.services.http.middleware.*
-import com.kitledger.services.http.handlers.apiV1Routing
 
 /**
  * Configures the routing of the application.

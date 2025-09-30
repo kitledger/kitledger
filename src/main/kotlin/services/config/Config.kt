@@ -1,7 +1,5 @@
 package com.kitledger.services.config
 
-import kotlin.jvm.JvmStatic
-
 // 1) Define the types
 
 /**

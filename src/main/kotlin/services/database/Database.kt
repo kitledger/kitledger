@@ -1,7 +1,7 @@
 package com.kitledger.services.database
 
-import org.jetbrains.exposed.v1.r2dbc.R2dbcDatabase
 import com.kitledger.services.config.AppConfig
+import org.jetbrains.exposed.v1.r2dbc.R2dbcDatabase
 
 /**
  * Creates a database connection.

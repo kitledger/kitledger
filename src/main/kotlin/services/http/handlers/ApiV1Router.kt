@@ -1,8 +1,8 @@
 package com.kitledger.services.http.handlers
 
 import com.kitledger.services.http.middleware.JWTAuthPlugin
-import io.ktor.server.routing.*
 import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
 /**
  * Middleware stack for the API v1 routes.

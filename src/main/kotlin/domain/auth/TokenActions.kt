@@ -2,16 +2,16 @@
 
 package com.kitledger.domain.auth
 
-import com.kitledger.services.utils.generateUuidV7
 import com.kitledger.services.database.ApiTokensTable
+import com.kitledger.services.utils.generateUuidV7
 import kotlinx.coroutines.flow.firstOrNull
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.r2dbc.insert
 import org.jetbrains.exposed.v1.r2dbc.select
-import kotlin.time.ExperimentalTime
+import java.util.*
 import kotlin.time.Clock
-import java.util.UUID
+import kotlin.time.ExperimentalTime
 
 /**
  * Identifies the types of JWT tokens we use.
@@ -26,7 +26,7 @@ enum class TokenType {
  * @param token the token to identify.
  * @return the user id, or null if the token is invalid.
  */
-suspend fun getTokenUserId(token : UUID) :UUID? {
+suspend fun getTokenUserId(token: UUID): UUID? {
     val tokenResult = ApiTokensTable.select(ApiTokensTable.userId)
         .where { ApiTokensTable.id eq token }
         .firstOrNull()
@@ -42,7 +42,7 @@ suspend fun getTokenUserId(token : UUID) :UUID? {
  * @param name the name of the token.
  * @return the token, or null if it could not be created.
  */
-suspend fun createToken(userId: UUID, name: String = "Api Token") :ApiToken? {
+suspend fun createToken(userId: UUID, name: String = "Api Token"): ApiToken? {
 
     try {
         val tokenId = generateUuidV7()
@@ -57,9 +57,7 @@ suspend fun createToken(userId: UUID, name: String = "Api Token") :ApiToken? {
         val apiToken = apiTokenResult.resultedValues?.get(0)?.toApiToken()
 
         return apiToken
-    }
-
-    catch (e: Exception) {
+    } catch (e: Exception) {
         return null
     }
 }

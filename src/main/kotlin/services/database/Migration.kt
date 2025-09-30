@@ -1,7 +1,7 @@
 package com.kitledger.services.database
 
-import org.flywaydb.core.Flyway
 import com.kitledger.services.config.AppConfig
+import org.flywaydb.core.Flyway
 
 /**
  * Runs database migrations.

@@ -2,14 +2,14 @@
 
 package com.kitledger.services.database
 
+import com.kitledger.domain.auth.SystemPermissionEnum
+import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.v1.core.Column
 import org.jetbrains.exposed.v1.core.Table
-import org.jetbrains.exposed.v1.datetime.*
+import org.jetbrains.exposed.v1.datetime.timestamp
 import org.jetbrains.exposed.v1.json.jsonb
-import kotlinx.serialization.json.Json
-import java.util.UUID
+import java.util.*
 import kotlin.time.ExperimentalTime
-import com.kitledger.domain.auth.SystemPermissionEnum
 
 // Enums and Custom Types
 enum class BalanceType {

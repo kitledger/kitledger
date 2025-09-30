@@ -2,25 +2,25 @@
 
 package com.kitledger.domain.auth
 
-import com.kitledger.services.utils.generateUuidV7
-import com.kitledger.services.database.SessionsTable
 import com.kitledger.services.config.AppConfig
+import com.kitledger.services.database.SessionsTable
+import com.kitledger.services.utils.generateUuidV7
 import kotlinx.coroutines.flow.firstOrNull
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.r2dbc.insert
 import org.jetbrains.exposed.v1.r2dbc.select
-import java.util.UUID
-import kotlin.time.ExperimentalTime
+import java.util.*
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
 
 /**
  * Retrieves the userId associated with a session.
  * @param sessionId the session ID.
  * @return the user ID, or null if the session does not exist.
  */
-suspend fun getSessionUserId(sessionId: UUID) :UUID? {
+suspend fun getSessionUserId(sessionId: UUID): UUID? {
     val sessionResult = SessionsTable.select(SessionsTable.userId)
         .where { SessionsTable.id eq sessionId }
         .firstOrNull()
@@ -35,7 +35,7 @@ suspend fun getSessionUserId(sessionId: UUID) :UUID? {
  * @param userId the user ID.
  * @return the session, or null if it could not be started.
  */
-suspend fun startSession(userId: UUID) : Session? {
+suspend fun startSession(userId: UUID): Session? {
 
     try {
         val sessionConfig = AppConfig.sessionConfig
@@ -50,9 +50,7 @@ suspend fun startSession(userId: UUID) : Session? {
         val session = sessionResult.resultedValues?.get(0)?.toSession()
 
         return session
-    }
-
-    catch (e: Exception) {
+    } catch (e: Exception) {
         return null
     }
 }

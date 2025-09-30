@@ -1,11 +1,11 @@
 package com.kitledger.domain.auth
 
-import com.kitledger.services.config.AppConfig
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.auth0.jwt.interfaces.DecodedJWT
-import java.util.UUID
+import com.kitledger.services.config.AppConfig
+import java.util.*
 
 /**
  * Encodes the information we normally need to put
@@ -23,7 +23,7 @@ data class JwtPayload(
  * @param tokenId the ID of the token to sign. This can represent also a Session ID, when the token type is Session.
  * @return the signed token, or null if it could not be signed.
  */
-fun signToken(tokenType :TokenType, tokenId :UUID) :String? {
+fun signToken(tokenType: TokenType, tokenId: UUID): String? {
 
     try {
         val currentSecret = AppConfig.authConfig.secret
@@ -34,9 +34,7 @@ fun signToken(tokenType :TokenType, tokenId :UUID) :String? {
             .sign(algorithm)
 
         return token
-    }
-
-    catch (e: Exception) {
+    } catch (e: Exception) {
         return null
     }
 }

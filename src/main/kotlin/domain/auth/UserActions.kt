@@ -2,17 +2,18 @@
 
 package com.kitledger.domain.auth
 
-import com.kitledger.services.utils.generateUuidV7
-import com.kitledger.services.database.UsersTable
 import com.kitledger.services.database.SystemPermissionsTable
+import com.kitledger.services.database.UsersTable
+import com.kitledger.services.utils.generateUuidV7
 import kotlinx.coroutines.flow.firstOrNull
-import kotlin.random.Random
-import org.jetbrains.exposed.v1.r2dbc.transactions.suspendTransaction
 import org.jetbrains.exposed.v1.core.ResultRow
-import org.jetbrains.exposed.v1.r2dbc.*
 import org.jetbrains.exposed.v1.core.eq
-import kotlin.time.ExperimentalTime
+import org.jetbrains.exposed.v1.r2dbc.insert
+import org.jetbrains.exposed.v1.r2dbc.selectAll
+import org.jetbrains.exposed.v1.r2dbc.transactions.suspendTransaction
+import kotlin.random.Random
 import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 
 /**
@@ -22,12 +23,12 @@ import kotlin.time.Clock
  * @param email the user's email.
  * @return a result type with the NewSuperUser object on success, or an exception on failure.
  */
-suspend fun createSuperUser(firstName: String, lastName: String, email: String) : Result<NewSuperUser> {
+suspend fun createSuperUser(firstName: String, lastName: String, email: String): Result<NewSuperUser> {
 
     try {
         val randomPassword = generateRandomPassword()
 
-        if(randomPassword.isEmpty()) {
+        if (randomPassword.isEmpty()) {
             throw RuntimeException("Failed to generate random password")
         }
 
@@ -72,9 +73,7 @@ suspend fun createSuperUser(firstName: String, lastName: String, email: String) 
         }
 
         return Result.success(superUser)
-    }
-
-    catch (e: Exception) {
+    } catch (e: Exception) {
         return Result.failure(e)
     }
 }
@@ -84,7 +83,7 @@ suspend fun createSuperUser(firstName: String, lastName: String, email: String) 
  * @param length the length of the password.
  * @return the password as a string.
  */
-private fun generateRandomPassword(length: Int = 20) : String {
+private fun generateRandomPassword(length: Int = 20): String {
     val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9') + "!@#$%^&*()_+-=".toList()
 
     val passwordBuilder = StringBuilder(length)
@@ -101,7 +100,7 @@ private fun generateRandomPassword(length: Int = 20) : String {
  * @param jwt the JWT payload.
  * @return the session user, or null if it could not be retrieved.
  */
-suspend fun getSessionUserFromJwtPayload(jwt: JwtPayload) : SessionUser? {
+suspend fun getSessionUserFromJwtPayload(jwt: JwtPayload): SessionUser? {
     return try {
         suspendTransaction {
             val userId = when (jwt.tokenType) {
@@ -114,13 +113,12 @@ suspend fun getSessionUserFromJwtPayload(jwt: JwtPayload) : SessionUser? {
                 }
             }
 
-            val userResult = UsersTable.selectAll().where { UsersTable.id eq userId }.firstOrNull() ?: return@suspendTransaction null
+            val userResult =
+                UsersTable.selectAll().where { UsersTable.id eq userId }.firstOrNull() ?: return@suspendTransaction null
 
             return@suspendTransaction userResult.toSessionUser()
         }
-    }
-
-    catch (e: Exception) {
+    } catch (e: Exception) {
         println(e.toString())
         return null;
     }
@@ -157,7 +155,7 @@ fun ResultRow.toSystemPermission(): SystemPermission {
 /**
  * Converts a result row to a session user.
  */
-fun ResultRow.toSessionUser() : SessionUser {
+fun ResultRow.toSessionUser(): SessionUser {
     return SessionUser(
         id = this[UsersTable.id],
         firstName = this[UsersTable.firstName],

@@ -2,9 +2,9 @@
 
 package com.kitledger.domain.auth
 
-import kotlin.time.Instant
-import java.util.UUID
+import java.util.*
 import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 /**
  * List of allowed system permissions
@@ -184,7 +184,7 @@ data class User(
  * User Role Model used for Inserts
  * This is a pivot table for the many-to-many relationship between users and roles
  */
-data class UserRoleInsert (
+data class UserRoleInsert(
     val userId: UUID,
     val roleId: UUID,
 )

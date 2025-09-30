@@ -1,7 +1,7 @@
 package com.kitledger.services.cli
 
-import com.kitledger.services.database.Migration
 import com.kitledger.domain.auth.createSuperUser
+import com.kitledger.services.database.Migration
 import kotlin.system.exitProcess
 
 /**

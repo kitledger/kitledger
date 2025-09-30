@@ -1,15 +1,15 @@
 package com.kitledger
 
+import com.kitledger.services.cli.execute
+import com.kitledger.services.config.AppConfig
 import com.kitledger.services.database.DatabaseFactory
 import com.kitledger.services.database.Migration
-import com.kitledger.services.config.AppConfig
-import com.kitledger.services.cli.execute
-import io.ktor.server.application.*
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
-import org.graalvm.polyglot.Context
-import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.application.*
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
+import io.ktor.server.plugins.contentnegotiation.*
+import org.graalvm.polyglot.Context
 
 suspend fun main(args: Array<String>) {
 
@@ -38,7 +38,7 @@ suspend fun main(args: Array<String>) {
  * @param config the application configuration
  * @receiver Application
  */
-fun Application.module(config : AppConfig) {
+fun Application.module(config: AppConfig) {
 
     install(ContentNegotiation) {
         json()
