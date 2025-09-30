@@ -4,6 +4,7 @@ val exposedVersion: String by project
 val flywayVersion: String by project
 val graalVmPolyglotVersion: String by project
 val jdbcPostgresDriverVersion: String by project
+val konformVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val postgresDriverVersion: String by project
@@ -46,6 +47,7 @@ dependencies {
     implementation("org.graalvm.polyglot:js-community:$graalVmPolyglotVersion")
     implementation("de.mkammerer:argon2-jvm:$argon2JvmVersion")
     implementation("com.fasterxml.uuid:java-uuid-generator:$uuidGeneratorVersion")
+    implementation("io.konform:konform-jvm:$konformVersion")
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 }
