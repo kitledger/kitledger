@@ -1,6 +1,12 @@
 package com.kitledger.services.http.handlers
 
 import com.kitledger.services.http.middleware.JWTAuthPlugin
+import com.kitledger.domain.unit.UnitModelInsert
+import com.kitledger.domain.unit.createUnitModel
+import com.kitledger.services.validation.ActionResult
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.request.receive
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
@@ -41,7 +47,36 @@ fun Route.apiV1Routing() {
             }
 
             post("/unit-models") {
-                call.respondText("Hello from POST /api/v1/unit-models")
+
+                try {
+                    val insertData = call.receive<UnitModelInsert>()
+
+                    val result = createUnitModel(insertData)
+
+                    when (result) {
+                        is ActionResult.Success -> {
+                            call.respond(HttpStatusCode.Created, result.data)
+                        }
+
+                        is ActionResult.ValidationFailure -> {
+                            call.respond(
+                                HttpStatusCode.BadRequest,
+                                mapOf("errors" to result.errors)
+                            )
+                        }
+
+                        is ActionResult.ActionFailure ->  {
+                            throw Exception(result.message)
+                        }
+                    }
+                }
+
+                catch(e: Exception) {
+                    call.respond(
+                        HttpStatusCode.InternalServerError,
+                        mapOf("error" to "${e.message}")
+                    )
+                }
             }
         }
     }

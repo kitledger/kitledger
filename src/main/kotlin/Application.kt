@@ -4,11 +4,9 @@ import com.kitledger.services.cli.execute
 import com.kitledger.services.config.AppConfig
 import com.kitledger.services.database.DatabaseFactory
 import com.kitledger.services.database.Migration
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import io.ktor.server.plugins.contentnegotiation.*
 import org.graalvm.polyglot.Context
 
 suspend fun main(args: Array<String>) {
@@ -39,10 +37,6 @@ suspend fun main(args: Array<String>) {
  * @receiver Application
  */
 fun Application.module(config: AppConfig) {
-
-    install(ContentNegotiation) {
-        json()
-    }
 
     val context = Context.create("js")
 
