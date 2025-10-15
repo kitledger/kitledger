@@ -1,4 +1,4 @@
-import { AlgorithmTypes } from "@hono/hono/utils/jwt/jwa";
+import { AlgorithmTypes } from "hono/utils/jwt/jwa";
 
 /*
  * 1) Define the types
@@ -49,11 +49,11 @@ type WorkerConfig = {
  */
 const jwtAlgorithm = "HS256" as AlgorithmTypes;
 
-const authSecret = Deno.env.get("KL_AUTH_SECRET");
+const authSecret = process.env.KL_AUTH_SECRET;
 if (!authSecret) {
 	throw new Error("KL_AUTH_SECRET environment variable is not set.");
 }
-const pastSecretsString = Deno.env.get("KL_AUTH_PAST_SECRETS");
+const pastSecretsString = process.env.KL_AUTH_PAST_SECRETS;
 const pastSecrets = pastSecretsString ? pastSecretsString.split(",") : [];
 
 /**
@@ -61,29 +61,29 @@ const pastSecrets = pastSecretsString ? pastSecretsString.split(",") : [];
  */
 const corsDefaultHeaders = ["Content-Type", "Authorization", "X-Requested-With"];
 const corsAllowedHeaders = [
-	...new Set([...corsDefaultHeaders, ...(Deno.env.get("KL_CORS_ALLOWED_HEADERS")?.split(",") || [])]),
+	...new Set([...corsDefaultHeaders, ...(process.env.KL_CORS_ALLOWED_HEADERS?.split(",") || [])]),
 ];
 const corsAllowedMethods = ["GET", "POST", "PUT", "DELETE", "OPTIONS"];
-const corsAllowedOrigins = Deno.env.get("KL_CORS_ALLOWED_ORIGINS")
-	? String(Deno.env.get("KL_CORS_ALLOWED_ORIGINS")).split(",")
+const corsAllowedOrigins = process.env.KL_CORS_ALLOWED_ORIGINS
+	? String(process.env.KL_CORS_ALLOWED_ORIGINS).split(",")
 	: "*";
 const corsCredentials = false;
 const corsExposeHeaders: string[] = [];
-const corsMaxAge = parseInt(Deno.env.get("KL_CORS_MAX_AGE") || "86400");
+const corsMaxAge = parseInt(process.env.KL_CORS_MAX_AGE || "86400");
 
 /**
  * Session configuration values and defaults.
  * This is used to manage session lifetimes and time-to-live (TTL).
  */
-const sessionTtl = parseInt(Deno.env.get("KL_SESSION_TTL") || "3600"); // 1 hour default
+const sessionTtl = parseInt(process.env.KL_SESSION_TTL || "3600"); // 1 hour default
 
 /**
  * Worker pool configuration values and defaults.
  */
-const workerPoolSize = parseInt(Deno.env.get("KL_WORKER_POOL_SIZE") || String(navigator.hardwareConcurrency)) || 1;
-const workerTaskTimeout = parseInt(Deno.env.get("KL_WORKER_TASK_TIMEOUT") || "5000"); // Default to 5 seconds
-const workerMaxQueueSize = Deno.env.get("KL_WORKER_MAX_QUEUE_SIZE")
-	? parseInt(String(Deno.env.get("KL_WORKER_MAX_QUEUE_SIZE")))
+const workerPoolSize = parseInt(process.env.KL_WORKER_POOL_SIZE || String(navigator.hardwareConcurrency)) || 1;
+const workerTaskTimeout = parseInt(process.env.KL_WORKER_TASK_TIMEOUT || "5000"); // Default to 5 seconds
+const workerMaxQueueSize = process.env.KL_WORKER_MAX_QUEUE_SIZE
+	? parseInt(String(process.env.KL_WORKER_MAX_QUEUE_SIZE))
 	: Infinity;
 
 /*
@@ -105,9 +105,9 @@ export const authConfig: AuthConfig = {
  * Values are a mix of environment variables and defaults.
  */
 export const dbConfig: DbConfig = {
-	url: Deno.env.get("KL_POSTGRES_URL") || "postgres://localhost:5432/kitledger",
-	ssl: Deno.env.get("KL_POSTGRES_SSL") === "true",
-	max: parseInt(Deno.env.get("KL_POSTGRES_MAX_CONNECTIONS") || "10"),
+	url: process.env.KL_POSTGRES_URL || "postgres://localhost:5432/kitledger",
+	ssl: process.env.KL_POSTGRES_SSL === "true",
+	max: parseInt(process.env.KL_POSTGRES_MAX_CONNECTIONS || "10"),
 };
 
 /**
@@ -115,7 +115,7 @@ export const dbConfig: DbConfig = {
  * Values are a mix of environment variables and defaults.
  */
 export const serverConfig: ServerConfig = {
-	port: Deno.env.get("KL_SERVER_PORT") ? parseInt(String(Deno.env.get("KL_SERVER_PORT"))) : 8888,
+	port: process.env.KL_SERVER_PORT ? parseInt(String(process.env.KL_SERVER_PORT)) : 8888,
 	cors: {
 		origin: corsAllowedOrigins,
 		allowMethods: corsAllowedMethods,

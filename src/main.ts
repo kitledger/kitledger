@@ -4,9 +4,8 @@ import { serverConfig } from "./config.ts";
 import { execute } from "./cli.ts";
 import { executeScript } from "./services/scripting/v1/runtime.ts";
 import { executeQuery } from "./services/database/query.ts";
-import { Query } from "@kitledger/query";
+import type { Query } from "@kitledger/query";
 import { accounts } from "./services/database/schema.ts";
-import { connect } from "node:http2";
 
 await runMigrations();
 
@@ -69,14 +68,14 @@ console.log("--- Executing Sample Query ---", queryResult);
 
 // --- Server and CLI Startup Logic ---
 
-const args = Deno.args;
+const args = Bun.argv;
 
 if (args.length === 0 || args[0] === "serve") {
-	console.log(`Server is running on port ${serverConfig.port}`);
-	Deno.serve(
-		{ port: serverConfig.port },
-		server.fetch,
-	);
+    console.log(`Server is running on port ${serverConfig.port}`);
+    Bun.serve({
+        port: serverConfig.port,
+        fetch: server.fetch,
+    });
 }
 else {
 	await execute(args);
