@@ -4,10 +4,10 @@ import { createTransactionModel } from "../../src/domain/transaction/transaction
 import { TransactionModelFactory } from "../../src/domain/transaction/factories.ts";
 
 describe("Transaction Domain Tests", () => {
-	afterAll(async () => {
+	/*afterAll(async () => {
 		// Close up Drizzle DB Connection
 		await db.$client.end();
-	});
+	});*/
 
 	it("Can create a valid transaction model", async () => {
 		const transactionModelFactory = new TransactionModelFactory();

@@ -4,10 +4,10 @@ import { UnitModelFactory } from "../../src/domain/unit/factories.ts";
 import { createUnitModel } from "../../src/domain/unit/unit_model_actions.ts";
 
 describe("Unit Domain Tests", () => {
-	afterAll(async () => {
+	/*afterAll(async () => {
 		// Close up Drizzle DB Connection
 		await db.$client.end();
-	});
+	});*/
 
 	it("Can create a valid unit model", async () => {
 		const unitModelFactory = new UnitModelFactory();

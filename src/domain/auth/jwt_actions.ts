@@ -42,7 +42,7 @@ export async function verifyToken(token: string): Promise<JWTPayload> {
 			}
 		}
 
-		console.error("Token verification ultimately failed:", currentSecretError);
+		//console.error("Token verification ultimately failed:", currentSecretError);
 		throw new Error("Invalid or expired token.");
 	}
 }

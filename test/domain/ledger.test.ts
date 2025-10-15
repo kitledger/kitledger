@@ -8,10 +8,10 @@ import { createUnitModel } from "../../src/domain/unit/unit_model_actions.ts";
 import { randomUUIDv7 } from "bun";
 
 describe("Ledger Domain Tests", () => {
-	afterAll(async () => {
+	/*afterAll(async () => {
 		// Close up Drizzle DB Connection
 		await db.$client.end();
-	});
+	});*/
 
 	it("Can create a valid ledger", async () => {
 		const unitModelFactory = new UnitModelFactory();

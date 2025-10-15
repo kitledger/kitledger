@@ -4,10 +4,10 @@ import { createEntityModel } from "../../src/domain/entity/entity_model_actions.
 import { EntityModelFactory } from "../../src/domain/entity/factories.ts";
 
 describe("Entity Domain Tests", () => {
-	afterAll(async () => {
+	/*afterAll(async () => {
 		// Close up Drizzle DB Connection
 		await db.$client.end();
-	});
+	});*/
 
 	it("Can create a valid entity model", async () => {
 		const entityModelFactory = new EntityModelFactory();

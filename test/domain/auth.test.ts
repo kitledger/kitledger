@@ -13,10 +13,10 @@ import { eq } from "drizzle-orm";
 import { describe, it, afterAll, expect } from "bun:test";
 
 describe("Auth Domain Tests", () => {
-	afterAll(async () => {
+	/*afterAll(async () => {
 		// Close up Drizzle DB Connection
 		await db.$client.end();
-	});
+	});*/
 
 	it("User factory creates valid User objects", () => {
 		const factory = new UserFactory();

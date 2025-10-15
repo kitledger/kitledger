@@ -30,6 +30,7 @@
 	"db:custom": "bun run drizzle-kit generate --custom",
 	"db:generate": "bun run drizzle-kit generate",
 	"dev": "bun run --watch ./src/main.ts",
+	"test": "bun test",
 	"typecheck": "tsc --noEmit"
   }
 }
