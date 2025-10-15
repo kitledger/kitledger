@@ -1,5 +1,4 @@
-import { assert } from "@std/assert";
-import { describe, it, afterAll } from "@std/testing/bdd";
+import { describe, it, afterAll, expect } from "bun:test";
 import { db } from "../../src/services/database/db.ts";
 import { UnitModelFactory } from "../../src/domain/unit/factories.ts";
 import { createUnitModel } from "../../src/domain/unit/unit_model_actions.ts";
@@ -20,7 +19,7 @@ describe("Unit Domain Tests", () => {
 			throw new Error("Failed to create Unit Model");
 		}
 
-		assert(unitModelResult.success === true);
+		expect(unitModelResult.success).toBe(true);
 	});
 
 	it("Applies unit model validation correctly", async() => {
@@ -36,7 +35,7 @@ describe("Unit Domain Tests", () => {
 		missingNameUnitModel.name = "";
 		const missingNameUnitModelResult = await createUnitModel(missingNameUnitModel);
 
-		assert(missingNameUnitModelResult.success === false);
+		expect(missingNameUnitModelResult.success).toBe(false);
 
 		const duplicateIdsUnitModel = unitModelFactory.make(1)[0];
 		duplicateIdsUnitModel.id = unitModelResult.data.id;
@@ -44,6 +43,6 @@ describe("Unit Domain Tests", () => {
 		duplicateIdsUnitModel.alt_id = unitModelResult.data.alt_id;
 		const duplicateIdsUnitModelResult = await createUnitModel(duplicateIdsUnitModel);
 
-		assert(duplicateIdsUnitModelResult.success === false);
+		expect(duplicateIdsUnitModelResult.success).toBe(false);
 	});
 });

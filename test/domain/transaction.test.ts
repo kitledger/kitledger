@@ -1,5 +1,4 @@
-import { assert } from "@std/assert";
-import { describe, it, afterAll } from "@std/testing/bdd";
+import { describe, it, afterAll, expect } from "bun:test";
 import { db } from "../../src/services/database/db.ts";
 import { createTransactionModel } from "../../src/domain/transaction/transaction_model_actions.ts";
 import { TransactionModelFactory } from "../../src/domain/transaction/factories.ts";
@@ -20,7 +19,7 @@ describe("Transaction Domain Tests", () => {
 			throw new Error("Failed to create Transaction Model");
 		}
 
-		assert(transactionModelResult.success === true);
+		expect(transactionModelResult.success).toBe(true);
 	});
 
 	it("Applies transaction model validation correctly", async() => {
@@ -36,7 +35,7 @@ describe("Transaction Domain Tests", () => {
 		missingNameTransactionModel.name = "";
 		const missingNameTransactionModelResult = await createTransactionModel(missingNameTransactionModel);
 
-		assert(missingNameTransactionModelResult.success === false);
+		expect(missingNameTransactionModelResult.success).toBe(false);
 
 		const duplicateIdsTransactionModel = transactionModelFactory.make(1)[0];
 		duplicateIdsTransactionModel.id = transactionModelResult.data.id;
@@ -44,6 +43,6 @@ describe("Transaction Domain Tests", () => {
 		duplicateIdsTransactionModel.alt_id = transactionModelResult.data.alt_id;
 		const duplicateIdsTransactionModelResult = await createTransactionModel(duplicateIdsTransactionModel);
 
-		assert(duplicateIdsTransactionModelResult.success === false);
+		expect(duplicateIdsTransactionModelResult.success).toBe(false);
 	});
 });

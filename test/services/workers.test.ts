@@ -1,14 +1,15 @@
 import { workerPool } from "../../src/services/workers/pool.ts";
 import { availableWorkerTasks } from "../../src/services/workers/worker.ts";
-import { assert } from "@std/assert";
-import { generate } from "@std/uuid/unstable-v7";
+import { expect, test } from "bun:test";
+import { randomUUIDv7 } from "bun";
 
-Deno.test("Worker pool can add and run tasks", async () => {
+test("Worker pool can add and run tasks", async () => {
 
-	const passwordToHash = generate();
+	const passwordToHash = randomUUIDv7();
 
-	const result = await workerPool.execute(passwordToHash, availableWorkerTasks.HASH_PASSWORD);
+	const result = await workerPool.execute(passwordToHash, availableWorkerTasks.HASH_PASSWORD) as string | undefined;
 
-	assert(typeof result === "string" && result.length > 0, "Expected a valid hashed password");
-	assert(result.startsWith("$argon2id$"), "Expected the result to be a valid argon2id hash");
+	expect(typeof result).toBe("string");
+	expect(result?.length).toBeGreaterThan(0);
+	expect(result?.startsWith("$argon2id$")).toBe(true);
 });

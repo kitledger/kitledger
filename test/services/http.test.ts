@@ -1,16 +1,16 @@
-import { assert } from "@std/assert";
+import { test, expect } from "bun:test";
 import { auth } from "../../src/services/http/middleware/auth_middleware.ts";
-import { Context } from "@hono/hono";
+import { Context } from "hono";
 import { serverConfig } from "../../src/config.ts";
 
-Deno.test("Hono Auth middleware returns 401 for missing token", async () => {
+test("Hono Auth middleware returns 401 for missing token", async () => {
 	const c = {
 		req: {
 			header: () => null,
 		},
 		json: (body: Record<string, string>, status: number) => {
-			assert(status === 401, "Expected status code to be 401");
-			assert(body.error === "Unauthorized", "Expected error message to be 'Unauthorized'");
+			expect(status).toBe(401);
+			expect(body.error).toBe("Unauthorized");
 		},
 		env: {},
 		finalized: false,
@@ -21,10 +21,11 @@ Deno.test("Hono Auth middleware returns 401 for missing token", async () => {
 	await auth(c, async () => {});
 });
 
-Deno.test("CORS Server Configuration is set correctly", () => {
-	assert(typeof serverConfig.cors === "object" || serverConfig.cors === "*");
-	assert(serverConfig.cors.allowMethods?.includes("GET"), "Expected CORS to allow GET method");
-	assert(serverConfig.cors.allowHeaders?.includes("Authorization"), "Expected CORS to allow Authorization header");
-	assert(serverConfig.cors.maxAge && serverConfig.cors.maxAge >= 3600, "Expected CORS max age to be 3600 seconds");
-	assert(serverConfig.cors.credentials === false, "Expected CORS credentials to be false");
+test("CORS Server Configuration is set correctly", () => {
+	expect(serverConfig.cors).toBeDefined();
+	expect(serverConfig.cors.allowMethods?.includes("GET")).toBe(true);
+	expect(serverConfig.cors.allowHeaders?.includes("Authorization")).toBe(true);
+	expect(serverConfig.cors.maxAge && serverConfig.cors.maxAge >= 3600).toBe(true);
+	expect(serverConfig.cors.credentials).toBe(false);
+
 });

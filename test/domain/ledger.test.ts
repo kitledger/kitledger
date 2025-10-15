@@ -1,12 +1,11 @@
-import { assert } from "@std/assert";
-import { describe, it, afterAll } from "@std/testing/bdd";
+import { describe, it, afterAll, expect } from "bun:test";
 import { db } from "../../src/services/database/db.ts";
 import { createLedger } from "../../src/domain/ledger/ledger_actions.ts";
 import { createAccount } from "../../src/domain/ledger/account_actions.ts";
 import { LedgerFactory, AccountFactory } from "../../src/domain/ledger/factories.ts";
 import { UnitModelFactory } from "../../src/domain/unit/factories.ts";
 import { createUnitModel } from "../../src/domain/unit/unit_model_actions.ts";
-import { generate } from "@std/uuid/unstable-v7";
+import { randomUUIDv7 } from "bun";
 
 describe("Ledger Domain Tests", () => {
 	afterAll(async () => {
@@ -33,7 +32,7 @@ describe("Ledger Domain Tests", () => {
 			throw new Error("Failed to create Ledger");
 		}
 
-		assert(ledgerResult.success === true);
+		expect(ledgerResult.success).toBe(true);
 	});
 
 	it("Applies ledger validation correctly", async() => {
@@ -49,7 +48,7 @@ describe("Ledger Domain Tests", () => {
 		const ledgerFactory = new LedgerFactory();
 		const ledgerData = ledgerFactory.make(1)[0];
 		ledgerData.unit_model_id = unitModelResult.data.id;
-		ledgerData.alt_id = generate();
+		ledgerData.alt_id = randomUUIDv7();
 		await createLedger(ledgerData);
 
 		const missingNameLedger = ledgerFactory.make(1)[0];
@@ -57,8 +56,8 @@ describe("Ledger Domain Tests", () => {
 		missingNameLedger.name = "";
 		const missingNameLedgerResult = await createLedger(missingNameLedger);
 
-		assert(missingNameLedgerResult.success === false);
-		assert(missingNameLedgerResult.errors?.some((e) => e.type === "structure"));
+		expect(missingNameLedgerResult.success).toBe(false);
+		expect(missingNameLedgerResult.success === false && missingNameLedgerResult.errors?.some((e) => e.type === "structure")).toBe(true);
 
 		const duplicateIdsLedger = ledgerFactory.make(1)[0];
 		duplicateIdsLedger.unit_model_id = unitModelResult.data.id;
@@ -66,8 +65,8 @@ describe("Ledger Domain Tests", () => {
 		duplicateIdsLedger.alt_id = ledgerData.alt_id;
 		const duplicateIdsResult = await createLedger(duplicateIdsLedger);
 
-		assert(duplicateIdsResult.success === false);
-		assert(duplicateIdsResult.errors?.some((e) => e.type === "data"));
+		expect(duplicateIdsResult.success).toBe(false);
+		expect(duplicateIdsResult.success === false && duplicateIdsResult.errors?.some((e) => e.type === "data")).toBe(true);
 	});
 
 	it("Can create a valid account", async () => {
@@ -84,7 +83,7 @@ describe("Ledger Domain Tests", () => {
 		const ledgerFactory = new LedgerFactory();
 		const ledgerData = ledgerFactory.make(1)[0];
 		ledgerData.unit_model_id = unitModelResult.data.id;
-		ledgerData.alt_id = generate();
+		ledgerData.alt_id = randomUUIDv7();
 		const ledgerResult = await createLedger(ledgerData);
 
 		if(ledgerResult.success === false) {
@@ -97,15 +96,15 @@ describe("Ledger Domain Tests", () => {
 		accountData.parent_id = null;
 		const accountResult = await createAccount(accountData);
 
-		assert(accountResult.success === true);
+		expect(accountResult.success).toBe(true);
 
 		const missingNameAccount = accountFactory.make(1)[0];
 		missingNameAccount.ledger_id = ledgerResult.data.id;
 		missingNameAccount.name = "";
 		const missingNameAccountResult = await createAccount(missingNameAccount);
 
-		assert(missingNameAccountResult.success === false);
-		assert(missingNameAccountResult.errors?.some((e) => e.type === "structure"));
+		expect(missingNameAccountResult.success).toBe(false);
+		expect(missingNameAccountResult.success === false && missingNameAccountResult.errors?.some((e) => e.type === "structure")).toBe(true);
 
 		const duplicateIdsAccount = accountFactory.make(1)[0];
 		duplicateIdsAccount.ledger_id = ledgerResult.data.id;
@@ -113,7 +112,7 @@ describe("Ledger Domain Tests", () => {
 		duplicateIdsAccount.alt_id = accountData.alt_id;
 		const duplicateIdsResult = await createAccount(duplicateIdsAccount);
 
-		assert(duplicateIdsResult.success === false);
-		assert(duplicateIdsResult.errors?.some((e) => e.type === "data"));
+		expect(duplicateIdsResult.success).toBe(false);
+		expect(duplicateIdsResult.success === false && duplicateIdsResult.errors?.some((e) => e.type === "data")).toBe(true);
 	});
 });

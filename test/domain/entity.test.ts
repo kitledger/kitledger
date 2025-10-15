@@ -1,5 +1,4 @@
-import { assert } from "@std/assert";
-import { describe, it, afterAll } from "@std/testing/bdd";
+import { describe, it, afterAll, expect } from "bun:test";
 import { db } from "../../src/services/database/db.ts";
 import { createEntityModel } from "../../src/domain/entity/entity_model_actions.ts";
 import { EntityModelFactory } from "../../src/domain/entity/factories.ts";
@@ -20,7 +19,7 @@ describe("Entity Domain Tests", () => {
 			throw new Error("Failed to create Entity Model");
 		}
 
-		assert(entityModelResult.success === true);
+		expect(entityModelResult.success).toBe(true);
 	});
 
 	it("Applies entity model validation correctly", async() => {
@@ -36,7 +35,7 @@ describe("Entity Domain Tests", () => {
 		missingNameEntityModel.name = "";
 		const missingNameEntityModelResult = await createEntityModel(missingNameEntityModel);
 
-		assert(missingNameEntityModelResult.success === false);
+		expect(missingNameEntityModelResult.success).toBe(false);
 
 		const duplicateIdsEntityModel = entityModelFactory.make(1)[0];
 		duplicateIdsEntityModel.id = entityModelResult.data.id;
@@ -44,6 +43,6 @@ describe("Entity Domain Tests", () => {
 		duplicateIdsEntityModel.alt_id = entityModelResult.data.alt_id;
 		const duplicateIdsEntityModelResult = await createEntityModel(duplicateIdsEntityModel);
 
-		assert(duplicateIdsEntityModelResult.success === false);
+		expect(duplicateIdsEntityModelResult.success).toBe(false);
 	});
 });
