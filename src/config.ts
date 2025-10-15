@@ -25,6 +25,10 @@ type DbConfig = {
 	max: number;
 };
 
+type RunnerConfig ={
+	url: string;
+}
+
 type ServerConfig = {
 	port: number;
 	cors: CorsConfig;
@@ -109,6 +113,13 @@ export const dbConfig: DbConfig = {
 	ssl: process.env.KL_POSTGRES_SSL === "true",
 	max: parseInt(process.env.KL_POSTGRES_MAX_CONNECTIONS || "10"),
 };
+
+/**
+ * Export pre-assembled configuration values for the runner service.
+ */
+export const runnerConfig: RunnerConfig = {
+	url: process.env.KL_RUNNER_URL || "http://localhost:8899",
+}
 
 /**
  * Export pre-assembled configuration values for the HTTP server.
