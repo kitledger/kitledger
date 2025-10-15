@@ -1,4 +1,4 @@
-import { createMiddleware } from "@hono/hono/factory";
+import { createMiddleware } from "hono/factory";
 import { TokenType, verifyToken } from "../../../domain/auth/jwt_actions.ts";
 import { getSessionUserId, getTokenUserId } from "../../../domain/auth/user_repository.ts";
 

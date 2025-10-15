@@ -1,17 +1,17 @@
-import { ConditionGroup, Query, QuerySchema } from "@kitledger/query";
+import { type ConditionGroup, type Query, QuerySchema } from "@kitledger/query";
 import { PgTable } from "drizzle-orm/pg-core";
 import { getTableName } from "drizzle-orm";
-import { parseValibotIssues, ValidationResult } from "../../domain/base/validation.ts";
+import { parseValibotIssues, type ValidationResult } from "../../domain/base/validation.ts";
 import { db } from "./db.ts";
 import {
     defaultLimit,
     defaultOffset,
-    GetOperationResult,
+    type GetOperationResult,
     maxLimit,
-    QueryResultRow,
+    type QueryResultRow,
     QueryResultSchema,
 } from "./helpers.ts";
-import * as v from "@valibot/valibot";
+import * as v from "valibot";
 import knex, { Knex } from "knex";
 
 /**

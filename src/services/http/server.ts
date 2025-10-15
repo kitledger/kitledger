@@ -1,4 +1,4 @@
-import { Hono } from "@hono/hono";
+import { Hono } from "hono";
 import { apiV1Prefix, apiV1Router } from "./api/v1/router.ts";
 
 const server = new Hono();

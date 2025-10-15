@@ -2,7 +2,7 @@ import { runMigrations } from "./services/database/db.ts";
 import server from "./services/http/server.ts";
 import { serverConfig } from "./config.ts";
 import { execute } from "./cli.ts";
-import { executeScript } from "./services/scripting/v1/js/runtime.ts";
+import { executeScript } from "./services/scripting/v1/runtime.ts";
 import { executeQuery } from "./services/database/query.ts";
 import { Query } from "@kitledger/query";
 import { accounts } from "./services/database/schema.ts";

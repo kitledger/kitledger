@@ -2,7 +2,7 @@ import { boolean, index, jsonb, pgTable, text, timestamp, uuid, varchar } from "
 import { relations } from "drizzle-orm";
 import { timestamps } from "./helpers.ts";
 import { BalanceType } from "../../domain/ledger/types.ts";
-import { BaseMetaProperty } from "../../domain/base/base_schema.ts";
+import type { BaseMetaProperty } from "../../domain/base/base_schema.ts";
 
 /**
  * 1. Tables, Indexes, and Constraints

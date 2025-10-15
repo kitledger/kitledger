@@ -1,16 +1,15 @@
-import { UnitModel, UnitModelCreateData, UnitModelCreateSchema, UnitModelInsert } from "./types.ts";
-import * as v from "@valibot/valibot";
+import { type UnitModel, type UnitModelCreateData, UnitModelCreateSchema, type UnitModelInsert } from "./types.ts";
+import * as v from "valibot";
 import {
 	parseValibotIssues,
-	ValidationError,
-	ValidationFailure,
-	ValidationResult,
-	ValidationSuccess,
+	type ValidationError,
+	type ValidationFailure,
+	type ValidationResult,
+	type ValidationSuccess,
 } from "../base/validation.ts";
 import { db } from "../../services/database/db.ts";
 import { unit_models } from "../../services/database/schema.ts";
 import { eq } from "drizzle-orm";
-import { generate as v7 } from "@std/uuid/unstable-v7";
 
 async function refIdAlreadyExists(refId: string): Promise<boolean> {
 	const results = await db.query.unit_models.findMany({
@@ -88,7 +87,7 @@ export async function createUnitModel(
 	}
 
 	const insert_data: UnitModelInsert = {
-		id: v7(),
+		id: Bun.randomUUIDv7(),
 		...validation.data,
 	};
 
