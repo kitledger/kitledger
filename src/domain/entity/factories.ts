@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { EntityModel } from "./types.ts";
+import type { EntityModel } from "./types.ts";
 import { BaseFactory } from "../base/base_factory.ts";
 
 export class EntityModelFactory extends BaseFactory<EntityModel> {

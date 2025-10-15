@@ -1,11 +1,11 @@
-import { Account } from "./types.ts";
+import type { Account } from "./types.ts";
 import { db } from "../../services/database/db.ts";
 import {
 	ANY,
 	defaultLimit,
 	defaultOffset,
-	FilterOperationParameters,
-	GetOperationResult,
+	type FilterOperationParameters,
+	type GetOperationResult,
 	maxLimit,
 	parseBooleanFilterValue,
 } from "../../services/database/helpers.ts";

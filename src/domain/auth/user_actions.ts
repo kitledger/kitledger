@@ -1,6 +1,6 @@
 import { db } from "../../services/database/db.ts";
 import { randomBytes } from "node:crypto";
-import { generate as v7 } from "@std/uuid/unstable-v7";
+import { randomUUIDv7 } from "bun";
 import { SYSTEM_ADMIN_PERMISSION } from "./permission_actions.ts";
 import { createToken } from "./token_actions.ts";
 import { assembleApiTokenJwtPayload, signToken } from "./jwt_actions.ts";
@@ -39,7 +39,7 @@ export async function createSuperUser(
 				throw new Error("Failed to hash password");
 			}
 
-			const userId = v7();
+			const userId = randomUUIDv7();
 			const newUser = await tx
 				.insert(users)
 				.values({
@@ -53,7 +53,7 @@ export async function createSuperUser(
 				.returning();
 
 			await tx.insert(system_permissions).values({
-				id: v7(),
+				id: randomUUIDv7(),
 				user_id: newUser[0].id,
 				permission: SYSTEM_ADMIN_PERMISSION,
 			});

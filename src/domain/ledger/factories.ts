@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
-import { generate as v7 } from "@std/uuid/unstable-v7";
-import { Account, Ledger } from "./types.ts";
+import { randomUUIDv7 } from "bun";
+import type { Account, Ledger } from "./types.ts";
 import { BaseFactory } from "../base/base_factory.ts";
 import { BalanceType } from "./types.ts";
 
@@ -17,10 +17,10 @@ export class AccountFactory extends BaseFactory<Account> {
 }
 
 const makeLedger = (): Ledger => ({
-	id: v7(),
-	ref_id: v7(),
-	alt_id: v7(),
-	unit_model_id: v7(),
+	id: randomUUIDv7(),
+	ref_id: randomUUIDv7(),
+	alt_id: randomUUIDv7(),
+	unit_model_id: randomUUIDv7(),
 	name: faker.company.name(),
 	description: faker.company.catchPhrase(),
 	active: true,
@@ -29,13 +29,13 @@ const makeLedger = (): Ledger => ({
 });
 
 const makeAccount = (): Account => ({
-	id: v7(),
-	ref_id: v7(),
-	alt_id: v7(),
+	id: randomUUIDv7(),
+	ref_id: randomUUIDv7(),
+	alt_id: randomUUIDv7(),
 	name: faker.finance.accountName(),
 	balance_type: faker.helpers.arrayElement(Object.values(BalanceType)),
-	ledger_id: v7(),
-	parent_id: v7(),
+	ledger_id: randomUUIDv7(),
+	parent_id: randomUUIDv7(),
 	active: true,
 	created_at: faker.date.past(),
 	updated_at: faker.date.recent(),

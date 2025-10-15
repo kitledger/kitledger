@@ -1,5 +1,5 @@
-import { sign, verify } from "@hono/hono/jwt";
-import { type JWTPayload } from "@hono/hono/utils/jwt/types";
+import { sign, verify } from "hono/jwt";
+import { type JWTPayload } from "hono/utils/jwt/types";
 import { authConfig } from "../../config.ts";
 
 export enum TokenType {

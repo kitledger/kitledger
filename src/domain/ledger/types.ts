@@ -1,6 +1,6 @@
-import { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import * as v from "@valibot/valibot";
-import { InferOutput } from "@valibot/valibot";
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import * as v from "valibot";
+import type { InferOutput } from "valibot";
 import { accounts, ledgers } from "../../services/database/schema.ts";
 
 export enum BalanceType {

@@ -1,4 +1,4 @@
-import { EntityModel } from "./types.ts";
+import type { EntityModel } from "./types.ts";
 import { and, eq, type SQL, sql } from "drizzle-orm";
 import { entity_models } from "../../services/database/schema.ts";
 import { db } from "../../services/database/db.ts";
@@ -6,8 +6,8 @@ import {
 	ANY,
 	defaultLimit,
 	defaultOffset,
-	FilterOperationParameters,
-	GetOperationResult,
+	type FilterOperationParameters,
+	type GetOperationResult,
 	maxLimit,
 	parseBooleanFilterValue,
 } from "../../services/database/helpers.ts";

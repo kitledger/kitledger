@@ -1,16 +1,16 @@
-import { Ledger, LedgerCreateData, LedgerCreateSchema, LedgerInsert } from "./types.ts";
-import * as v from "@valibot/valibot";
+import { type Ledger, type LedgerCreateData, LedgerCreateSchema, type LedgerInsert } from "./types.ts";
+import * as v from "valibot";
 import {
 	parseValibotIssues,
-	ValidationError,
-	ValidationFailure,
-	ValidationResult,
-	ValidationSuccess,
+	type ValidationError,
+	type ValidationFailure,
+	type ValidationResult,
+	type ValidationSuccess,
 } from "../base/validation.ts";
 import { db } from "../../services/database/db.ts";
 import { ledgers } from "../../services/database/schema.ts";
 import { eq } from "drizzle-orm";
-import { generate as v7 } from "@std/uuid/unstable-v7";
+import { randomUUIDv7 } from "bun";
 import { findUnitModelId } from "./ledger_repository.ts";
 
 async function refIdAlreadyExists(refId: string): Promise<boolean> {
@@ -102,7 +102,7 @@ export async function createLedger(
 	}
 
 	const insertData: LedgerInsert = {
-		id: v7(),
+		id: randomUUIDv7(),
 		...validation.data,
 	};
 

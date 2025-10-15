@@ -1,4 +1,4 @@
-import { TransactionModel } from "./types.ts";
+import type { TransactionModel } from "./types.ts";
 import { and, eq, type SQL, sql } from "drizzle-orm";
 import { transaction_models } from "../../services/database/schema.ts";
 import { db } from "../../services/database/db.ts";
@@ -6,8 +6,8 @@ import {
 	ANY,
 	defaultLimit,
 	defaultOffset,
-	FilterOperationParameters,
-	GetOperationResult,
+	type FilterOperationParameters,
+	type GetOperationResult,
 	maxLimit,
 	parseBooleanFilterValue,
 } from "../../services/database/helpers.ts";

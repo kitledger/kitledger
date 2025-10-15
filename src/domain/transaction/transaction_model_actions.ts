@@ -1,21 +1,21 @@
 import {
-	TransactionModel,
-	TransactionModelCreateData,
+	type TransactionModel,
+	type TransactionModelCreateData,
 	TransactionModelCreateSchema,
-	TransactionModelInsert,
+	type TransactionModelInsert,
 } from "./types.ts";
-import * as v from "@valibot/valibot";
+import * as v from "valibot";
 import {
 	parseValibotIssues,
-	ValidationError,
-	ValidationFailure,
-	ValidationResult,
-	ValidationSuccess,
+	type ValidationError,
+	type ValidationFailure,
+	type ValidationResult,
+	type ValidationSuccess,
 } from "../base/validation.ts";
 import { db } from "../../services/database/db.ts";
 import { transaction_models } from "../../services/database/schema.ts";
 import { eq } from "drizzle-orm";
-import { generate as v7 } from "@std/uuid/unstable-v7";
+import { randomUUIDv7 } from "bun";
 
 async function refIdAlreadyExists(refId: string): Promise<boolean> {
 	const results = await db.query.transaction_models.findMany({
@@ -95,7 +95,7 @@ export async function createTransactionModel(
 	}
 
 	const insert_data: TransactionModelInsert = {
-		id: v7(),
+		id: randomUUIDv7(),
 		...validation.data,
 	};
 
