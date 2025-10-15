@@ -115,6 +115,6 @@ export async function createTransactionModel(
 
 	return {
 		success: true,
-		data: result[0],
+		data: result[0]!,
 	};
 }

@@ -122,6 +122,6 @@ export async function createLedger(
 
 	return {
 		success: true,
-		data: result[0],
+		data: result[0]!,
 	};
 }

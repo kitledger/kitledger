@@ -1,16 +1,16 @@
-import { EntityModel, EntityModelCreateData, EntityModelCreateSchema, EntityModelInsert } from "./types.ts";
+import { type EntityModel, type EntityModelCreateData, EntityModelCreateSchema, type EntityModelInsert } from "./types.ts";
 import * as v from "valibot";
 import {
 	parseValibotIssues,
-	ValidationError,
-	ValidationFailure,
-	ValidationResult,
-	ValidationSuccess,
+	type ValidationError,
+	type ValidationFailure,
+	type ValidationResult,
+	type ValidationSuccess,
 } from "../base/validation.ts";
 import { db } from "../../services/database/db.ts";
 import { entity_models } from "../../services/database/schema.ts";
 import { eq } from "drizzle-orm";
-import { generate as v7 } from "@std/uuid/unstable-v7";
+import { randomUUIDv7 } from "bun";
 
 async function refIdAlreadyExists(refId: string): Promise<boolean> {
 	const results = await db.query.entity_models.findMany({
@@ -90,7 +90,7 @@ export async function createEntityModel(
 	}
 
 	const insert_data: EntityModelInsert = {
-		id: v7(),
+		id: randomUUIDv7(),
 		...validation.data,
 	};
 
@@ -110,6 +110,6 @@ export async function createEntityModel(
 
 	return {
 		success: true,
-		data: result[0],
+		data: result[0]!,
 	};
 }

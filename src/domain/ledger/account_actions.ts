@@ -133,6 +133,6 @@ export async function createAccount(
 
 	return {
 		success: true,
-		data: result[0],
+		data: result[0]!,
 	};
 }

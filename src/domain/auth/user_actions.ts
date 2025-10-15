@@ -52,6 +52,10 @@ export async function createSuperUser(
 				})
 				.returning();
 
+			if (!newUser[0]) {
+				throw new Error("Failed to create user");
+			}
+
 			await tx.insert(system_permissions).values({
 				id: randomUUIDv7(),
 				user_id: newUser[0].id,
