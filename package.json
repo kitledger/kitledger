@@ -1,11 +1,24 @@
 {
-  "name": "kitledger",
-  "description": "Programmable Accounting Ledger - Root Package",
+  "name": "@kitledger/core",
+  "description": "Programmable Accounting Ledger",
   "author": {
 	"name": "Alejandro Barrera Aponte",
 	"email": "alebarrera76@gmail.com"
   },
   "private": true,
+  "dependencies": {
+    "@kitledger/actions": "^0.0.6",
+    "@kitledger/query": "^0.0.10",
+    "@node-rs/argon2": "^2.0.2",
+    "drizzle-kit": "^0.31.5",
+    "drizzle-orm": "^0.44.6",
+    "hono": "^4.9.12",
+    "knex": "^3.1.0",
+    "pg": "^8.16.3",
+    "poolifier-web-worker": "^0.5.14",
+    "postgres": "^3.4.7",
+    "valibot": "^1.1.0"
+  },
   "devDependencies": {
     "@faker-js/faker": "^9.9.0",
     "@types/bun": "latest"
@@ -14,11 +27,10 @@
     "typescript": "^5"
   },
   "scripts": {
-	"dev": "bun run --workspaces dev",
+	"db:custom": "bun run drizzle-kit generate --custom",
+	"db:generate": "bun run drizzle-kit generate",
+	"dev": "bun run ./src/main.ts",
 	"test": "bun test",
 	"typecheck": "tsc --noEmit"
-  },
-  "workspaces": [
-	"core"
-  ]
+  }
 }
