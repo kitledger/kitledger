@@ -38,9 +38,6 @@ importers:
       pg:
         specifier: ^8.16.3
         version: 8.16.3
-      poolifier-web-worker:
-        specifier: ^0.5.14
-        version: 0.5.14
       postgres:
         specifier: ^3.4.7
         version: 3.4.7
@@ -985,9 +982,6 @@ packages:
     resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
     engines: {node: '>=12'}
 
-  poolifier-web-worker@0.5.14:
-    resolution: {integrity: sha512-tfATFzBzqylUrAE9LzFtaUG4s0hQmyY7I5gwGG5YwlC2JxsU+WmO68caezaNfROYMmLxee2bW1WboPH15tOukw==}
-
   postcss@8.5.6:
     resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
     engines: {node: ^10 || ^12 || >=14}
@@ -1836,8 +1830,6 @@ snapshots:
   picocolors@1.1.1: {}
 
   picomatch@4.0.3: {}
-
-  poolifier-web-worker@0.5.14: {}
 
   postcss@8.5.6:
     dependencies:
