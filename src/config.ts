@@ -126,7 +126,7 @@ export const runnerConfig: RunnerConfig = {
  * Values are a mix of environment variables and defaults.
  */
 export const serverConfig: ServerConfig = {
-	port: process.env.KL_SERVER_PORT ? parseInt(String(process.env.KL_SERVER_PORT)) : 8888,
+	port: process.env.KL_SERVER_PORT ? parseInt(String(process.env.KL_SERVER_PORT)) : 5500,
 	cors: {
 		origin: corsAllowedOrigins,
 		allowMethods: corsAllowedMethods,
