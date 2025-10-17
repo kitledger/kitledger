@@ -10,7 +10,7 @@ import {
 import { db } from "../../services/database/db.ts";
 import { ledgers } from "../../services/database/schema.ts";
 import { eq } from "drizzle-orm";
-import { randomUUIDv7 } from "bun";
+import {v7} from "uuid";
 import { findUnitModelId } from "./ledger_repository.ts";
 
 async function refIdAlreadyExists(refId: string): Promise<boolean> {
@@ -102,7 +102,7 @@ export async function createLedger(
 	}
 
 	const insertData: LedgerInsert = {
-		id: randomUUIDv7(),
+		id: v7(),
 		...validation.data,
 	};
 

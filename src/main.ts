@@ -6,6 +6,8 @@ import { executeScript } from "./services/scripting/v1/runtime.ts";
 import { executeQuery } from "./services/database/query.ts";
 import type { Query } from "@kitledger/query";
 import { accounts } from "./services/database/schema.ts";
+import { serve } from "@hono/node-server";
+import { argv } from "node:process";
 
 await runMigrations();
 
@@ -67,12 +69,12 @@ const queryResult = await executeQuery(accounts, queryParams);
 console.log("--- Executing Sample Query ---", queryResult);
 
 // --- Server and CLI Startup Logic ---
-const args = Bun.argv.slice(2);
+const args = argv.slice(2);
 
 // If no arguments or "serve" is provided, start the server
 if (args.length === 0 || args[0] === "serve") {
     console.log(`Server is running on port ${serverConfig.port}`);
-    Bun.serve({
+    serve({
         port: serverConfig.port,
         fetch: server.fetch,
     });

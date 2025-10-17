@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { randomUUIDv7 } from "bun";
+import {v7} from "uuid";
 import type { ApiToken, Permission, PermissionAssignment, Role, SystemPermission, User, UserRole } from "./types.ts";
 import { BaseFactory } from "../base/base_factory.ts";
 
@@ -83,7 +83,7 @@ const makeRole = (): Role => ({
 	updated_at: faker.date.recent(),
 });
 
-const makeSession = (): string => (randomUUIDv7());
+const makeSession = (): string => (v7());
 
 const makeSystemPermission = (): SystemPermission => ({
 	id: faker.string.uuid(),

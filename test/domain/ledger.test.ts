@@ -1,11 +1,11 @@
-import { describe, it, afterAll, expect } from "bun:test";
+import { describe, it, afterAll, expect } from "vitest";
 import { db } from "../../src/services/database/db.ts";
 import { createLedger } from "../../src/domain/ledger/ledger_actions.ts";
 import { createAccount } from "../../src/domain/ledger/account_actions.ts";
 import { LedgerFactory, AccountFactory } from "../../src/domain/ledger/factories.ts";
 import { UnitModelFactory } from "../../src/domain/unit/factories.ts";
 import { createUnitModel } from "../../src/domain/unit/unit_model_actions.ts";
-import { randomUUIDv7 } from "bun";
+import {v7} from "uuid";
 
 describe("Ledger Domain Tests", () => {
 	/*afterAll(async () => {
@@ -16,6 +16,11 @@ describe("Ledger Domain Tests", () => {
 	it("Can create a valid ledger", async () => {
 		const unitModelFactory = new UnitModelFactory();
 		const unitModelData = unitModelFactory.make(1)[0];
+
+		if(!unitModelData) {
+			throw new Error("Failed to create Unit Model data");
+		}
+
 		unitModelData.active = true;
 		const unitModelResult = await createUnitModel(unitModelData);
 
@@ -25,6 +30,11 @@ describe("Ledger Domain Tests", () => {
 
 		const ledgerFactory = new LedgerFactory();
 		const ledgerData = ledgerFactory.make(1)[0];
+
+		if(!ledgerData) {
+			throw new Error("Failed to create Ledger data");
+		}
+
 		ledgerData.unit_model_id = unitModelResult.data.id;
 		const ledgerResult = await createLedger(ledgerData);
 
@@ -38,6 +48,11 @@ describe("Ledger Domain Tests", () => {
 	it("Applies ledger validation correctly", async() => {
 		const unitModelFactory = new UnitModelFactory();
 		const unitModelData = unitModelFactory.make(1)[0];
+
+		if(!unitModelData) {
+			throw new Error("Failed to create Unit Model data");
+		}
+
 		unitModelData.active = true;
 		const unitModelResult = await createUnitModel(unitModelData);
 
@@ -47,11 +62,21 @@ describe("Ledger Domain Tests", () => {
 
 		const ledgerFactory = new LedgerFactory();
 		const ledgerData = ledgerFactory.make(1)[0];
+
+		if(!ledgerData) {
+			throw new Error("Failed to create Ledger data");
+		}
+
 		ledgerData.unit_model_id = unitModelResult.data.id;
-		ledgerData.alt_id = randomUUIDv7();
+		ledgerData.alt_id = v7();
 		await createLedger(ledgerData);
 
 		const missingNameLedger = ledgerFactory.make(1)[0];
+
+		if(!missingNameLedger) {
+			throw new Error("Failed to create Ledger data for missing name test");
+		}
+
 		missingNameLedger.unit_model_id = unitModelResult.data.id;
 		missingNameLedger.name = "";
 		const missingNameLedgerResult = await createLedger(missingNameLedger);
@@ -60,6 +85,11 @@ describe("Ledger Domain Tests", () => {
 		expect(missingNameLedgerResult.success === false && missingNameLedgerResult.errors?.some((e) => e.type === "structure")).toBe(true);
 
 		const duplicateIdsLedger = ledgerFactory.make(1)[0];
+
+		if(!duplicateIdsLedger) {
+			throw new Error("Failed to create Ledger data for duplicate IDs test");
+		}
+
 		duplicateIdsLedger.unit_model_id = unitModelResult.data.id;
 		duplicateIdsLedger.ref_id = ledgerData.ref_id;
 		duplicateIdsLedger.alt_id = ledgerData.alt_id;
@@ -73,6 +103,11 @@ describe("Ledger Domain Tests", () => {
 
 		const unitModelFactory = new UnitModelFactory();
 		const unitModelData = unitModelFactory.make(1)[0];
+
+		if(!unitModelData) {
+			throw new Error("Failed to create Unit Model data");
+		}
+
 		unitModelData.active = true;
 		const unitModelResult = await createUnitModel(unitModelData);
 
@@ -82,8 +117,13 @@ describe("Ledger Domain Tests", () => {
 
 		const ledgerFactory = new LedgerFactory();
 		const ledgerData = ledgerFactory.make(1)[0];
+
+		if(!ledgerData) {
+			throw new Error("Failed to create Ledger data");
+		}
+
 		ledgerData.unit_model_id = unitModelResult.data.id;
-		ledgerData.alt_id = randomUUIDv7();
+		ledgerData.alt_id = v7();
 		const ledgerResult = await createLedger(ledgerData);
 
 		if(ledgerResult.success === false) {
@@ -92,6 +132,11 @@ describe("Ledger Domain Tests", () => {
 
 		const accountFactory = new AccountFactory();
 		const accountData = accountFactory.make(1)[0];
+
+		if(!accountData) {
+			throw new Error("Failed to create Account data");
+		}
+
 		accountData.ledger_id = ledgerResult.data.id;
 		accountData.parent_id = null;
 		const accountResult = await createAccount(accountData);
@@ -99,6 +144,11 @@ describe("Ledger Domain Tests", () => {
 		expect(accountResult.success).toBe(true);
 
 		const missingNameAccount = accountFactory.make(1)[0];
+
+		if(!missingNameAccount) {
+			throw new Error("Failed to create Account data for missing name test");
+		}
+
 		missingNameAccount.ledger_id = ledgerResult.data.id;
 		missingNameAccount.name = "";
 		const missingNameAccountResult = await createAccount(missingNameAccount);
@@ -107,6 +157,11 @@ describe("Ledger Domain Tests", () => {
 		expect(missingNameAccountResult.success === false && missingNameAccountResult.errors?.some((e) => e.type === "structure")).toBe(true);
 
 		const duplicateIdsAccount = accountFactory.make(1)[0];
+
+		if(!duplicateIdsAccount) {
+			throw new Error("Failed to create Account data for duplicate IDs test");
+		}
+
 		duplicateIdsAccount.ledger_id = ledgerResult.data.id;
 		duplicateIdsAccount.ref_id = accountData.ref_id;
 		duplicateIdsAccount.alt_id = accountData.alt_id;

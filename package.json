@@ -2,14 +2,16 @@
   "name": "@kitledger/core",
   "description": "Programmable Accounting Ledger",
   "author": {
-	"name": "Alejandro Barrera Aponte",
-	"email": "alebarrera76@gmail.com"
+    "name": "Alejandro Barrera Aponte",
+    "email": "alebarrera76@gmail.com"
   },
   "private": true,
   "dependencies": {
+    "@hono/node-server": "^1.19.5",
     "@kitledger/actions": "^0.0.6",
     "@kitledger/query": "^0.0.10",
     "@node-rs/argon2": "^2.0.2",
+    "dotenv": "^17.2.3",
     "drizzle-kit": "^0.31.5",
     "drizzle-orm": "^0.44.6",
     "hono": "^4.9.12",
@@ -17,20 +19,24 @@
     "pg": "^8.16.3",
     "poolifier-web-worker": "^0.5.14",
     "postgres": "^3.4.7",
+    "uuid": "^13.0.0",
     "valibot": "^1.1.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.9.0",
-    "@types/bun": "latest"
+    "@types/node": "^24.8.1",
+    "tsx": "^4.20.6",
+    "vitest": "^3.2.4"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "scripts": {
-	"db:custom": "bun run drizzle-kit generate --custom",
-	"db:generate": "bun run drizzle-kit generate",
-	"dev": "bun run ./src/main.ts",
-	"test": "bun test",
-	"typecheck": "tsc --noEmit"
+    "db:custom": "drizzle-kit generate --custom",
+    "db:generate": "drizzle-kit generate",
+	"db:migrate": "drizzle-kit migrate",
+    "dev": "tsx ./src/main.ts",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
   }
 }

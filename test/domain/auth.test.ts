@@ -5,12 +5,12 @@ import { db } from "../../src/services/database/db.ts";
 import { SYSTEM_ADMIN_PERMISSION } from "../../src/domain/auth/permission_actions.ts";
 import { assembleSessionJwtPayload, assembleApiTokenJwtPayload, verifyToken, signToken } from "../../src/domain/auth/jwt_actions.ts";
 import { startSession } from "../../src/domain/auth/session_actions.ts";
-import { randomUUIDv7 } from "bun";
+import {v7} from "uuid";
 import { createToken } from "../../src/domain/auth/token_actions.ts";
 import { getSessionUserId, getTokenUserId } from "../../src/domain/auth/user_repository.ts";
 import { hashPassword } from "../../src/domain/auth/utils.ts";
 import { eq } from "drizzle-orm";
-import { describe, it, afterAll, expect } from "bun:test";
+import { describe, it, afterAll, expect } from "vitest";
 
 describe("Auth Domain Tests", () => {
 	/*afterAll(async () => {
@@ -55,6 +55,11 @@ describe("Auth Domain Tests", () => {
 	it("createSuperUser returns a valid NewSuperUser object", async () => {
 		const factory = new UserFactory();
 		const fakeUser = factory.make(1)[0];
+
+		if(!fakeUser) {
+			throw new Error("Failed to create fake user for super user test");
+		}
+
 		const newSuperUser: NewSuperUser | null = await createSuperUser(
 			fakeUser.first_name,
 			fakeUser.last_name,
@@ -66,10 +71,10 @@ describe("Auth Domain Tests", () => {
 		expect(newSuperUser?.first_name === fakeUser.first_name).toBe(true);
 		expect(newSuperUser?.last_name === fakeUser.last_name).toBe(true);
 		expect(newSuperUser?.email === fakeUser.email).toBe(true);
-		expect(typeof newSuperUser?.password === "string").toBeTrue;
-		expect(typeof newSuperUser?.api_token === "string").toBeTrue;
-		expect(newSuperUser && newSuperUser.api_token.length > 0).toBeTrue;
-		expect(newSuperUser && newSuperUser.password.length > 0).toBeTrue;
+		expect(typeof newSuperUser?.password === "string").toBe(true);
+		expect(typeof newSuperUser?.api_token === "string").toBe(true);
+		expect(newSuperUser && newSuperUser.api_token.length > 0).toBe(true);
+		expect(newSuperUser && newSuperUser.password.length > 0).toBe(true);
 
 		if (newSuperUser === null) {
 			throw new Error("Failed to create super user for verification test");
@@ -81,55 +86,60 @@ describe("Auth Domain Tests", () => {
 		});
 		
 		expect(userFromDb).not.toBeNull();
-		expect(userFromDb?.first_name === newSuperUser.first_name).toBeTrue();
-		expect(userFromDb?.last_name === newSuperUser.last_name).toBeTrue();
+		expect(userFromDb?.first_name === newSuperUser.first_name).toBe(true);
+		expect(userFromDb?.last_name === newSuperUser.last_name).toBe(true);
 
 		const userEmailFromDb = await db.query.users.findFirst({
 			where: eq(users.email, newSuperUser.email),
 		});
-		expect(userEmailFromDb?.id === newSuperUser.id).toBeTrue();
+		expect(userEmailFromDb?.id === newSuperUser.id).toBe(true);
 
 		const systemPermissionFromDbRes = await db.query.system_permissions.findMany({
 			where: eq(system_permissions.user_id, newSuperUser.id),
 		});
 		const systemPermissionFromDb = systemPermissionFromDbRes.map(permission => permission.permission);
-		expect(systemPermissionFromDb?.includes(SYSTEM_ADMIN_PERMISSION)).toBeTrue();
+		expect(systemPermissionFromDb?.includes(SYSTEM_ADMIN_PERMISSION)).toBe(true);
 	});
 
 	it("assembleSessionJwtPayload creates a valid JWT payload", () => {
 		const sessionId = "test-session-id";
 		const payload = assembleSessionJwtPayload(sessionId);
-		expect(payload.jti === sessionId).toBeTrue();
-		expect(payload.token_type === "SESSION").toBeTrue();
+		expect(payload.jti === sessionId).toBe(true);
+		expect(payload.token_type === "SESSION").toBe(true);
 
 		const apiTokenPayload = assembleApiTokenJwtPayload("test-api-token-id");
-		expect(apiTokenPayload.jti === "test-api-token-id").toBeTrue();
-		expect(apiTokenPayload.token_type === "API").toBeTrue();
+		expect(apiTokenPayload.jti === "test-api-token-id").toBe(true);
+		expect(apiTokenPayload.token_type === "API").toBe(true);
 	});
 
 	it("verifyToken and signToken work correctly", async () => {
-		const sampleJTI = randomUUIDv7();
+		const sampleJTI = v7();
 		const payload = { jti: sampleJTI, token_type: "TEST" };
 		const token = await signToken(payload);
-		expect(typeof token === "string" && token.length > 0).toBeTrue();
+		expect(typeof token === "string" && token.length > 0).toBe(true);
 
 		const verifiedPayload = await verifyToken(token);
-		expect(verifiedPayload.jti === payload.jti).toBeTrue();
-		expect(verifiedPayload.token_type === payload.token_type).toBeTrue();
+		expect(verifiedPayload.jti === payload.jti).toBe(true);
+		expect(verifiedPayload.token_type === payload.token_type).toBe(true);
 
 		// Test with an invalid token
 		try {
-			const invalidToken = randomUUIDv7();
+			const invalidToken = v7();
 			await verifyToken(invalidToken);
-			expect(false).toBeTrue();
+			expect(false).toBe(true);
 		} catch (error) {
-			expect(error instanceof Error).toBeTrue();
+			expect(error instanceof Error).toBe(true);
 		}
 	});
 
 	it("startSession creates a valid session and retrieves user ID", async () => {
 		const factory = new UserFactory();
 		const fakeUser = factory.make(1)[0];
+
+		if(!fakeUser) {
+			throw new Error("Failed to create fake user for session test");
+		}
+
 		// TODO: Refactor to use a regular user creation function once available
 		const newSuperUser: NewSuperUser | null = await createSuperUser(
 			fakeUser.first_name,
@@ -140,22 +150,27 @@ describe("Auth Domain Tests", () => {
 			throw new Error("Failed to create super user for session test");
 		}
 		const sessionId = await startSession(newSuperUser.id);
-		expect(typeof sessionId === "string" && sessionId.length > 0).toBeTrue();
+		expect(typeof sessionId === "string" && sessionId.length > 0).toBe(true);
 
 		const retrievedUserId = await getSessionUserId(sessionId);
-		expect(retrievedUserId === newSuperUser.id).toBeTrue();
+		expect(retrievedUserId === newSuperUser.id).toBe(true);
 	});
 
 	it("createToken and getTokenUserId work correctly", async () => {
 		const user = new UserFactory().make(1)[0];
+
+		if(!user) {
+			throw new Error("Failed to create fake user for token test");
+		}
+
 		await db.insert(users).values(user);
 		const tokenId = await createToken(user.id, "Test Token");
-		expect(typeof tokenId === "string" && tokenId.length > 0).toBeTrue();
+		expect(typeof tokenId === "string" && tokenId.length > 0).toBe(true);
 
 		const retrievedUserId = await getTokenUserId(tokenId);
-		expect(retrievedUserId === user.id).toBeTrue();
+		expect(retrievedUserId === user.id).toBe(true);
 		// Test with a non-existent token
-		const nonExistentTokenId = randomUUIDv7();
+		const nonExistentTokenId = v7();
 		const nonExistentUserId = await getTokenUserId(nonExistentTokenId);
 		expect(nonExistentUserId).toBeNull();
 	});
@@ -163,9 +178,9 @@ describe("Auth Domain Tests", () => {
 	it("hashPassword generates a valid hash", async () => {
 		const password = "securePassword123";
 		const hashedPassword = await hashPassword(password);
-		expect(typeof hashedPassword === "string" && hashedPassword.length > 0).toBeTrue();
+		expect(typeof hashedPassword === "string" && hashedPassword.length > 0).toBe(true);
 		// Check if the hash is a valid argon2 hash (basic check)
-		expect(hashedPassword.startsWith("$argon2id$")).toBeTrue();
+		expect(hashedPassword.startsWith("$argon2id$")).toBe(true);
 	});
 
 });

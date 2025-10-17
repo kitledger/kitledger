@@ -10,7 +10,7 @@ import {
 import { accounts } from "../../services/database/schema.ts";
 import { db } from "../../services/database/db.ts";
 import { eq } from "drizzle-orm";
-import { randomUUIDv7 } from "bun";
+import {v7} from "uuid";
 import { findLedgerId, findParentAccount } from "./account_repository.ts";
 
 async function refIdAlreadyExists(refId: string): Promise<boolean> {
@@ -113,7 +113,7 @@ export async function createAccount(
 	}
 
 	const insertData: AccountInsert = {
-		id: randomUUIDv7(),
+		id: v7(),
 		...validation.data,
 	};
 

@@ -1,4 +1,4 @@
-import { describe, it, afterAll, expect } from "bun:test";
+import { describe, it, afterAll, expect } from "vitest";
 import { db } from "../../src/services/database/db.ts";
 import { createTransactionModel } from "../../src/domain/transaction/transaction_model_actions.ts";
 import { TransactionModelFactory } from "../../src/domain/transaction/factories.ts";
@@ -12,6 +12,11 @@ describe("Transaction Domain Tests", () => {
 	it("Can create a valid transaction model", async () => {
 		const transactionModelFactory = new TransactionModelFactory();
 		const transactionModelData = transactionModelFactory.make(1)[0];
+
+		if(!transactionModelData) {
+			throw new Error("Failed to create Transaction Model data");
+		}
+
 		transactionModelData.active = true;
 		const transactionModelResult = await createTransactionModel(transactionModelData);
 
@@ -25,6 +30,11 @@ describe("Transaction Domain Tests", () => {
 	it("Applies transaction model validation correctly", async() => {
 		const transactionModelFactory = new TransactionModelFactory();
 		const transactionModelData = transactionModelFactory.make(1)[0];
+
+		if(!transactionModelData) {
+			throw new Error("Failed to create Transaction Model data");
+		}
+
 		const transactionModelResult = await createTransactionModel(transactionModelData);
 
 		if (transactionModelResult.success === false) {
@@ -32,12 +42,22 @@ describe("Transaction Domain Tests", () => {
 		}
 
 		const missingNameTransactionModel = transactionModelFactory.make(1)[0];
+
+		if(!missingNameTransactionModel) {
+			throw new Error("Failed to create Transaction Model data for missing name test");
+		}
+
 		missingNameTransactionModel.name = "";
 		const missingNameTransactionModelResult = await createTransactionModel(missingNameTransactionModel);
 
 		expect(missingNameTransactionModelResult.success).toBe(false);
 
 		const duplicateIdsTransactionModel = transactionModelFactory.make(1)[0];
+
+		if(!duplicateIdsTransactionModel) {
+			throw new Error("Failed to create Transaction Model data for duplicate IDs test");
+		}
+
 		duplicateIdsTransactionModel.id = transactionModelResult.data.id;
 		duplicateIdsTransactionModel.ref_id = transactionModelResult.data.ref_id;
 		duplicateIdsTransactionModel.alt_id = transactionModelResult.data.alt_id;

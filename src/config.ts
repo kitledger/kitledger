@@ -1,4 +1,8 @@
 import { AlgorithmTypes } from "hono/utils/jwt/jwa";
+import { config } from "dotenv";
+
+// Load environment variables from .env file
+config();
 
 /*
  * 1) Define the types

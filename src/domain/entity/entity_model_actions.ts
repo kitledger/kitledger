@@ -10,7 +10,7 @@ import {
 import { db } from "../../services/database/db.ts";
 import { entity_models } from "../../services/database/schema.ts";
 import { eq } from "drizzle-orm";
-import { randomUUIDv7 } from "bun";
+import {v7} from "uuid";
 
 async function refIdAlreadyExists(refId: string): Promise<boolean> {
 	const results = await db.query.entity_models.findMany({
@@ -90,7 +90,7 @@ export async function createEntityModel(
 	}
 
 	const insert_data: EntityModelInsert = {
-		id: randomUUIDv7(),
+		id: v7(),
 		...validation.data,
 	};
 

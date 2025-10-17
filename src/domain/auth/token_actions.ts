@@ -1,9 +1,9 @@
 import { db } from "../../services/database/db.ts";
 import { api_tokens } from "../../services/database/schema.ts";
-import { randomUUIDv7 } from "bun";
+import {v7} from "uuid";
 
 export async function createToken(userId: string, name?: string | null): Promise<string> {
-	const tokenId = randomUUIDv7();
+	const tokenId = v7();
 
 	await db.insert(api_tokens).values({
 		id: tokenId,

@@ -1,10 +1,10 @@
 import { db } from "../../services/database/db.ts";
 import { sessions } from "../../services/database/schema.ts";
 import { sessionConfig } from "../../config.ts";
-import { randomUUIDv7 } from "bun";
+import {v7} from "uuid";
 
 export async function startSession(userId: string): Promise<string> {
-	const sessionId = randomUUIDv7();
+	const sessionId = v7();
 
 	await db.insert(sessions).values({
 		id: sessionId,

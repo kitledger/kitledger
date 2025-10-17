@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import type { UnitModel } from "./types.ts";
 import { BaseFactory } from "../base/base_factory.ts";
-import { randomUUIDv7 } from "bun";
+import {v7} from "uuid";
 
 export class UnitModelFactory extends BaseFactory<UnitModel> {
 	constructor() {
@@ -10,10 +10,10 @@ export class UnitModelFactory extends BaseFactory<UnitModel> {
 }
 
 const makeUnitModel = (): UnitModel => ({
-	id: randomUUIDv7(),
-	ref_id: randomUUIDv7(),
+	id: v7(),
+	ref_id: v7(),
 	name: faker.science.unit().name,
-	alt_id: faker.datatype.boolean() ? randomUUIDv7() : null,
+	alt_id: faker.datatype.boolean() ? v7() : null,
 	active: faker.datatype.boolean(),
 	base_unit_id: faker.datatype.boolean() ? faker.string.uuid() : null,
 	created_at: faker.date.past(),

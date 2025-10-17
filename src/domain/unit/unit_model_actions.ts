@@ -10,6 +10,7 @@ import {
 import { db } from "../../services/database/db.ts";
 import { unit_models } from "../../services/database/schema.ts";
 import { eq } from "drizzle-orm";
+import { v7 } from "uuid";
 
 async function refIdAlreadyExists(refId: string): Promise<boolean> {
 	const results = await db.query.unit_models.findMany({
@@ -87,7 +88,7 @@ export async function createUnitModel(
 	}
 
 	const insert_data: UnitModelInsert = {
-		id: Bun.randomUUIDv7(),
+		id: v7(),
 		...validation.data,
 	};
 
