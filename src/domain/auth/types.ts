@@ -7,7 +7,7 @@ import {
 	system_permissions,
 	user_roles,
 	users,
-} from "../../services/database/schema.ts";
+} from "../../services/database/schema.js";
 
 export type ApiTokenInsert = InferInsertModel<typeof api_tokens>;
 export type ApiToken = InferSelectModel<typeof api_tokens>;

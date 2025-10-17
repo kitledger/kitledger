@@ -1,7 +1,7 @@
 import { describe, it, afterAll, expect } from "vitest";
-import { db } from "../../src/services/database/db.ts";
-import { createTransactionModel } from "../../src/domain/transaction/transaction_model_actions.ts";
-import { TransactionModelFactory } from "../../src/domain/transaction/factories.ts";
+import { db } from "../../src/services/database/db.js";
+import { createTransactionModel } from "../../src/domain/transaction/transaction_model_actions.js";
+import { TransactionModelFactory } from "../../src/domain/transaction/factories.js";
 
 describe("Transaction Domain Tests", () => {
 	/*afterAll(async () => {

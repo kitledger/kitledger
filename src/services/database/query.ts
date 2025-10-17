@@ -1,8 +1,8 @@
 import { type ConditionGroup, type Query, QuerySchema } from "@kitledger/query";
 import { PgTable } from "drizzle-orm/pg-core";
 import { getTableName } from "drizzle-orm";
-import { parseValibotIssues, type ValidationResult } from "../../domain/base/validation.ts";
-import { db } from "./db.ts";
+import { parseValibotIssues, type ValidationResult } from "../../domain/base/validation.js";
+import { db } from "./db.js";
 import {
     defaultLimit,
     defaultOffset,
@@ -10,9 +10,9 @@ import {
     maxLimit,
     type QueryResultRow,
     QueryResultSchema,
-} from "./helpers.ts";
+} from "./helpers.js";
 import * as v from "valibot";
-import knex, { Knex } from "knex";
+import knex, { type Knex } from "knex";
 
 /**
  * Maximum allowed nesting depth for filter groups to prevent overly complex queries.

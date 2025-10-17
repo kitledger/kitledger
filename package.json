@@ -1,5 +1,6 @@
 {
   "name": "@kitledger/core",
+  "type": "module",
   "description": "Programmable Accounting Ledger",
   "author": {
     "name": "Alejandro Barrera Aponte",
@@ -34,7 +35,8 @@
   "scripts": {
     "db:custom": "drizzle-kit generate --custom",
     "db:generate": "drizzle-kit generate",
-    "dev": "tsx ./src/main.ts",
+	"build:dev": "tsc",
+    "dev": "npm run build:dev && node ./dist/src/main.js",
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   }

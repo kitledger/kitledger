@@ -1,9 +1,9 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
-import { dbConfig } from "../../config.ts";
+import { dbConfig } from "../../config.js";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url"; 
-import * as schema from "./schema.ts";
+import * as schema from "./schema.js";
 
 export const db = drizzle({
     connection: dbConfig,

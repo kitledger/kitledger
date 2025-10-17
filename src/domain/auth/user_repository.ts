@@ -1,5 +1,5 @@
-import { db } from "../../services/database/db.ts";
-import { api_tokens, sessions } from "../../services/database/schema.ts";
+import { db } from "../../services/database/db.js";
+import { api_tokens, sessions } from "../../services/database/schema.js";
 import { and, eq, isNull } from "drizzle-orm";
 
 export async function getSessionUserId(sessionId: string): Promise<string | null> {

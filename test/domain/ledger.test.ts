@@ -1,10 +1,10 @@
 import { describe, it, afterAll, expect } from "vitest";
-import { db } from "../../src/services/database/db.ts";
-import { createLedger } from "../../src/domain/ledger/ledger_actions.ts";
-import { createAccount } from "../../src/domain/ledger/account_actions.ts";
-import { LedgerFactory, AccountFactory } from "../../src/domain/ledger/factories.ts";
-import { UnitModelFactory } from "../../src/domain/unit/factories.ts";
-import { createUnitModel } from "../../src/domain/unit/unit_model_actions.ts";
+import { db } from "../../src/services/database/db.js";
+import { createLedger } from "../../src/domain/ledger/ledger_actions.js";
+import { createAccount } from "../../src/domain/ledger/account_actions.js";
+import { LedgerFactory, AccountFactory } from "../../src/domain/ledger/factories.js";
+import { UnitModelFactory } from "../../src/domain/unit/factories.js";
+import { createUnitModel } from "../../src/domain/unit/unit_model_actions.js";
 import {v7} from "uuid";
 
 describe("Ledger Domain Tests", () => {

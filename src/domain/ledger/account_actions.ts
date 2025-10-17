@@ -1,4 +1,4 @@
-import { type Account, type AccountCreateData, AccountCreateSchema, type AccountInsert } from "./types.ts";
+import { type Account, type AccountCreateData, AccountCreateSchema, type AccountInsert } from "./types.js";
 import * as v from "valibot";
 import {
 	parseValibotIssues,
@@ -6,12 +6,12 @@ import {
 	type ValidationFailure,
 	type ValidationResult,
 	type ValidationSuccess,
-} from "../base/validation.ts";
-import { accounts } from "../../services/database/schema.ts";
-import { db } from "../../services/database/db.ts";
+} from "../base/validation.js";
+import { accounts } from "../../services/database/schema.js";
+import { db } from "../../services/database/db.js";
 import { eq } from "drizzle-orm";
 import {v7} from "uuid";
-import { findLedgerId, findParentAccount } from "./account_repository.ts";
+import { findLedgerId, findParentAccount } from "./account_repository.js";
 
 async function refIdAlreadyExists(refId: string): Promise<boolean> {
 	const results = await db.query.accounts.findMany({

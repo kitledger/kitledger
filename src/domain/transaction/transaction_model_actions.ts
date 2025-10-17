@@ -3,7 +3,7 @@ import {
 	type TransactionModelCreateData,
 	TransactionModelCreateSchema,
 	type TransactionModelInsert,
-} from "./types.ts";
+} from "./types.js";
 import * as v from "valibot";
 import {
 	parseValibotIssues,
@@ -11,9 +11,9 @@ import {
 	type ValidationFailure,
 	type ValidationResult,
 	type ValidationSuccess,
-} from "../base/validation.ts";
-import { db } from "../../services/database/db.ts";
-import { transaction_models } from "../../services/database/schema.ts";
+} from "../base/validation.js";
+import { db } from "../../services/database/db.js";
+import { transaction_models } from "../../services/database/schema.js";
 import { eq } from "drizzle-orm";
 import {v7} from "uuid";
 

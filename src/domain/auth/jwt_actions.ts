@@ -1,6 +1,6 @@
 import { sign, verify } from "hono/jwt";
 import { type JWTPayload } from "hono/utils/jwt/types";
-import { authConfig } from "../../config.ts";
+import { authConfig } from "../../config.js";
 
 export enum TokenType {
 	SESSION = "SESSION",

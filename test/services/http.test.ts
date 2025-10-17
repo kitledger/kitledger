@@ -1,7 +1,7 @@
 import { test, expect } from "vitest";
-import { auth } from "../../src/services/http/middleware/auth_middleware.ts";
+import { auth } from "../../src/services/http/middleware/auth_middleware.js";
 import { type Context } from "hono";
-import { serverConfig } from "../../src/config.ts";
+import { serverConfig } from "../../src/config.js";
 
 test("Hono Auth middleware returns 401 for missing token", async () => {
 	const c = {

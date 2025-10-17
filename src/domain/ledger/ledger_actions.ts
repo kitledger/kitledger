@@ -1,4 +1,4 @@
-import { type Ledger, type LedgerCreateData, LedgerCreateSchema, type LedgerInsert } from "./types.ts";
+import { type Ledger, type LedgerCreateData, LedgerCreateSchema, type LedgerInsert } from "./types.js";
 import * as v from "valibot";
 import {
 	parseValibotIssues,
@@ -6,12 +6,12 @@ import {
 	type ValidationFailure,
 	type ValidationResult,
 	type ValidationSuccess,
-} from "../base/validation.ts";
-import { db } from "../../services/database/db.ts";
-import { ledgers } from "../../services/database/schema.ts";
+} from "../base/validation.js";
+import { db } from "../../services/database/db.js";
+import { ledgers } from "../../services/database/schema.js";
 import { eq } from "drizzle-orm";
 import {v7} from "uuid";
-import { findUnitModelId } from "./ledger_repository.ts";
+import { findUnitModelId } from "./ledger_repository.js";
 
 async function refIdAlreadyExists(refId: string): Promise<boolean> {
 	const results = await db.query.ledgers.findMany({

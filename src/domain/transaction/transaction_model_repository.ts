@@ -1,7 +1,7 @@
-import type { TransactionModel } from "./types.ts";
+import type { TransactionModel } from "./types.js";
 import { and, eq, type SQL, sql } from "drizzle-orm";
-import { transaction_models } from "../../services/database/schema.ts";
-import { db } from "../../services/database/db.ts";
+import { transaction_models } from "../../services/database/schema.js";
+import { db } from "../../services/database/db.js";
 import {
 	ANY,
 	defaultLimit,
@@ -10,7 +10,7 @@ import {
 	type GetOperationResult,
 	maxLimit,
 	parseBooleanFilterValue,
-} from "../../services/database/helpers.ts";
+} from "../../services/database/helpers.js";
 
 export async function filterTransactionModels(
 	params: FilterOperationParameters,

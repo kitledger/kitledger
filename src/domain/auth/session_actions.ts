@@ -1,6 +1,6 @@
-import { db } from "../../services/database/db.ts";
-import { sessions } from "../../services/database/schema.ts";
-import { sessionConfig } from "../../config.ts";
+import { db } from "../../services/database/db.js";
+import { sessions } from "../../services/database/schema.js";
+import { sessionConfig } from "../../config.js";
 import {v7} from "uuid";
 
 export async function startSession(userId: string): Promise<string> {

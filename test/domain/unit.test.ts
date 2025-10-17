@@ -1,7 +1,7 @@
 import { describe, it, afterAll, expect } from "vitest";
-import { db } from "../../src/services/database/db.ts";
-import { UnitModelFactory } from "../../src/domain/unit/factories.ts";
-import { createUnitModel } from "../../src/domain/unit/unit_model_actions.ts";
+import { db } from "../../src/services/database/db.js";
+import { UnitModelFactory } from "../../src/domain/unit/factories.js";
+import { createUnitModel } from "../../src/domain/unit/unit_model_actions.js";
 
 describe("Unit Domain Tests", () => {
 	/*afterAll(async () => {

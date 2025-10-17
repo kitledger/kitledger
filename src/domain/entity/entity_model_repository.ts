@@ -1,7 +1,7 @@
-import type { EntityModel } from "./types.ts";
+import type { EntityModel } from "./types.js";
 import { and, eq, type SQL, sql } from "drizzle-orm";
-import { entity_models } from "../../services/database/schema.ts";
-import { db } from "../../services/database/db.ts";
+import { entity_models } from "../../services/database/schema.js";
+import { db } from "../../services/database/db.js";
 import {
 	ANY,
 	defaultLimit,
@@ -10,7 +10,7 @@ import {
 	type GetOperationResult,
 	maxLimit,
 	parseBooleanFilterValue,
-} from "../../services/database/helpers.ts";
+} from "../../services/database/helpers.js";
 
 export async function filterEntityModels(params: FilterOperationParameters): Promise<GetOperationResult<EntityModel>> {
 	const { limit = defaultLimit, offset = defaultOffset, ...filters } = params;

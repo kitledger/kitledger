@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
-import type { UnitModel } from "./types.ts";
-import { BaseFactory } from "../base/base_factory.ts";
+import type { UnitModel } from "./types.js";
+import { BaseFactory } from "../base/base_factory.js";
 import {v7} from "uuid";
 
 export class UnitModelFactory extends BaseFactory<UnitModel> {

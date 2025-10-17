@@ -1,7 +1,7 @@
 import { describe, it, afterAll, expect } from "vitest";
-import { db } from "../../src/services/database/db.ts";
-import { createEntityModel } from "../../src/domain/entity/entity_model_actions.ts";
-import { EntityModelFactory } from "../../src/domain/entity/factories.ts";
+import { db } from "../../src/services/database/db.js";
+import { createEntityModel } from "../../src/domain/entity/entity_model_actions.js";
+import { EntityModelFactory } from "../../src/domain/entity/factories.js";
 
 describe("Entity Domain Tests", () => {
 	/*afterAll(async () => {

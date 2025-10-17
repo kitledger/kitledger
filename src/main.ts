@@ -1,11 +1,11 @@
-import { runMigrations } from "./services/database/db.ts";
-import server from "./services/http/server.ts";
-import { serverConfig } from "./config.ts";
-import { execute } from "./cli.ts";
-import { executeScript } from "./services/scripting/v1/runtime.ts";
-import { executeQuery } from "./services/database/query.ts";
+import { runMigrations } from "./services/database/db.js";
+import server from "./services/http/server.js";
+import { serverConfig } from "./config.js";
+import { execute } from "./cli.js";
+import { executeScript } from "./services/scripting/v1/runtime.js";
+import { executeQuery } from "./services/database/query.js";
 import type { Query } from "@kitledger/query";
-import { accounts } from "./services/database/schema.ts";
+import { accounts } from "./services/database/schema.js";
 import { serve } from "@hono/node-server";
 import { argv } from "node:process";
 
@@ -68,6 +68,8 @@ async function start() {
 	const queryResult = await executeQuery(accounts, queryParams);
 
 	console.log("--- Executing Sample Query ---", queryResult);
+
+	console.table(serverConfig);
 
 	// --- Server and CLI Startup Logic ---
 	const args = argv.slice(2);

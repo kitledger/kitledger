@@ -1,5 +1,5 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { entity_models } from "../../services/database/schema.ts";
+import { entity_models } from "../../services/database/schema.js";
 import type { InferOutput } from "valibot";
 import * as v from "valibot";
 
