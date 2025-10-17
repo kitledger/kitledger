@@ -1,4 +1,4 @@
-import { ThreadWorker } from "poolifier-web-worker";
+import { ThreadWorker } from "poolifier";
 import { hashPassword } from "../../domain/auth/utils.ts";
 
 export enum availableWorkerTasks {

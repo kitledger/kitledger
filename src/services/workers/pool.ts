@@ -1,4 +1,4 @@
-import { FixedThreadPool } from "poolifier-web-worker";
+import { FixedThreadPool } from "poolifier";
 import { workerConfig } from "../../config.ts";
 
 export const workerPool = new FixedThreadPool(
