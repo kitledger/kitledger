@@ -1,0 +1,40 @@
+name: Publish Packages
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build all packages
+        run: pnpm -r run build
+
+      - name: Set up npm for publishing
+        run: pnpm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
+
+      - name: Publish changed packages
+        run: pnpm publish --filter "./packages/**" --no-git-checks

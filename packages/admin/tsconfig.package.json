@@ -22,7 +22,7 @@
     
     /* Language and Environment */
     "target": "ES2022",
-    "lib": ["ESNext", "DOM", "WebWorker"],
+    "lib": ["ESNext"],
 
     /* Completeness */
     "skipLibCheck": true,
@@ -31,5 +31,5 @@
     "outDir": "dist-package",
     "declaration": true
   },
-  "include": ["ui.ts"]
+  "include": ["admin.ts"]
 }

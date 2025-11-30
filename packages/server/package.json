@@ -1,0 +1,31 @@
+{
+  "name": "@kitledger/server",
+  "license": "Apache-2.0",
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+	"./node": {
+		"types": "./dist/node.d.ts",
+		"default": "./dist/node.js"
+	}
+  },
+  "scripts": {
+    "build": "tsc",
+	"typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+	"@hono/node-server": "^1.19.6",
+	"@kitledger/core": "workspace:*",
+	"hono": "^4.10.7"
+  },
+  "peerDependencies": {
+	"valibot": "^1.1.0"
+  }
+}

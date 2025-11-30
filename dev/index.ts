@@ -1,33 +1,61 @@
 import { serve } from '@hono/node-server'
-import { serveStatic } from '@hono/node-server/serve-static'
-import { Hono } from 'hono'
-import { getUIFiles, assetsPath } from "@kitledger/ui"; 
-import { relative } from 'path';
+import { defineAdminUI } from "@kitledger/admin"; 
+import { defineTransactionModel } from '@kitledger/core/transactions';
+import { defineEntityModel } from "@kitledger/core/entities";
+import { defineConfig } from '@kitledger/core';
+import  { createServer } from "@kitledger/server/node";
 
-const htmlContent = getUIFiles({
-  apiBaseUrl: 'http://localhost:3000/api',
-  title: 'Kitledger Admin',
+const transactionModels = [
+      defineTransactionModel({
+        ref_id: 'INVOICE',
+        name: 'Invoice',
+      }),
+      defineTransactionModel({
+        ref_id: 'PAYMENT',
+        name: 'Payment',
+      }),
+	  defineTransactionModel({
+		ref_id: 'CREDIT_NOTE',
+		name: 'Credit Note',
+	  }),
+];
+
+const entityModels = [
+    defineEntityModel({
+        ref_id: 'CUSTOMER',
+        name: 'Customer',
+    }),
+    defineEntityModel({
+        ref_id: 'VENDOR',
+        name: 'Vendor',
+    }),
+	defineEntityModel({
+		ref_id: 'EMPLOYEE',
+		name: 'Employee',
+	}),
+];
+
+const config = defineConfig({
+    transactionModels,
+    entityModels
+});
+
+const adminUI = defineAdminUI({
+  serverPath: '/__kitledger_data',
+  title: 'Kitledger Admin UI',
   basePath: '/admin',
 });
 
-const app = new Hono()
-
-const relativeAssetsPath = relative(process.cwd(), assetsPath);
-
-app.get('/admin', (c) => c.redirect('/admin/'))
-
-app.use('/admin/*', serveStatic({
-  root: relativeAssetsPath,
-  rewriteRequestPath: (path) => path.replace(/^\/admin/, '') 
-}))
-
-app.get('/admin/*', (c) => {
-  return c.html(htmlContent);
+const server = createServer({
+	systemConfig: config,
+	path: '/__kitledger_data',
+	staticPaths: [],
+	staticUIs: [
+		adminUI
+	]
 });
 
-app.get('/', (c) => c.text('Hello Node.js!'))
-
 serve({
-    fetch: app.fetch,
+    fetch: server,
     port: 3000,
 });

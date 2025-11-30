@@ -4,7 +4,7 @@
   "description": "Kitledger development environment",
   "main": "index.js",
   "scripts": {
-	"serve": "tsx index.ts",
+	"serve": "tsx index.ts --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -26,9 +26,10 @@
   "license": "Apache-2.0",
   "author": "Alejandro Barrera Aponte",
   "dependencies": {
-    "@hono/node-server": "^1.19.6",
-    "@kitledger/ui": "workspace:*",
-    "hono": "^4.10.7",
+	"@hono/node-server": "^1.19.6",
+	"@kitledger/admin": "workspace:*",
+	"@kitledger/core": "workspace:*",
+	"@kitledger/server": "workspace:*",
     "tsx": "^4.20.6"
   }
 }

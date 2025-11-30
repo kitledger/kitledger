@@ -1,0 +1,38 @@
+{
+  "name": "@kitledger/core",
+  "license": "Apache-2.0",
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+	".": {
+		"types": "./dist/index.d.ts",
+		"default": "./dist/index.js"
+	},
+	"./entities": {
+		"types": "./dist/entities.d.ts",
+		"default": "./dist/entities.js"
+	},
+	"./transactions": {
+		"types": "./dist/transactions.d.ts",
+		"default": "./dist/transactions.js"
+	},
+	"./ui": {
+		"types": "./dist/ui.d.ts",
+		"default": "./dist/ui.js"
+	}
+  },
+  "scripts": {
+    "build": "tsc",
+	"typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+	"valibot": "^1.1.0"
+  }
+}
