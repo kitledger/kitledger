@@ -1,0 +1,33 @@
+{
+  "name": "kitledger",
+  "version": "1.0.0",
+  "description": "Framework for building transactional systems with double entry accounting",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm -r run build"
+  },
+  "keywords": [
+    "ledger",
+    "accounting",
+    "framework",
+    "platform"
+  ],
+  "homepage": "https://kitledger.com",
+  "bugs": {
+    "url": "https://github.com/kitledger/kitledger/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitledger/kitledger.git"
+  },
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Alejandro Barrera Aponte",
+  "packageManager": "pnpm@10.17.1",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@types/node": "^24.10.1"
+  }
+}

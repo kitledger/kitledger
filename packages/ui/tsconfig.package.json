@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+
+    /* Type Checking */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "exactOptionalPropertyTypes": true,
+
+    /* Modules */
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "resolveJsonModule": true,
+    
+    /* Emit */
+    "noEmit": false,
+
+    /* Interop */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    
+    /* Language and Environment */
+    "target": "ES2022",
+    "lib": ["ESNext", "DOM", "WebWorker"],
+
+    /* Completeness */
+    "skipLibCheck": true,
+
+	/* Project Structure */
+    "outDir": "dist-package",
+    "declaration": true
+  },
+  "include": ["ui.ts"]
+}
