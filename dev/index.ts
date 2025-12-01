@@ -45,6 +45,7 @@ const adminUI = defineAdminUI({
   basePath: '/admin',
   title: 'Kitledger Admin UI',
 });
+
 const server = createServer({
 	systemConfig: config,
 	runtime: "node",

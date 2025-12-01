@@ -39,8 +39,6 @@ export function createServer(config: ServerConfig) {
 				? staticUI.basePath.slice(0, -1)
 				: staticUI.basePath;
 
-			server.get(cleanPath, (c) => c.redirect(cleanPath + '/'));
-
 			server.use(`${cleanPath}/*`, serveStatic({
 				root: staticUI.assetsPath,
 				rewriteRequestPath: (path) => {
