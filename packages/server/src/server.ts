@@ -1,8 +1,24 @@
+import { Hono } from 'hono';
+import { type KitledgerConfig } from '@kitledger/core';
+import { StaticUIConfig } from '@kitledger/core/ui';
 import { serveStatic } from '@hono/node-server/serve-static';
-import { createBaseServer, type ServerConfig } from './core.js';
+
+export type ServerOptions = {
+	systemConfig: KitledgerConfig;
+	runtime: "node";
+	staticPaths?: string[];
+	staticUIs?: StaticUIConfig[];
+}
+
+export type ServerConfig = ServerOptions;
+
+export function defineServerConfig(options: ServerOptions): ServerConfig {
+	return options;
+}
 
 export function createServer(config: ServerConfig) {
-	const server = createBaseServer(config);
+
+	const server = new Hono();
 
 	/**
 	 * Static Apps Serving
@@ -10,10 +26,18 @@ export function createServer(config: ServerConfig) {
 	if(config.staticUIs) {
 		for (const staticUI of config.staticUIs) {
 
+			server.get(`${staticUI.serverPath}/transactions/models`, (c) => {
+				return c.json(config.systemConfig.transactionModels);
+			});
+
+			server.get(`${staticUI.serverPath}/entities/models`, (c) => {
+				return c.json(config.systemConfig.entityModels);
+			});
+
 			// Remove trailing slash if path ends with '/'
-			const cleanPath = staticUI.path.endsWith('/')
-				? staticUI.path.slice(0, -1)
-				: staticUI.path;
+			const cleanPath = staticUI.basePath.endsWith('/')
+				? staticUI.basePath.slice(0, -1)
+				: staticUI.basePath;
 
 			server.get(cleanPath, (c) => c.redirect(cleanPath + '/'));
 
@@ -42,5 +66,5 @@ export function createServer(config: ServerConfig) {
 		}
 	}
 	
-	return server.fetch;
+	return server;
 }

@@ -3,7 +3,7 @@ import { defineAdminUI } from "@kitledger/admin";
 import { defineTransactionModel } from '@kitledger/core/transactions';
 import { defineEntityModel } from "@kitledger/core/entities";
 import { defineConfig } from '@kitledger/core';
-import  { createServer } from "@kitledger/server/node";
+import  { createServer } from "@kitledger/server";
 
 const transactionModels = [
       defineTransactionModel({
@@ -42,20 +42,19 @@ const config = defineConfig({
 
 const adminUI = defineAdminUI({
   serverPath: '/__kitledger_data',
-  title: 'Kitledger Admin UI',
   basePath: '/admin',
+  title: 'Kitledger Admin UI',
 });
-
 const server = createServer({
 	systemConfig: config,
-	path: '/__kitledger_data',
+	runtime: "node",
 	staticPaths: [],
 	staticUIs: [
-		adminUI
+		adminUI,
 	]
 });
 
 serve({
-    fetch: server,
+    fetch: server.fetch,
     port: 3000,
 });

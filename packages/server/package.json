@@ -1,7 +1,7 @@
 {
   "name": "@kitledger/server",
   "license": "Apache-2.0",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "files": [
     "dist"
@@ -11,9 +11,9 @@
     "access": "public"
   },
   "exports": {
-	"./node": {
-		"types": "./dist/node.d.ts",
-		"default": "./dist/node.js"
+	".": {
+		"types": "./dist/server.d.ts",
+		"default": "./dist/server.js"
 	}
   },
   "scripts": {

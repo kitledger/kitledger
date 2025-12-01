@@ -4,7 +4,7 @@ function App() {
 
     type UiConfig = {
         serverPath: string;
-        basePath?: string;
+        assetsPath?: string;
         title?: string;
     }
 

@@ -21,14 +21,15 @@ const assetsPath = relative(process.cwd(), DIST_PATH);
  */
 export interface AdminUIOptions {
   serverPath: string;
-  basePath?: string;
+  basePath: string;
   title?: string;
 }
 
 export function defineAdminUI(options: AdminUIOptions): StaticUIConfig {
 	return {
-		path: options.basePath || '/admin',
+		serverPath: options.serverPath,
 		htmlContent: getAdminHtmlContent(options),
+		basePath: options.basePath || '/admin',
 		assetsPath: assetsPath
 	}
 }
@@ -46,9 +47,9 @@ function getAdminHtmlContent(config: AdminUIOptions): string {
 
 	let html = fs.readFileSync(htmlPath, 'utf-8');
 
-  const safeBase = config.basePath?.endsWith('/') 
+  const safeBase = config.basePath.endsWith('/') 
     ? config.basePath 
-    : `${config.basePath || ''}/`;
+    : `${config.basePath}/`;
 
   const injection = `
     <base href="${safeBase}" />
