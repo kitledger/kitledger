@@ -11,8 +11,17 @@ export type TransactionModelOptions = {
 	status?: TransactionModelStatus
 };
 
-export type TransactionModel = TransactionModelOptions;
+export type TransactionModel = {
+	ref_id: string,
+	alt_id?: string,
+	name: string,
+	status: TransactionModelStatus
+};
 
-export function defineTransactionModel(options: TransactionModelOptions) {
-	return options;
+export function defineTransactionModel(options: TransactionModelOptions) :TransactionModel {
+	const transactionModel: TransactionModel = {
+		...options,
+		status: options.status ?? TransactionModelStatus.ACTIVE
+	};
+	return transactionModel;
 }
