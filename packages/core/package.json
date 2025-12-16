@@ -1,38 +1,51 @@
 {
-  "name": "@kitledger/core",
-  "license": "Apache-2.0",
-  "version": "0.0.2",
-  "type": "module",
-  "files": [
-    "dist"
-  ],
-  "private": false,
-  "publishConfig": {
-    "access": "public"
-  },
-  "exports": {
-	".": {
-		"types": "./dist/index.d.ts",
-		"default": "./dist/index.js"
+	"name": "@kitledger/core",
+	"license": "Apache-2.0",
+	"version": "0.0.2",
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"private": false,
+	"publishConfig": {
+		"access": "public"
 	},
-	"./entities": {
-		"types": "./dist/entities.d.ts",
-		"default": "./dist/entities.js"
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./entities": {
+			"types": "./dist/entities.d.ts",
+			"default": "./dist/entities.js"
+		},
+		"./transactions": {
+			"types": "./dist/transactions.d.ts",
+			"default": "./dist/transactions.js"
+		},
+		"./ui": {
+			"types": "./dist/ui.d.ts",
+			"default": "./dist/ui.js"
+		}
 	},
-	"./transactions": {
-		"types": "./dist/transactions.d.ts",
-		"default": "./dist/transactions.js"
+	"scripts": {
+		"build": "tsc",
+		"typecheck": "tsc --noEmit"
 	},
-	"./ui": {
-		"types": "./dist/ui.d.ts",
-		"default": "./dist/ui.js"
+	"peerDependencies": {
+		"valibot": "^1.1.0"
+	},
+	"dependencies": {
+		"@kitledger/query": "workspace:*",
+		"@node-rs/argon2": "^2.0.2",
+		"drizzle-orm": "^0.45.1",
+		"knex": "^3.1.0",
+		"pg": "^8.16.3",
+		"postgres": "^3.4.7",
+		"uuid": "^13.0.0"
+	},
+	"devDependencies": {
+		"@faker-js/faker": "^10.1.0",
+		"drizzle-kit": "^0.31.8"
 	}
-  },
-  "scripts": {
-    "build": "tsc",
-	"typecheck": "tsc --noEmit"
-  },
-  "peerDependencies": {
-	"valibot": "^1.1.0"
-  }
 }
