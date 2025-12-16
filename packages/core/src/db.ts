@@ -1,37 +1,37 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { timestamp } from "drizzle-orm/pg-core";
-import * as v from "valibot";
-import postgres from "postgres";
+import { drizzle } from "drizzle-orm/postgres-js";
 import { PostgresJsDatabase } from "drizzle-orm/postgres-js";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import postgres from "postgres";
+import * as v from "valibot";
 
 import * as schema from "./schema.js";
 
 type DbOptions = {
-    url: string;
-    ssl?: boolean;
-    max?: number;
+	url: string;
+	ssl?: boolean;
+	max?: number;
 	migrations_table?: string;
 	migrations_schema?: string;
 };
 
 export type KitledgerDb = PostgresJsDatabase<typeof schema> & {
-    $client: postgres.Sql<{}>;
-}
+	$client: postgres.Sql<{}>;
+};
 
 async function runMigrations(db: KitledgerDb, migrationsTable: string, migrationsSchema: string) {
-    await migrate(db, {
-        migrationsFolder: "./migrations",
-        migrationsTable: migrationsTable,
-        migrationsSchema: migrationsSchema,
-    });
+	await migrate(db, {
+		migrationsFolder: "./migrations",
+		migrationsTable: migrationsTable,
+		migrationsSchema: migrationsSchema,
+	});
 }
 
 export async function initializeDatabase(options: DbOptions) {
 	const dbConfig: DbOptions = {
 		url: options.url,
 		ssl: options.ssl ? options.ssl : false,
-		max: options.max ? options.max : 10
+		max: options.max ? options.max : 10,
 	};
 	const db = drizzle({
 		connection: dbConfig,
@@ -86,27 +86,14 @@ export type QueryResultRow = v.InferInput<typeof QueryResultRowSchema>;
 
 export const QueryResultRowSchema = v.record(
 	v.string(),
-	v.union(
-		[
-			v.string(),
-			v.number(),
-			v.boolean(),
-			v.date(),
-			v.null(),
-			v.record(
-				v.string(),
-				v.union(
-					[
-						v.string(),
-						v.number(),
-						v.boolean(),
-						v.date(),
-						v.null(),
-					],
-				),
-			),
-		],
-	),
+	v.union([
+		v.string(),
+		v.number(),
+		v.boolean(),
+		v.date(),
+		v.null(),
+		v.record(v.string(), v.union([v.string(), v.number(), v.boolean(), v.date(), v.null()])),
+	]),
 );
 
 export const QueryResultSchema = v.array(QueryResultRowSchema);

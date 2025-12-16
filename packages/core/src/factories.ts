@@ -1,7 +1,8 @@
-import { ApiToken, Permission, PermissionAssignment, Role, SystemPermission, User, UserRole } from "./auth.js";
 import { faker } from "@faker-js/faker";
 import { v7 } from "uuid";
+
 import { Account, BalanceType } from "./accounts.js";
+import { ApiToken, Permission, PermissionAssignment, Role, SystemPermission, User, UserRole } from "./auth.js";
 import { Ledger } from "./ledgers.js";
 
 /**
@@ -25,8 +26,6 @@ export class BaseFactory<T> {
 		return factory(this.factory, count);
 	}
 }
-
-
 
 export class ApiTokenFactory extends BaseFactory<ApiToken> {
 	constructor() {
@@ -108,7 +107,7 @@ const makeRole = (): Role => ({
 	updated_at: faker.date.recent(),
 });
 
-const makeSession = (): string => (v7());
+const makeSession = (): string => v7();
 
 const makeSystemPermission = (): SystemPermission => ({
 	id: faker.string.uuid(),

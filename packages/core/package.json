@@ -1,15 +1,9 @@
 {
 	"name": "@kitledger/core",
-	"license": "Apache-2.0",
 	"version": "0.0.2",
-	"type": "module",
-	"files": [
-		"dist"
-	],
 	"private": false,
-	"publishConfig": {
-		"access": "public"
-	},
+	"license": "Apache-2.0",
+	"type": "module",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
@@ -28,12 +22,12 @@
 			"default": "./dist/ui.js"
 		}
 	},
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"build": "tsc",
 		"typecheck": "tsc --noEmit"
-	},
-	"peerDependencies": {
-		"valibot": "^1.1.0"
 	},
 	"dependencies": {
 		"@kitledger/query": "workspace:*",
@@ -48,5 +42,11 @@
 	"devDependencies": {
 		"@faker-js/faker": "^10.1.0",
 		"drizzle-kit": "^0.31.8"
+	},
+	"peerDependencies": {
+		"valibot": "^1.1.0"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }

@@ -1,31 +1,31 @@
 {
-  "name": "@kitledger/server",
-  "license": "Apache-2.0",
-  "version": "0.0.3",
-  "type": "module",
-  "files": [
-    "dist"
-  ],
-  "private": false,
-  "publishConfig": {
-    "access": "public"
-  },
-  "exports": {
-	".": {
-		"types": "./dist/server.d.ts",
-		"default": "./dist/server.js"
+	"name": "@kitledger/server",
+	"version": "0.0.3",
+	"private": false,
+	"license": "Apache-2.0",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/server.d.ts",
+			"default": "./dist/server.js"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@hono/node-server": "^1.19.6",
+		"@kitledger/core": "workspace:*",
+		"hono": "^4.10.7"
+	},
+	"peerDependencies": {
+		"valibot": "^1.1.0"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
-  },
-  "scripts": {
-    "build": "tsc",
-	"typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-	"@hono/node-server": "^1.19.6",
-	"@kitledger/core": "workspace:*",
-	"hono": "^4.10.7"
-  },
-  "peerDependencies": {
-	"valibot": "^1.1.0"
-  }
 }

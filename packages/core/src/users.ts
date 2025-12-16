@@ -1,20 +1,19 @@
-import { type KitledgerDb } from "./db.js";
-import { api_tokens, sessions, users, system_permissions } from "./schema.js";
 import { and, eq, gt, isNull, isNotNull } from "drizzle-orm";
-import { verifyPassword, hashPassword } from "./crypto.js";
-import type { AppUser, Role, Permission, User, AuthConfigOptions } from "./auth.js";
-import { SYSTEM_ADMIN_PERMISSION } from "./auth.js";
 import { randomBytes } from "node:crypto";
 import { v7 } from "uuid";
-import { signToken, assembleApiTokenJwtPayload } from "./jwt.js";
+
+import type { AppUser, Role, Permission, User, AuthConfigOptions } from "./auth.js";
+
+import { SYSTEM_ADMIN_PERMISSION } from "./auth.js";
 import { createToken } from "./auth.js";
+import { verifyPassword, hashPassword } from "./crypto.js";
+import { type KitledgerDb } from "./db.js";
+import { signToken, assembleApiTokenJwtPayload } from "./jwt.js";
+import { api_tokens, sessions, users, system_permissions } from "./schema.js";
 
 export async function getSessionUserId(db: KitledgerDb, sessionId: string): Promise<string | null> {
 	const session = await db.query.sessions.findFirst({
-		where: and(
-			eq(sessions.id, sessionId),
-			gt(sessions.expires_at, new Date()),
-		),
+		where: and(eq(sessions.id, sessionId), gt(sessions.expires_at, new Date())),
 		columns: {
 			user_id: true,
 		},
@@ -32,8 +31,7 @@ export async function getTokenUserId(db: KitledgerDb, tokenId: string): Promise<
 
 	if (token) {
 		return token.user_id;
-	}
-	else {
+	} else {
 		return null;
 	}
 }
@@ -67,97 +65,87 @@ export async function validateUserCredentials(
 			last_name: user.last_name,
 			email: user.email,
 		};
-	}
-	else {
+	} else {
 		return null;
 	}
 }
 
 export async function getAuthUser(db: KitledgerDb, userId: string): Promise<AppUser | null> {
+	// 1. Fetch the user and all related data in one go.
+	// This requires the `userRelations` to be correctly defined (see below).
+	const userProfile = await db.query.users.findFirst({
+		where: eq(users.id, userId),
+		columns: {
+			password_hash: false, // Exclude the password hash
+		},
+		with: {
+			// Fetch system permissions (requires relation)
+			system_permissions: true,
+			// Fetch direct permission assignments
+			permissions: {
+				with: {
+					permission: true, // Include the actual permission details
+				},
+			},
+			// Fetch user_roles
+			roles: {
+				with: {
+					// For each user_role, fetch the role
+					role: {
+						with: {
+							// For each role, fetch its permission assignments
+							permissions: {
+								with: {
+									permission: true, // Include the permission details
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	});
 
-    // 1. Fetch the user and all related data in one go.
-    // This requires the `userRelations` to be correctly defined (see below).
-    const userProfile = await db.query.users.findFirst({
-        where: eq(users.id, userId),
-        columns: {
-            password_hash: false, // Exclude the password hash
-        },
-        with: {
-            // Fetch system permissions (requires relation)
-            system_permissions: true,
-            // Fetch direct permission assignments
-            permissions: {
-                with: {
-                    permission: true, // Include the actual permission details
-                },
-            },
-            // Fetch user_roles
-            roles: {
-                with: {
-                    // For each user_role, fetch the role
-                    role: {
-                        with: {
-                            // For each role, fetch its permission assignments
-                            permissions: {
-                                with: {
-                                    permission: true, // Include the permission details
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        },
-    });
+	if (!userProfile) {
+		return null;
+	}
 
-    if (!userProfile) {
-        return null;
-    }
+	// 2. Process the nested data to match the AppUser type
 
-    // 2. Process the nested data to match the AppUser type
+	// Get the final list of Role objects
+	const userRoles: Role[] = userProfile.roles.map((userRole) => userRole.role);
 
-    // Get the final list of Role objects
-    const userRoles: Role[] = userProfile.roles.map(
-        (userRole) => userRole.role,
-    );
+	// Use a Map to deduplicate permissions
+	const permissionMap = new Map<string, Permission>();
 
-    // Use a Map to deduplicate permissions
-    const permissionMap = new Map<string, Permission>();
+	// Add permissions from roles
+	for (const userRole of userProfile.roles) {
+		for (const permAssignment of userRole.role.permissions) {
+			if (permAssignment.permission) {
+				permissionMap.set(permAssignment.permission.id, permAssignment.permission);
+			}
+		}
+	}
 
-    // Add permissions from roles
-    for (const userRole of userProfile.roles) {
-        for (const permAssignment of userRole.role.permissions) {
-            if (permAssignment.permission) {
-                permissionMap.set(
-                    permAssignment.permission.id,
-                    permAssignment.permission,
-                );
-            }
-        }
-    }
+	// Add/overwrite with direct permissions
+	for (const permAssignment of userProfile.permissions) {
+		if (permAssignment.permission) {
+			permissionMap.set(permAssignment.permission.id, permAssignment.permission);
+		}
+	}
 
-    // Add/overwrite with direct permissions
-    for (const permAssignment of userProfile.permissions) {
-        if (permAssignment.permission) {
-            permissionMap.set(
-                permAssignment.permission.id,
-                permAssignment.permission,
-            );
-        }
-    }
+	// Convert the map back to an array
+	const allPermissions = Array.from(permissionMap.values());
 
-    // Convert the map back to an array
-    const allPermissions = Array.from(permissionMap.values());
+	// 3. Construct the final AppUser object
+	const appUser: AppUser = {
+		...userProfile,
+		roles: userRoles,
+		permissions: allPermissions,
+		system_permissions: userProfile.system_permissions,
+	};
 
-    // 3. Construct the final AppUser object
-    const appUser: AppUser = {
-        ...userProfile,
-        roles: userRoles,
-        permissions: allPermissions,
-        system_permissions: userProfile.system_permissions,
-    };
-
-    return appUser;
+	return appUser;
 }
 
 export type NewSuperUser = Pick<User, "id" | "first_name" | "last_name" | "email"> & {
@@ -174,16 +162,12 @@ export async function createSuperUser(
 	overrideExisting = false,
 ): Promise<NewSuperUser | null> {
 	const newSuperUser: NewSuperUser | null = await db.transaction(async (tx) => {
-
 		// Check if a super user exists, regardless of email.
 		const existingAdmin = await tx
 			.select()
 			.from(system_permissions)
 			.where(
-				and(
-					isNotNull(system_permissions.user_id),
-					eq(system_permissions.permission, SYSTEM_ADMIN_PERMISSION)
-				),
+				and(isNotNull(system_permissions.user_id), eq(system_permissions.permission, SYSTEM_ADMIN_PERMISSION)),
 			)
 			.limit(1);
 
@@ -201,8 +185,7 @@ export async function createSuperUser(
 
 			try {
 				passwordHash = await hashPassword(password);
-			}
-			catch (error) {
+			} catch (error) {
 				console.error("Error hashing password:", error);
 				passwordHash = null;
 			}
@@ -238,8 +221,7 @@ export async function createSuperUser(
 				password: password,
 				api_token: "",
 			};
-		}
-		catch (error) {
+		} catch (error) {
 			console.error("Error creating super user:", error);
 			tx.rollback();
 			return null;

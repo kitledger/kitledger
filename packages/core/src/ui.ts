@@ -3,7 +3,7 @@ export type StaticUIOptions = {
 	basePath: string;
 	htmlContent: string;
 	serverPath: string;
-}
+};
 
 export type StaticUIConfig = StaticUIOptions;
 

@@ -1,35 +1,35 @@
 {
-  "name": "@kitledger/dev",
-  "version": "1.0.0",
-  "description": "Kitledger development environment",
-  "main": "index.js",
-  "scripts": {
-	"serve": "tsx index.ts --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "ledger",
-    "accounting",
-    "framework",
-    "platform"
-  ],
-  "homepage": "https://kitledger.com",
-  "bugs": {
-    "url": "https://github.com/kitledger/kitledger/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kitledger/kitledger.git"
-  },
-  "private": true,
-  "type": "module",
-  "license": "Apache-2.0",
-  "author": "Alejandro Barrera Aponte",
-  "dependencies": {
-	"@hono/node-server": "^1.19.6",
-	"@kitledger/admin": "workspace:*",
-	"@kitledger/core": "workspace:*",
-	"@kitledger/server": "workspace:*",
-    "tsx": "^4.20.6"
-  }
+	"name": "@kitledger/dev",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Kitledger development environment",
+	"keywords": [
+		"accounting",
+		"framework",
+		"ledger",
+		"platform"
+	],
+	"homepage": "https://kitledger.com",
+	"bugs": {
+		"url": "https://github.com/kitledger/kitledger/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kitledger/kitledger.git"
+	},
+	"author": "Alejandro Barrera Aponte",
+	"license": "Apache-2.0",
+	"type": "module",
+	"main": "index.js",
+	"scripts": {
+		"serve": "tsx index.ts --watch",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"@hono/node-server": "^1.19.6",
+		"@kitledger/admin": "workspace:*",
+		"@kitledger/core": "workspace:*",
+		"@kitledger/server": "workspace:*",
+		"tsx": "^4.20.6"
+	}
 }

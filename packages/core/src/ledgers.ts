@@ -2,7 +2,7 @@ import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { and, eq, type SQL, sql } from "drizzle-orm";
 import * as v from "valibot";
 import { InferOutput } from "valibot";
-import { ledgers } from "./schema.js";
+
 import { KitledgerDb } from "./db.js";
 import {
 	ANY,
@@ -13,6 +13,7 @@ import {
 	maxLimit,
 	parseBooleanFilterValue,
 } from "./db.js";
+import { ledgers } from "./schema.js";
 
 export const LedgerCreateSchema = v.object({
 	ref_id: v.pipe(v.string(), v.maxLength(64)),
@@ -24,14 +25,24 @@ export const LedgerCreateSchema = v.object({
 	created_at: v.optional(v.date()),
 	updated_at: v.optional(v.nullable(v.date())),
 });
-import { ValidationSuccess, ValidationFailure, ValidationResult, parseValibotIssues, ValidationError } from "./validation.js";
 import { v7 } from "uuid";
+
+import {
+	ValidationSuccess,
+	ValidationFailure,
+	ValidationResult,
+	parseValibotIssues,
+	ValidationError,
+} from "./validation.js";
 
 export type LedgerInsert = InferInsertModel<typeof ledgers>;
 export type Ledger = InferSelectModel<typeof ledgers>;
 export type LedgerCreateData = InferOutput<typeof LedgerCreateSchema>;
 
-export async function filterLedgers(db: KitledgerDb, params: FilterOperationParameters): Promise<GetOperationResult<Ledger>> {
+export async function filterLedgers(
+	db: KitledgerDb,
+	params: FilterOperationParameters,
+): Promise<GetOperationResult<Ledger>> {
 	const { limit = defaultLimit, offset = defaultOffset, ...filters } = params;
 
 	const filterConditions: SQL<unknown>[] = [];
@@ -69,7 +80,10 @@ export async function filterLedgers(db: KitledgerDb, params: FilterOperationPara
 		filterConditions.push(eq(ledgers.active, true));
 	}
 
-	const results = await db.select().from(ledgers).where(and(...filterConditions))
+	const results = await db
+		.select()
+		.from(ledgers)
+		.where(and(...filterConditions))
 		.limit(Math.min(limit, maxLimit))
 		.offset(offset);
 
@@ -100,7 +114,10 @@ async function altIdAlreadyExists(db: KitledgerDb, altId: string | null): Promis
 	return results.length > 0;
 }
 
-async function validateLedgerCreate(db: KitledgerDb, data: LedgerCreateData): Promise<ValidationResult<LedgerCreateData>> {
+async function validateLedgerCreate(
+	db: KitledgerDb,
+	data: LedgerCreateData,
+): Promise<ValidationResult<LedgerCreateData>> {
 	const result = v.safeParse(LedgerCreateSchema, data);
 	let success = result.success;
 
@@ -168,11 +185,13 @@ export async function createLedger(
 		return {
 			success: false,
 			data: validation.data,
-			errors: [{
-				type: "data",
-				path: null,
-				message: "Failed to create ledger.",
-			}],
+			errors: [
+				{
+					type: "data",
+					path: null,
+					message: "Failed to create ledger.",
+				},
+			],
 		};
 	}
 

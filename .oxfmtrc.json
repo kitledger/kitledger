@@ -1,0 +1,12 @@
+{
+	"$schema": "./node_modules/oxfmt/configuration_schema.json",
+	"useTabs": true,
+	"tabWidth": 4,
+	"printWidth": 120,
+	"trailingComma": "all",
+	"semiColons": true,
+	"experimentalSortImports": {
+		"enabled": true
+	},
+	"embeddedLanguageFormatting": "auto"
+}

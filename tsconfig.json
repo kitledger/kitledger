@@ -1,29 +1,29 @@
 {
-  "compilerOptions": {
-    /* Type Checking */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "exactOptionalPropertyTypes": true,
+	"compilerOptions": {
+		/* Type Checking */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"exactOptionalPropertyTypes": true,
 
-    /* Modules */
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "resolveJsonModule": true,
-    
-    /* Emit */
-    "noEmit": true,
+		/* Modules */
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"resolveJsonModule": true,
 
-    /* Interop */
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    
-    /* Language and Environment */
-    "target": "ES2022",
-    "lib": ["ES2022"],
+		/* Emit */
+		"noEmit": true,
 
-    /* Completeness */
-    "skipLibCheck": true
-  }
+		/* Interop */
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+
+		/* Language and Environment */
+		"target": "ES2022",
+		"lib": ["ES2022"],
+
+		/* Completeness */
+		"skipLibCheck": true
+	}
 }

@@ -5,23 +5,23 @@ import { cpus } from "node:os";
  */
 
 type CorsConfig = {
-    origin: string | string[];
-    allowMethods?: string[];
-    allowHeaders?: string[];
-    maxAge?: number;
-    credentials?: boolean;
-    exposeHeaders?: string[];
+	origin: string | string[];
+	allowMethods?: string[];
+	allowHeaders?: string[];
+	maxAge?: number;
+	credentials?: boolean;
+	exposeHeaders?: string[];
 };
 
 type ServerConfig = {
-    port: number;
-    cors: CorsConfig;
+	port: number;
+	cors: CorsConfig;
 };
 
 type WorkerConfig = {
-    poolSize: number;
-    taskTimeout: number;
-    maxQueueSize: number;
+	poolSize: number;
+	taskTimeout: number;
+	maxQueueSize: number;
 };
 
 /**
@@ -29,12 +29,10 @@ type WorkerConfig = {
  */
 const corsDefaultHeaders = ["Content-Type", "Authorization", "X-Requested-With"];
 const corsAllowedHeaders = [
-    ...new Set([...corsDefaultHeaders, ...(process.env.KL_CORS_ALLOWED_HEADERS?.split(",") || [])]),
+	...new Set([...corsDefaultHeaders, ...(process.env.KL_CORS_ALLOWED_HEADERS?.split(",") || [])]),
 ];
 const corsAllowedMethods = ["GET", "POST", "PUT", "DELETE", "OPTIONS"];
-const corsAllowedOrigins = process.env.KL_CORS_ALLOWED_ORIGINS
-    ? process.env.KL_CORS_ALLOWED_ORIGINS.split(",")
-    : "*";
+const corsAllowedOrigins = process.env.KL_CORS_ALLOWED_ORIGINS ? process.env.KL_CORS_ALLOWED_ORIGINS.split(",") : "*";
 const corsCredentials = false;
 const corsExposeHeaders: string[] = [];
 const corsMaxAge = parseInt(process.env.KL_CORS_MAX_AGE || "86400");
@@ -45,8 +43,8 @@ const corsMaxAge = parseInt(process.env.KL_CORS_MAX_AGE || "86400");
 const workerPoolSize = parseInt(process.env.KL_WORKER_POOL_SIZE || String(cpus().length)) || 1;
 const workerTaskTimeout = parseInt(process.env.KL_WORKER_TASK_TIMEOUT || "5000"); // Default to 5 seconds
 const workerMaxQueueSize = process.env.KL_WORKER_MAX_QUEUE_SIZE
-    ? parseInt(process.env.KL_WORKER_MAX_QUEUE_SIZE)
-    : Infinity;
+	? parseInt(process.env.KL_WORKER_MAX_QUEUE_SIZE)
+	: Infinity;
 
 /*
  * 3) Export the configuration objects.
@@ -56,15 +54,15 @@ const workerMaxQueueSize = process.env.KL_WORKER_MAX_QUEUE_SIZE
  * Values are a mix of environment variables and defaults.
  */
 export const serverConfig: ServerConfig = {
-    port: process.env.KL_SERVER_PORT ? parseInt(process.env.KL_SERVER_PORT) : 8888,
-    cors: {
-        origin: corsAllowedOrigins,
-        allowMethods: corsAllowedMethods,
-        allowHeaders: corsAllowedHeaders,
-        exposeHeaders: corsExposeHeaders,
-        credentials: corsCredentials,
-        maxAge: corsMaxAge,
-    },
+	port: process.env.KL_SERVER_PORT ? parseInt(process.env.KL_SERVER_PORT) : 8888,
+	cors: {
+		origin: corsAllowedOrigins,
+		allowMethods: corsAllowedMethods,
+		allowHeaders: corsAllowedHeaders,
+		exposeHeaders: corsExposeHeaders,
+		credentials: corsCredentials,
+		maxAge: corsMaxAge,
+	},
 };
 
 /**
@@ -72,7 +70,7 @@ export const serverConfig: ServerConfig = {
  * Values are a mix of environment variables and defaults.
  */
 export const workerConfig: WorkerConfig = {
-    poolSize: workerPoolSize,
-    taskTimeout: workerTaskTimeout,
-    maxQueueSize: workerMaxQueueSize,
+	poolSize: workerPoolSize,
+	taskTimeout: workerTaskTimeout,
+	maxQueueSize: workerMaxQueueSize,
 };

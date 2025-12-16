@@ -84,16 +84,12 @@
 				"accounts_ref_id_unique": {
 					"name": "accounts_ref_id_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"ref_id"
-					]
+					"columns": ["ref_id"]
 				},
 				"accounts_alt_id_unique": {
 					"name": "accounts_alt_id_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"alt_id"
-					]
+					"columns": ["alt_id"]
 				}
 			},
 			"policies": {},
@@ -151,12 +147,8 @@
 					"name": "api_tokens_user_id_users_id_fk",
 					"tableFrom": "api_tokens",
 					"tableTo": "users",
-					"columnsFrom": [
-						"user_id"
-					],
-					"columnsTo": [
-						"id"
-					],
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
 					"onDelete": "no action",
 					"onUpdate": "no action"
 				}
@@ -223,16 +215,12 @@
 				"entity_models_ref_id_unique": {
 					"name": "entity_models_ref_id_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"ref_id"
-					]
+					"columns": ["ref_id"]
 				},
 				"entity_models_alt_id_unique": {
 					"name": "entity_models_alt_id_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"alt_id"
-					]
+					"columns": ["alt_id"]
 				}
 			},
 			"policies": {},
@@ -307,16 +295,12 @@
 				"ledgers_ref_id_unique": {
 					"name": "ledgers_ref_id_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"ref_id"
-					]
+					"columns": ["ref_id"]
 				},
 				"ledgers_alt_id_unique": {
 					"name": "ledgers_alt_id_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"alt_id"
-					]
+					"columns": ["alt_id"]
 				}
 			},
 			"policies": {},
@@ -417,12 +401,8 @@
 					"name": "permission_assignments_permission_id_permissions_id_fk",
 					"tableFrom": "permission_assignments",
 					"tableTo": "permissions",
-					"columnsFrom": [
-						"permission_id"
-					],
-					"columnsTo": [
-						"id"
-					],
+					"columnsFrom": ["permission_id"],
+					"columnsTo": ["id"],
 					"onDelete": "no action",
 					"onUpdate": "no action"
 				}
@@ -476,9 +456,7 @@
 				"permissions_name_unique": {
 					"name": "permissions_name_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"name"
-					]
+					"columns": ["name"]
 				}
 			},
 			"policies": {},
@@ -528,9 +506,7 @@
 				"roles_name_unique": {
 					"name": "roles_name_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"name"
-					]
+					"columns": ["name"]
 				}
 			},
 			"policies": {},
@@ -573,12 +549,8 @@
 					"name": "sessions_user_id_users_id_fk",
 					"tableFrom": "sessions",
 					"tableTo": "users",
-					"columnsFrom": [
-						"user_id"
-					],
-					"columnsTo": [
-						"id"
-					],
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
 					"onDelete": "no action",
 					"onUpdate": "no action"
 				}
@@ -662,12 +634,8 @@
 					"name": "system_permissions_user_id_users_id_fk",
 					"tableFrom": "system_permissions",
 					"tableTo": "users",
-					"columnsFrom": [
-						"user_id"
-					],
-					"columnsTo": [
-						"id"
-					],
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
 					"onDelete": "no action",
 					"onUpdate": "no action"
 				}
@@ -734,16 +702,12 @@
 				"transaction_models_ref_id_unique": {
 					"name": "transaction_models_ref_id_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"ref_id"
-					]
+					"columns": ["ref_id"]
 				},
 				"transaction_models_alt_id_unique": {
 					"name": "transaction_models_alt_id_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"alt_id"
-					]
+					"columns": ["alt_id"]
 				}
 			},
 			"policies": {},
@@ -812,23 +776,17 @@
 				"unit_models_ref_id_unique": {
 					"name": "unit_models_ref_id_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"ref_id"
-					]
+					"columns": ["ref_id"]
 				},
 				"unit_models_alt_id_unique": {
 					"name": "unit_models_alt_id_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"alt_id"
-					]
+					"columns": ["alt_id"]
 				},
 				"unit_models_base_unit_id_unique": {
 					"name": "unit_models_base_unit_id_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"base_unit_id"
-					]
+					"columns": ["base_unit_id"]
 				}
 			},
 			"policies": {},
@@ -877,12 +835,8 @@
 					"name": "user_roles_user_id_users_id_fk",
 					"tableFrom": "user_roles",
 					"tableTo": "users",
-					"columnsFrom": [
-						"user_id"
-					],
-					"columnsTo": [
-						"id"
-					],
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
 					"onDelete": "no action",
 					"onUpdate": "no action"
 				},
@@ -890,12 +844,8 @@
 					"name": "user_roles_role_id_roles_id_fk",
 					"tableFrom": "user_roles",
 					"tableTo": "roles",
-					"columnsFrom": [
-						"role_id"
-					],
-					"columnsTo": [
-						"id"
-					],
+					"columnsFrom": ["role_id"],
+					"columnsTo": ["id"],
 					"onDelete": "no action",
 					"onUpdate": "no action"
 				}
@@ -977,9 +927,7 @@
 				"users_email_unique": {
 					"name": "users_email_unique",
 					"nullsNotDistinct": false,
-					"columns": [
-						"email"
-					]
+					"columns": ["email"]
 				}
 			},
 			"policies": {},

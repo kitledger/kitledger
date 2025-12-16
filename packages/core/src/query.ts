@@ -1,7 +1,9 @@
 import { ConditionGroup, Query, QuerySchema } from "@kitledger/query";
-import { PgTable } from "drizzle-orm/pg-core";
 import { getTableName } from "drizzle-orm";
-import { parseValibotIssues, ValidationResult } from "./validation.js";
+import { PgTable } from "drizzle-orm/pg-core";
+import knex, { Knex } from "knex";
+import * as v from "valibot";
+
 import {
 	type KitledgerDb,
 	defaultLimit,
@@ -9,9 +11,9 @@ import {
 	GetOperationResult,
 	maxLimit,
 	QueryResultRow,
-	QueryResultSchema } from "./db.js";
-import * as v from "valibot";
-import knex, { Knex } from "knex";
+	QueryResultSchema,
+} from "./db.js";
+import { parseValibotIssues, ValidationResult } from "./validation.js";
 
 /**
  * Maximum allowed nesting depth for filter groups to prevent overly complex queries.
@@ -39,7 +41,11 @@ function validateQueryParams(params: Query): ValidationResult<Query> {
  * @param params
  * @returns
  */
-export async function executeQuery(db: KitledgerDb, table: PgTable, params: Query): Promise<GetOperationResult<QueryResultRow>> {
+export async function executeQuery(
+	db: KitledgerDb,
+	table: PgTable,
+	params: Query,
+): Promise<GetOperationResult<QueryResultRow>> {
 	const validationResult = validateQueryParams(params);
 	const parsedParams = validationResult.success ? validationResult.data : null;
 
@@ -83,8 +89,7 @@ export async function executeQuery(db: KitledgerDb, table: PgTable, params: Quer
 			offset: offset,
 			limit: limit,
 		};
-	}
-	catch (error) {
+	} catch (error) {
 		return {
 			data: [],
 			count: 0,
@@ -191,9 +196,10 @@ export function buildQuery(
 		const { sql: anchorSql, bindings: anchorBindings } = anchorBuilder.toSQL().toNative();
 
 		// Determine the join direction based on 'ancestors' or 'descendants'
-		const [joinFrom, joinTo] = direction === "ancestors"
-			? [`t."${parentKey}"`, `h."${childKey}"`] // To find a parent, match table's PK to hierarchy's FK
-			: [`t."${childKey}"`, `h."${parentKey}"`]; // To find children, match table's FK to hierarchy's PK
+		const [joinFrom, joinTo] =
+			direction === "ancestors"
+				? [`t."${parentKey}"`, `h."${childKey}"`] // To find a parent, match table's PK to hierarchy's FK
+				: [`t."${childKey}"`, `h."${parentKey}"`]; // To find children, match table's FK to hierarchy's PK
 
 		const cteBodySql = `
             (${anchorSql})
@@ -204,8 +210,7 @@ export function buildQuery(
         `;
 
 		query = kx.withRecursive(cteName, kx.raw(cteBodySql, anchorBindings)).from(fromClause);
-	}
-	else {
+	} else {
 		query = kx(fromClause);
 	}
 

@@ -1,7 +1,9 @@
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { and, eq, or, type SQL, sql } from "drizzle-orm";
+import { v7 } from "uuid";
 import * as v from "valibot";
 import { InferOutput } from "valibot";
-import { accounts, ledgers } from "./schema.js";
+
 import { KitledgerDb } from "./db.js";
 import {
 	ANY,
@@ -12,7 +14,7 @@ import {
 	maxLimit,
 	parseBooleanFilterValue,
 } from "./db.js";
-import { and, eq, or, type SQL, sql } from "drizzle-orm";
+import { accounts, ledgers } from "./schema.js";
 import {
 	parseValibotIssues,
 	ValidationError,
@@ -20,7 +22,6 @@ import {
 	ValidationResult,
 	ValidationSuccess,
 } from "./validation.js";
-import { v7 } from "uuid";
 
 export enum BalanceType {
 	DEBIT = "debit",
@@ -49,7 +50,10 @@ export type AccountCreateData = InferOutput<typeof AccountCreateSchema>;
  * @param params
  * @returns
  */
-export async function filterAccounts(db: KitledgerDb, params: FilterOperationParameters): Promise<GetOperationResult<Account>> {
+export async function filterAccounts(
+	db: KitledgerDb,
+	params: FilterOperationParameters,
+): Promise<GetOperationResult<Account>> {
 	const { limit = defaultLimit, offset = defaultOffset, ...filters } = params;
 
 	const filterConditions: SQL<unknown>[] = [];
@@ -98,8 +102,7 @@ export async function filterAccounts(db: KitledgerDb, params: FilterOperationPar
 			const parentAccount = await findParentAccount(db, String(value), null);
 			if (parentAccount) {
 				filterConditions.push(eq(accounts.parent_id, parentAccount.id));
-			}
-			else {
+			} else {
 				filterConditions.push(eq(sql`${accounts.parent_id}::text`, value));
 			}
 		}
@@ -110,7 +113,10 @@ export async function filterAccounts(db: KitledgerDb, params: FilterOperationPar
 		filterConditions.push(eq(accounts.active, true));
 	}
 
-	const results = await db.select().from(accounts).where(and(...filterConditions))
+	const results = await db
+		.select()
+		.from(accounts)
+		.where(and(...filterConditions))
 		.limit(Math.min(limit, maxLimit))
 		.offset(offset);
 
@@ -126,17 +132,17 @@ export async function filterAccounts(db: KitledgerDb, params: FilterOperationPar
  * Finds the parent account by ID or ref_id or alt_id.
  * Returns the ID of the parent account if found, otherwise returns null.
  */
-export async function findParentAccount(db: KitledgerDb, parentId: string, ledgerId?: string | null): Promise<Account | null> {
+export async function findParentAccount(
+	db: KitledgerDb,
+	parentId: string,
+	ledgerId?: string | null,
+): Promise<Account | null> {
 	if (!parentId) {
 		return null;
 	}
 	const parent = await db.query.accounts.findFirst({
 		where: and(
-			or(
-				eq(sql`${accounts.id}::text`, parentId),
-				eq(accounts.ref_id, parentId),
-				eq(accounts.alt_id, parentId),
-			),
+			or(eq(sql`${accounts.id}::text`, parentId), eq(accounts.ref_id, parentId), eq(accounts.alt_id, parentId)),
 			ledgerId ? eq(accounts.ledger_id, ledgerId) : undefined,
 			eq(accounts.active, true),
 		),
@@ -152,18 +158,13 @@ export async function findParentAccount(db: KitledgerDb, parentId: string, ledge
 export async function findLedgerId(db: KitledgerDb, ledgerId: string): Promise<string | null> {
 	const ledger = await db.query.ledgers.findFirst({
 		where: and(
-			or(
-				eq(sql`${ledgers.id}::text`, ledgerId),
-				eq(ledgers.ref_id, ledgerId),
-				eq(ledgers.alt_id, ledgerId),
-			),
+			or(eq(sql`${ledgers.id}::text`, ledgerId), eq(ledgers.ref_id, ledgerId), eq(ledgers.alt_id, ledgerId)),
 			eq(ledgers.active, true),
 		),
 		columns: { id: true },
 	});
 	return ledger ? ledger.id : null;
 }
-
 
 // ACTIONS
 async function refIdAlreadyExists(db: KitledgerDb, refId: string): Promise<boolean> {
@@ -224,8 +225,7 @@ async function validateAccountCreate(
 
 	if (ledgerId) {
 		result.output.ledger_id = ledgerId;
-	}
-	else {
+	} else {
 		success = false;
 		errors.push({
 			type: "data",
@@ -239,8 +239,7 @@ async function validateAccountCreate(
 		if (parentAccount) {
 			result.output.parent_id = result.output.parent_id ? parentAccount.id : null;
 			result.output.balance_type = parentAccount.balance_type;
-		}
-		else {
+		} else {
 			success = false;
 			errors.push({
 				type: "data",
@@ -278,11 +277,13 @@ export async function createAccount(
 		return {
 			success: false,
 			data: validation.data,
-			errors: [{
-				type: "data",
-				path: null,
-				message: "Failed to create account.",
-			}],
+			errors: [
+				{
+					type: "data",
+					path: null,
+					message: "Failed to create account.",
+				},
+			],
 		};
 	}
 

@@ -1,45 +1,45 @@
 {
-  "name": "@kitledger/admin",
-  "license": "Apache-2.0",
-  "version": "0.0.2",
-  "exports": {
-	".": {
-	  "import": "./dist-package/admin.js",
-	  "types": "./dist-package/admin.d.ts"
+	"name": "@kitledger/admin",
+	"version": "0.0.2",
+	"private": false,
+	"license": "Apache-2.0",
+	"type": "module",
+	"main": "dist-package/admin.js",
+	"exports": {
+		".": {
+			"types": "./dist-package/admin.d.ts",
+			"import": "./dist-package/admin.js"
+		}
+	},
+	"files": [
+		"dist",
+		"dist-package"
+	],
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc -b && vite build",
+		"lint": "eslint ."
+	},
+	"dependencies": {
+		"react": "^19.2.0",
+		"react-dom": "^19.2.0"
+	},
+	"devDependencies": {
+		"@kitledger/core": "workspace:*",
+		"@types/node": "^24.10.1",
+		"@types/react": "^19.2.5",
+		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^5.1.1",
+		"globals": "^16.5.0",
+		"typescript": "~5.9.3",
+		"vite": "npm:rolldown-vite@7.2.5"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"pnpm": {
+		"overrides": {
+			"vite": "npm:rolldown-vite@7.2.5"
+		}
 	}
-  },
-  "files": [
-    "dist",
-    "dist-package"
-  ],
-  "main": "dist-package/admin.js",
-  "private": false,
-  "publishConfig": {
-    "access": "public"
-  },
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint ."
-  },
-  "dependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
-  },
-  "devDependencies": {
-	"@kitledger/core": "workspace:*",
-    "@types/node": "^24.10.1",
-    "@types/react": "^19.2.5",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.1",
-    "globals": "^16.5.0",
-    "typescript": "~5.9.3",
-    "vite": "npm:rolldown-vite@7.2.5"
-  },
-  "pnpm": {
-    "overrides": {
-      "vite": "npm:rolldown-vite@7.2.5"
-    }
-  }
 }

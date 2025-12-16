@@ -1,7 +1,7 @@
 # Kitledger
 
 **The Headless ERP Framework.**
-*Build robust, double-entry transactional systems with the tools you already know.*
+_Build robust, double-entry transactional systems with the tools you already know._
 
 ## What is Kitledger?
 
@@ -16,12 +16,12 @@ Building an ERP from scratch is a massive undertaking. Kitledger bridges the gap
 
 ## Use Cases
 
-Because Kitledger provides the *primitives* rather than the *product*, it can be adapted to any domain that requires transactional integrity:
+Because Kitledger provides the _primitives_ rather than the _product_, it can be adapted to any domain that requires transactional integrity:
 
-* **Core Systems:** Bookkeeping, Inventory Management, Project Billing.
-* **Specialized Billing:** Consumption/Usage-Based Billing, Sales Commissions, Grant Management.
-* **Virtual Economies:** Game Currencies, Reward Systems, Time Tracking.
-* **Complex Allocations:** Cost Accruals, Resource Allocation, Energy Production & Consumption.
+- **Core Systems:** Bookkeeping, Inventory Management, Project Billing.
+- **Specialized Billing:** Consumption/Usage-Based Billing, Sales Commissions, Grant Management.
+- **Virtual Economies:** Game Currencies, Reward Systems, Time Tracking.
+- **Complex Allocations:** Cost Accruals, Resource Allocation, Energy Production & Consumption.
 
 ## The Philosophy: Why Frameworks Beat Monoliths
 
@@ -46,21 +46,25 @@ By shifting from a "Monolithic Platform" to a **"Code-First Framework,"** we eli
 Kitledger is not a SaaS you log into; it is a library you import. It revolves around three core concepts:
 
 ### 1. The Ledger (The Core)
+
 Kitledger brings strict **ACID guarantees** and **Double-Entry principles** to your codebase. It makes no assumptions about what accounts you operate or what currencies you use. It simply guarantees transactional consistency: Debits must equal Credits. If they don't, the transaction is rejected. You never have to worry about unbalanced books again.
 
 ### 2. The Typed Data Model (The Configuration)
+
 Kitledger pairs double-entry accounting with a flexible, type-safe data model.
 
 By default, the system doesn't know what an "Invoice" or a "Patient" is. You define these realities in your **configuration code**. You define the Transaction Models, Entity Models, and Unit Models using standard TypeScript. This ensures that your specific business logic is validated at compile-time and runtime.
 
 ### 3. The Open Ecosystem (The Logic)
+
 Previously, customizing an ERP meant writing proprietary scripts (SuiteScript, Apex) inside a restricted, sandboxed environment.
 
 **Kitledger changes the game.**
-Because Kitledger is a framework running in *your* environment, there is **no sandboxing**.
-* **Need to call a machine learning model?** Import the library.
-* **Need to generate a PDF?** Use the NPM ecosystem.
-* **Need to integrate with a legacy bank?** Write the code.
+Because Kitledger is a framework running in _your_ environment, there is **no sandboxing**.
+
+- **Need to call a machine learning model?** Import the library.
+- **Need to generate a PDF?** Use the NPM ecosystem.
+- **Need to integrate with a legacy bank?** Write the code.
 
 Logic is no longer "uploaded" to a black box. It is written in your repository, versioned in Git, tested in your CI/CD pipeline, and deployed on your infrastructure.
 

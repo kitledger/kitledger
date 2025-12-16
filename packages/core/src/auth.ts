@@ -1,4 +1,7 @@
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { v7 } from "uuid";
+
+import { type KitledgerDb } from "./db.js";
 import {
 	api_tokens,
 	permission_assignments,
@@ -7,10 +10,8 @@ import {
 	system_permissions,
 	user_roles,
 	users,
-	sessions
+	sessions,
 } from "./schema.js";
-import { type KitledgerDb } from "./db.js";
-import { v7 } from "uuid";
 
 export type ApiTokenInsert = InferInsertModel<typeof api_tokens>;
 export type ApiToken = InferSelectModel<typeof api_tokens>;
@@ -42,13 +43,17 @@ export type AppUser = Omit<User, "password_hash"> & {
 const SYSTEM_PERMISSION_PREFIX = "KL_";
 export const SYSTEM_ADMIN_PERMISSION = `${SYSTEM_PERMISSION_PREFIX}SYSTEM_ADMIN`;
 
-export async function startSession(db: KitledgerDb, userId: string, sessionConfig: SessionConfigOptions): Promise<string> {
+export async function startSession(
+	db: KitledgerDb,
+	userId: string,
+	sessionConfig: SessionConfigOptions,
+): Promise<string> {
 	const sessionId = v7();
 
 	await db.insert(sessions).values({
 		id: sessionId,
 		user_id: userId,
-		expires_at: new Date(Date.now() + (sessionConfig.ttl * 1000)),
+		expires_at: new Date(Date.now() + sessionConfig.ttl * 1000),
 		created_at: new Date(),
 	});
 
@@ -69,12 +74,12 @@ export async function createToken(db: KitledgerDb, userId: string, name?: string
 }
 
 export type AuthConfigOptions = {
-    secret: string;
-    pastSecrets: string[];
-    jwtAlgorithm: 'HS256';
+	secret: string;
+	pastSecrets: string[];
+	jwtAlgorithm: "HS256";
 };
 
 export type SessionConfigOptions = {
-    cookieName: string;
-    ttl: number;
+	cookieName: string;
+	ttl: number;
 };

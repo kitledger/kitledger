@@ -1,13 +1,13 @@
 export enum EntityModelStatus {
 	ACTIVE,
-	INACTIVE
+	INACTIVE,
 }
 
 export type EntityModelOptions = {
-	ref_id: string,
-	alt_id?: string,
-	name: string,
-	status?: EntityModelStatus
+	ref_id: string;
+	alt_id?: string;
+	name: string;
+	status?: EntityModelStatus;
 };
 
 export type EntityModel = EntityModelOptions;

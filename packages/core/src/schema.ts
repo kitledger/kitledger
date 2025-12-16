@@ -1,7 +1,8 @@
-import { boolean, index, jsonb, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { timestamps } from "./db.js";
+import { boolean, index, jsonb, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+
 import { BalanceType } from "./accounts.js";
+import { timestamps } from "./db.js";
 
 export type BaseMetaProperty = Record<string, string | number | boolean | Date | null>;
 

@@ -1,36 +1,35 @@
 {
-  "compilerOptions": {
+	"compilerOptions": {
+		/* Type Checking */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"exactOptionalPropertyTypes": true,
 
-	/* Type Checking */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "exactOptionalPropertyTypes": true,
+		/* Modules */
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"resolveJsonModule": true,
 
-    /* Modules */
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "resolveJsonModule": true,
-    
-    /* Emit */
-    "noEmit": false,
+		/* Emit */
+		"noEmit": false,
 
-    /* Interop */
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    
-    /* Language and Environment */
-    "target": "ES2022",
-    "lib": ["ES2022"],
+		/* Interop */
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
 
-    /* Completeness */
-    "skipLibCheck": true,
+		/* Language and Environment */
+		"target": "ES2022",
+		"lib": ["ES2022"],
 
-	/* Project Structure */
-    "outDir": "dist",
-    "rootDir": "src",
-    "declaration": true,
-  },
-  "include": ["src"],
+		/* Completeness */
+		"skipLibCheck": true,
+
+		/* Project Structure */
+		"outDir": "dist",
+		"rootDir": "src",
+		"declaration": true
+	},
+	"include": ["src"]
 }
