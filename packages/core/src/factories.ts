@@ -1,15 +1,32 @@
+import { ApiToken, Permission, PermissionAssignment, Role, SystemPermission, User, UserRole } from "./auth.js";
 import { faker } from "@faker-js/faker";
 import { v7 } from "uuid";
-import {
-	ApiToken,
-	Permission,
-	PermissionAssignment,
-	Role,
-	SystemPermission,
-	User,
-	UserRole,
-} from "../types/auth_types.js";
-import { BaseFactory } from "../factories/base_factory.js";
+import { Account, BalanceType } from "./accounts.js";
+import { Ledger } from "./ledgers.js";
+
+/**
+ * A generic factory function to create an array of items.
+ * @param factory A function that creates a single item.
+ * @param count The number of items to create.
+ * @returns An array of created items.
+ */
+export const factory = <T>(factory: () => T, count: number): T[] => {
+	return Array.from({ length: count }, factory);
+};
+
+export class BaseFactory<T> {
+	private factory: () => T;
+
+	constructor(factory: () => T) {
+		this.factory = factory;
+	}
+
+	public make(count: number): T[] {
+		return factory(this.factory, count);
+	}
+}
+
+
 
 export class ApiTokenFactory extends BaseFactory<ApiToken> {
 	constructor() {
@@ -121,4 +138,42 @@ const makeUserRole = (): UserRole => ({
 	role_id: faker.string.uuid(),
 	created_at: faker.date.past(),
 	updated_at: faker.date.recent(),
+});
+
+export class LedgerFactory extends BaseFactory<Ledger> {
+	constructor() {
+		super(makeLedger);
+	}
+}
+
+export class AccountFactory extends BaseFactory<Account> {
+	constructor() {
+		super(makeAccount);
+	}
+}
+
+const makeLedger = (): Ledger => ({
+	id: v7(),
+	ref_id: v7(),
+	alt_id: v7(),
+	unit_model_id: v7(),
+	name: faker.company.name(),
+	description: faker.company.catchPhrase(),
+	active: true,
+	created_at: faker.date.past(),
+	updated_at: faker.date.recent(),
+});
+
+const makeAccount = (): Account => ({
+	id: v7(),
+	ref_id: v7(),
+	alt_id: v7(),
+	name: faker.finance.accountName(),
+	balance_type: faker.helpers.arrayElement(Object.values(BalanceType)),
+	ledger_id: v7(),
+	parent_id: v7(),
+	active: true,
+	created_at: faker.date.past(),
+	updated_at: faker.date.recent(),
+	meta: {},
 });
