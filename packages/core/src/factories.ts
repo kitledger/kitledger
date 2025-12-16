@@ -156,7 +156,6 @@ const makeLedger = (): Ledger => ({
 	id: v7(),
 	ref_id: v7(),
 	alt_id: v7(),
-	unit_model_id: v7(),
 	name: faker.company.name(),
 	description: faker.company.catchPhrase(),
 	active: true,

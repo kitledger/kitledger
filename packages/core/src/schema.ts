@@ -109,53 +109,6 @@ export const user_roles = pgTable("user_roles", {
 });
 
 /**
- * 1.2 Entities
- */
-
-// Add indexes
-// Add constraints
-// Add composite indexes for entities after adding entities table
-export const entity_models = pgTable("entity_models", {
-	id: uuid("id").primaryKey(),
-	ref_id: varchar("ref_id", { length: 64 }).notNull().unique(),
-	alt_id: varchar("alt_id", { length: 64 }).unique(),
-	name: varchar("name", { length: 64 }).notNull(),
-	active: boolean("active").default(true).notNull(),
-	...timestamps,
-});
-
-/**
- * 1.3 Transactions
- */
-// Add indexes
-// Add constraints
-// Add composite indexes for transactions after adding transactions table
-export const transaction_models = pgTable("transaction_models", {
-	id: uuid("id").primaryKey(),
-	ref_id: varchar("ref_id", { length: 64 }).notNull().unique(),
-	alt_id: varchar("alt_id", { length: 64 }).unique(),
-	name: varchar("name", { length: 64 }).notNull(),
-	active: boolean("active").default(true).notNull(),
-	...timestamps,
-});
-
-/**
- * 1.4 Units
- */
-// Add indexes
-// Add constraints
-// Add composite indexes for units after adding units table
-export const unit_models = pgTable("unit_models", {
-	id: uuid("id").primaryKey(),
-	ref_id: varchar("ref_id", { length: 64 }).notNull().unique(),
-	alt_id: varchar("alt_id", { length: 64 }).unique(),
-	name: varchar("name", { length: 64 }).notNull(),
-	active: boolean("active").default(true).notNull(),
-	base_unit_id: uuid("base_unit_id").unique(),
-	...timestamps,
-});
-
-/**
  * 1.5 Ledgers
  */
 export const accounts = pgTable("accounts", {
@@ -177,7 +130,6 @@ export const ledgers = pgTable("ledgers", {
 	alt_id: varchar("alt_id", { length: 64 }).unique(),
 	name: varchar("name", { length: 64 }).notNull(),
 	description: varchar("description", { length: 255 }),
-	unit_model_id: uuid("unit_model_id").notNull(),
 	active: boolean("active").default(true).notNull(),
 	...timestamps,
 });

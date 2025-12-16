@@ -1,9 +1,9 @@
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { and, eq, or, type SQL, sql } from "drizzle-orm";
+import { and, eq, type SQL, sql } from "drizzle-orm";
 import * as v from "valibot";
 import { InferOutput } from "valibot";
-import { ledgers, unit_models } from "./schema.js";
-import { db } from "./db.js";
+import { ledgers } from "./schema.js";
+import { KitledgerDb } from "./db.js";
 import {
 	ANY,
 	defaultLimit,
@@ -31,22 +31,7 @@ export type LedgerInsert = InferInsertModel<typeof ledgers>;
 export type Ledger = InferSelectModel<typeof ledgers>;
 export type LedgerCreateData = InferOutput<typeof LedgerCreateSchema>;
 
-export async function findUnitModelId(unitTypeId: string): Promise<string | null> {
-	const unitModel = await db.query.unit_models.findFirst({
-		where: and(
-			or(
-				eq(sql`${unit_models.id}::text`, unitTypeId),
-				eq(unit_models.ref_id, unitTypeId),
-				eq(unit_models.alt_id, unitTypeId),
-			),
-			eq(unit_models.active, true),
-		),
-		columns: { id: true },
-	});
-	return unitModel ? unitModel.id : null;
-}
-
-export async function filterLedgers(params: FilterOperationParameters): Promise<GetOperationResult<Ledger>> {
+export async function filterLedgers(db: KitledgerDb, params: FilterOperationParameters): Promise<GetOperationResult<Ledger>> {
 	const { limit = defaultLimit, offset = defaultOffset, ...filters } = params;
 
 	const filterConditions: SQL<unknown>[] = [];
@@ -77,13 +62,6 @@ export async function filterLedgers(params: FilterOperationParameters): Promise<
 				filterConditions.push(eq(ledgers.active, booleanValue));
 			}
 		}
-
-		if (key === ledgers.unit_model_id.name && String(value).length > 0) {
-			const unitModelId = await findUnitModelId(String(value));
-			if (unitModelId) {
-				filterConditions.push(eq(ledgers.unit_model_id, unitModelId));
-			}
-		}
 	}
 
 	// By default, only return active ledgers unless explicitly filtered otherwise
@@ -103,7 +81,7 @@ export async function filterLedgers(params: FilterOperationParameters): Promise<
 	};
 }
 
-async function refIdAlreadyExists(refId: string): Promise<boolean> {
+async function refIdAlreadyExists(db: KitledgerDb, refId: string): Promise<boolean> {
 	const results = await db.query.ledgers.findMany({
 		where: eq(ledgers.ref_id, refId),
 		columns: { id: true },
@@ -111,7 +89,7 @@ async function refIdAlreadyExists(refId: string): Promise<boolean> {
 	return results.length > 0;
 }
 
-async function altIdAlreadyExists(altId: string | null): Promise<boolean> {
+async function altIdAlreadyExists(db: KitledgerDb, altId: string | null): Promise<boolean> {
 	if (!altId) {
 		return false;
 	}
@@ -122,7 +100,7 @@ async function altIdAlreadyExists(altId: string | null): Promise<boolean> {
 	return results.length > 0;
 }
 
-async function validateLedgerCreate(data: LedgerCreateData): Promise<ValidationResult<LedgerCreateData>> {
+async function validateLedgerCreate(db: KitledgerDb, data: LedgerCreateData): Promise<ValidationResult<LedgerCreateData>> {
 	const result = v.safeParse(LedgerCreateSchema, data);
 	let success = result.success;
 
@@ -135,10 +113,9 @@ async function validateLedgerCreate(data: LedgerCreateData): Promise<ValidationR
 
 	const errors: ValidationError[] = [];
 
-	const [refIdError, altIdError, unitModelId] = await Promise.all([
-		refIdAlreadyExists(data.ref_id),
-		altIdAlreadyExists(data.alt_id ?? null),
-		findUnitModelId(data.unit_model_id),
+	const [refIdError, altIdError] = await Promise.all([
+		refIdAlreadyExists(db, data.ref_id),
+		altIdAlreadyExists(db, data.alt_id ?? null),
 	]);
 
 	if (refIdError) {
@@ -159,18 +136,6 @@ async function validateLedgerCreate(data: LedgerCreateData): Promise<ValidationR
 		});
 	}
 
-	if (unitModelId) {
-		result.output.unit_model_id = unitModelId;
-	}
-	else {
-		success = false;
-		errors.push({
-			type: "data",
-			path: "unit_model_id",
-			message: "Unit type ID does not exist or is inactive.",
-		});
-	}
-
 	return {
 		success: success,
 		data: result.output,
@@ -179,9 +144,10 @@ async function validateLedgerCreate(data: LedgerCreateData): Promise<ValidationR
 }
 
 export async function createLedger(
+	db: KitledgerDb,
 	data: LedgerCreateData,
 ): Promise<ValidationSuccess<Ledger> | ValidationFailure<LedgerCreateData>> {
-	const validation = await validateLedgerCreate(data);
+	const validation = await validateLedgerCreate(db, data);
 
 	if (!validation.success || !validation.data) {
 		return {

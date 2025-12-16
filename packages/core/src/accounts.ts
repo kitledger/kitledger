@@ -2,7 +2,7 @@ import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import * as v from "valibot";
 import { InferOutput } from "valibot";
 import { accounts, ledgers } from "./schema.js";
-import { db } from "./db.js";
+import { KitledgerDb } from "./db.js";
 import {
 	ANY,
 	defaultLimit,
@@ -49,7 +49,7 @@ export type AccountCreateData = InferOutput<typeof AccountCreateSchema>;
  * @param params
  * @returns
  */
-export async function filterAccounts(params: FilterOperationParameters): Promise<GetOperationResult<Account>> {
+export async function filterAccounts(db: KitledgerDb, params: FilterOperationParameters): Promise<GetOperationResult<Account>> {
 	const { limit = defaultLimit, offset = defaultOffset, ...filters } = params;
 
 	const filterConditions: SQL<unknown>[] = [];
@@ -78,7 +78,7 @@ export async function filterAccounts(params: FilterOperationParameters): Promise
 		}
 
 		if (key === accounts.ledger_id.name && String(value).length > 0) {
-			ledgerId = await findLedgerId(String(value));
+			ledgerId = await findLedgerId(db, String(value));
 			if (ledgerId) {
 				filterConditions.push(eq(accounts.ledger_id, ledgerId));
 			}
@@ -95,7 +95,7 @@ export async function filterAccounts(params: FilterOperationParameters): Promise
 		}
 
 		if (key === accounts.parent_id.name && String(value).length > 0) {
-			const parentAccount = await findParentAccount(String(value), null);
+			const parentAccount = await findParentAccount(db, String(value), null);
 			if (parentAccount) {
 				filterConditions.push(eq(accounts.parent_id, parentAccount.id));
 			}
@@ -126,7 +126,7 @@ export async function filterAccounts(params: FilterOperationParameters): Promise
  * Finds the parent account by ID or ref_id or alt_id.
  * Returns the ID of the parent account if found, otherwise returns null.
  */
-export async function findParentAccount(parentId: string, ledgerId?: string | null): Promise<Account | null> {
+export async function findParentAccount(db: KitledgerDb, parentId: string, ledgerId?: string | null): Promise<Account | null> {
 	if (!parentId) {
 		return null;
 	}
@@ -149,7 +149,7 @@ export async function findParentAccount(parentId: string, ledgerId?: string | nu
  * @param ledgerId
  * @returns
  */
-export async function findLedgerId(ledgerId: string): Promise<string | null> {
+export async function findLedgerId(db: KitledgerDb, ledgerId: string): Promise<string | null> {
 	const ledger = await db.query.ledgers.findFirst({
 		where: and(
 			or(
@@ -166,7 +166,7 @@ export async function findLedgerId(ledgerId: string): Promise<string | null> {
 
 
 // ACTIONS
-async function refIdAlreadyExists(refId: string): Promise<boolean> {
+async function refIdAlreadyExists(db: KitledgerDb, refId: string): Promise<boolean> {
 	const results = await db.query.accounts.findMany({
 		where: eq(accounts.ref_id, refId),
 		columns: { id: true },
@@ -174,7 +174,7 @@ async function refIdAlreadyExists(refId: string): Promise<boolean> {
 	return results.length > 0;
 }
 
-async function altIdAlreadyExists(altId: string | null): Promise<boolean> {
+async function altIdAlreadyExists(db: KitledgerDb, altId: string | null): Promise<boolean> {
 	if (!altId) {
 		return false;
 	}
@@ -186,6 +186,7 @@ async function altIdAlreadyExists(altId: string | null): Promise<boolean> {
 }
 
 async function validateAccountCreate(
+	db: KitledgerDb,
 	data: AccountCreateData,
 ): Promise<ValidationResult<AccountCreateData>> {
 	const result = v.safeParse(AccountCreateSchema, data);
@@ -198,9 +199,9 @@ async function validateAccountCreate(
 	const errors: ValidationError[] = [];
 
 	const [refIdError, altIdError, ledgerId] = await Promise.all([
-		refIdAlreadyExists(result.output.ref_id),
-		altIdAlreadyExists(result.output.alt_id ?? null),
-		findLedgerId(result.output.ledger_id),
+		refIdAlreadyExists(db, result.output.ref_id),
+		altIdAlreadyExists(db, result.output.alt_id ?? null),
+		findLedgerId(db, result.output.ledger_id),
 	]);
 
 	if (refIdError) {
@@ -234,7 +235,7 @@ async function validateAccountCreate(
 	}
 
 	if (result.output.parent_id) {
-		const parentAccount = await findParentAccount(result.output.parent_id, result.output.ledger_id);
+		const parentAccount = await findParentAccount(db, result.output.parent_id, result.output.ledger_id);
 		if (parentAccount) {
 			result.output.parent_id = result.output.parent_id ? parentAccount.id : null;
 			result.output.balance_type = parentAccount.balance_type;
@@ -253,9 +254,10 @@ async function validateAccountCreate(
 }
 
 export async function createAccount(
+	db: KitledgerDb,
 	data: AccountCreateData,
 ): Promise<ValidationSuccess<Account> | ValidationFailure<AccountCreateData>> {
-	const validation = await validateAccountCreate(data);
+	const validation = await validateAccountCreate(db, data);
 
 	if (!validation.success || !validation.data) {
 		return {

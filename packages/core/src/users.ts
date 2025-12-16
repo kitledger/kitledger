@@ -1,10 +1,15 @@
-import { db } from "./db.js";
-import { api_tokens, sessions, users } from "./schema.js";
-import { and, eq, gt, isNull } from "drizzle-orm";
-import { verifyPassword } from "./crypto.js";
-import type { AppUser, Role, Permission } from "./auth.js";
+import { type KitledgerDb } from "./db.js";
+import { api_tokens, sessions, users, system_permissions } from "./schema.js";
+import { and, eq, gt, isNull, isNotNull } from "drizzle-orm";
+import { verifyPassword, hashPassword } from "./crypto.js";
+import type { AppUser, Role, Permission, User, AuthConfigOptions } from "./auth.js";
+import { SYSTEM_ADMIN_PERMISSION } from "./auth.js";
+import { randomBytes } from "node:crypto";
+import { v7 } from "uuid";
+import { signToken, assembleApiTokenJwtPayload } from "./jwt.js";
+import { createToken } from "./auth.js";
 
-export async function getSessionUserId(sessionId: string): Promise<string | null> {
+export async function getSessionUserId(db: KitledgerDb, sessionId: string): Promise<string | null> {
 	const session = await db.query.sessions.findFirst({
 		where: and(
 			eq(sessions.id, sessionId),
@@ -17,7 +22,7 @@ export async function getSessionUserId(sessionId: string): Promise<string | null
 	return session ? session.user_id : null;
 }
 
-export async function getTokenUserId(tokenId: string): Promise<string | null> {
+export async function getTokenUserId(db: KitledgerDb, tokenId: string): Promise<string | null> {
 	const token = await db.query.api_tokens.findFirst({
 		where: and(eq(api_tokens.id, tokenId), isNull(api_tokens.revoked_at)),
 		columns: {
@@ -34,6 +39,7 @@ export async function getTokenUserId(tokenId: string): Promise<string | null> {
 }
 
 export async function validateUserCredentials(
+	db: KitledgerDb,
 	email: string,
 	password: string,
 ): Promise<{ id: string; first_name: string; last_name: string; email: string } | null> {
@@ -67,7 +73,7 @@ export async function validateUserCredentials(
 	}
 }
 
-export async function getAuthUser(userId: string): Promise<AppUser | null> {
+export async function getAuthUser(db: KitledgerDb, userId: string): Promise<AppUser | null> {
 
     // 1. Fetch the user and all related data in one go.
     // This requires the `userRelations` to be correctly defined (see below).
@@ -160,6 +166,8 @@ export type NewSuperUser = Pick<User, "id" | "first_name" | "last_name" | "email
 };
 
 export async function createSuperUser(
+	db: KitledgerDb,
+	authConfig: AuthConfigOptions,
 	firstName: string,
 	lastName: string,
 	email: string,
@@ -245,13 +253,13 @@ export async function createSuperUser(
 	}
 
 	const tokenName = `${firstName} ${lastName} Super User Token`.slice(0, 64);
-	const apiToken = await createToken(newSuperUser.id, tokenName);
+	const apiToken = await createToken(db, newSuperUser.id, tokenName);
 
 	if (!apiToken) {
 		console.error("Failed to create API token for super user");
 	}
 
-	newSuperUser.api_token = await signToken(assembleApiTokenJwtPayload(apiToken));
+	newSuperUser.api_token = await signToken(authConfig, assembleApiTokenJwtPayload(apiToken));
 
 	return newSuperUser;
 }

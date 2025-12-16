@@ -3,7 +3,7 @@ import { PgTable } from "drizzle-orm/pg-core";
 import { getTableName } from "drizzle-orm";
 import { parseValibotIssues, ValidationResult } from "./validation.js";
 import {
-	db,
+	type KitledgerDb,
 	defaultLimit,
 	defaultOffset,
 	GetOperationResult,
@@ -39,7 +39,7 @@ function validateQueryParams(params: Query): ValidationResult<Query> {
  * @param params
  * @returns
  */
-export async function executeQuery(table: PgTable, params: Query): Promise<GetOperationResult<QueryResultRow>> {
+export async function executeQuery(db: KitledgerDb, table: PgTable, params: Query): Promise<GetOperationResult<QueryResultRow>> {
 	const validationResult = validateQueryParams(params);
 	const parsedParams = validationResult.success ? validationResult.data : null;
 

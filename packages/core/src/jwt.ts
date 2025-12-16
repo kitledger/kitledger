@@ -1,75 +1,82 @@
-import { sign, verify } from "hono/jwt";
-import { type JWTPayload } from "hono/utils/jwt/types";
-import { authConfig } from "../../config.js";
+import { SignJWT, jwtVerify, type JWTPayload } from "jose";
+import { AuthConfigOptions } from "./auth.js";
 
 export enum TokenType {
-	SESSION = "SESSION",
-	API = "API",
+    SESSION = "SESSION",
+    API = "API",
 }
 
-export async function verifyToken(token: string): Promise<JWTPayload> {
-	const currentSecret = authConfig.secret;
+const encodeSecret = (secret: string) => new TextEncoder().encode(secret);
 
-	try {
-		const decoded = await verify(token, currentSecret, authConfig.jwtAlgorithm);
-		return decoded;
-	}
-	catch (currentSecretError) {
-		const pastSecrets = authConfig.pastSecrets || [];
+export async function verifyToken(authConfig: AuthConfigOptions, token: string): Promise<JWTPayload> {
+    const currentSecret = authConfig.secret;
 
-		if (pastSecrets.length > 0) {
-			try {
-				const decodedFromPast = await Promise.any(
-					pastSecrets.map(async (pastSecret) => {
-						try {
-							const decoded = await verify(token, pastSecret, authConfig.jwtAlgorithm);
-							return decoded;
-						}
-						catch (err) {
-							console.warn(
-								`Failed to verify token with past secrets (${
-									err instanceof Error ? err.message : String(err)
-								}`,
-							);
-							throw err;
-						}
-					}),
-				);
-				return decodedFromPast;
-			}
-			catch (aggregateError) {
-				console.warn("All past secret verifications failed:", (aggregateError as AggregateError).errors);
-			}
-		}
+    try {
+        const { payload } = await jwtVerify(token, encodeSecret(currentSecret), {
+            algorithms: [authConfig.jwtAlgorithm],
+        });
+        return payload;
+    }
+    catch (currentSecretError) {
+        const pastSecrets = authConfig.pastSecrets || [];
 
-		console.error("Token verification ultimately failed:", currentSecretError);
-		throw new Error("Invalid or expired token.");
-	}
+        if (pastSecrets.length > 0) {
+            try {
+                const decodedFromPast = await Promise.any(
+                    pastSecrets.map(async (pastSecret) => {
+                        try {
+                            const { payload } = await jwtVerify(token, encodeSecret(pastSecret), {
+                                algorithms: [authConfig.jwtAlgorithm],
+                            });
+                            return payload;
+                        }
+                        catch (err) {
+                            console.warn(
+                                `Failed to verify token with past secrets (${
+                                    err instanceof Error ? err.message : String(err)
+                                }`,
+                            );
+                            throw err;
+                        }
+                    }),
+                );
+                return decodedFromPast;
+            }
+            catch (aggregateError) {
+                console.warn("All past secret verifications failed:", (aggregateError as AggregateError).errors);
+            }
+        }
+
+        console.error("Token verification ultimately failed:", currentSecretError);
+        throw new Error("Invalid or expired token.");
+    }
 }
 
-export async function signToken(payload: JWTPayload): Promise<string> {
-	const currentSecret = authConfig.secret;
+export async function signToken(authConfig: AuthConfigOptions,  payload: JWTPayload): Promise<string> {
+    const currentSecret = authConfig.secret;
 
-	try {
-		const token = await sign(payload, currentSecret, authConfig.jwtAlgorithm);
-		return token;
-	}
-	catch (error) {
-		console.error("Failed to sign token:", error);
-		throw new Error("Token signing failed.");
-	}
+    try {
+        const token = await new SignJWT(payload)
+            .setProtectedHeader({ alg: authConfig.jwtAlgorithm })
+            .sign(encodeSecret(currentSecret));
+        return token;
+    }
+    catch (error) {
+        console.error("Failed to sign token:", error);
+        throw new Error("Token signing failed.");
+    }
 }
 
 export function assembleApiTokenJwtPayload(tokenId: string): JWTPayload {
-	return {
-		jti: tokenId,
-		token_type: TokenType.API,
-	};
+    return {
+        jti: tokenId,
+        token_type: TokenType.API,
+    };
 }
 
 export function assembleSessionJwtPayload(sessionId: string): JWTPayload {
-	return {
-		jti: sessionId,
-		token_type: TokenType.SESSION,
-	};
+    return {
+        jti: sessionId,
+        token_type: TokenType.SESSION,
+    };
 }

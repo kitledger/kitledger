@@ -9,7 +9,7 @@ import {
 	users,
 	sessions
 } from "./schema.js";
-import { db } from "./db.js";
+import { type KitledgerDb } from "./db.js";
 import { v7 } from "uuid";
 
 export type ApiTokenInsert = InferInsertModel<typeof api_tokens>;
@@ -42,7 +42,7 @@ export type AppUser = Omit<User, "password_hash"> & {
 const SYSTEM_PERMISSION_PREFIX = "KL_";
 export const SYSTEM_ADMIN_PERMISSION = `${SYSTEM_PERMISSION_PREFIX}SYSTEM_ADMIN`;
 
-export async function startSession(userId: string): Promise<string> {
+export async function startSession(db: KitledgerDb, userId: string, sessionConfig: SessionConfigOptions): Promise<string> {
 	const sessionId = v7();
 
 	await db.insert(sessions).values({
@@ -55,7 +55,7 @@ export async function startSession(userId: string): Promise<string> {
 	return sessionId;
 }
 
-export async function createToken(userId: string, name?: string | null): Promise<string> {
+export async function createToken(db: KitledgerDb, userId: string, name?: string | null): Promise<string> {
 	const tokenId = v7();
 
 	await db.insert(api_tokens).values({
@@ -67,3 +67,14 @@ export async function createToken(userId: string, name?: string | null): Promise
 
 	return tokenId;
 }
+
+export type AuthConfigOptions = {
+    secret: string;
+    pastSecrets: string[];
+    jwtAlgorithm: 'HS256';
+};
+
+export type SessionConfigOptions = {
+    cookieName: string;
+    ttl: number;
+};
