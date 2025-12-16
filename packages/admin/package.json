@@ -1,6 +1,6 @@
 {
 	"name": "@kitledger/admin",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"private": false,
 	"license": "Apache-2.0",
 	"type": "module",
@@ -36,10 +36,5 @@
 	},
 	"publishConfig": {
 		"access": "public"
-	},
-	"pnpm": {
-		"overrides": {
-			"vite": "npm:rolldown-vite@7.2.5"
-		}
 	}
 }
