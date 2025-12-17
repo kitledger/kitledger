@@ -22,8 +22,7 @@
 	"type": "module",
 	"main": "index.js",
 	"scripts": {
-		"serve": "tsx index.ts --watch",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"serve": "tsx index.ts --watch"
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.19.6",

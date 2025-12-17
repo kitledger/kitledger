@@ -22,14 +22,16 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "pnpm -r run build",
-		"format": "oxfmt"
+		"format": "oxfmt",
+		"test": "pnpm -r run test"
 	},
 	"dependencies": {
 		"@types/node": "^24.10.1"
 	},
 	"devDependencies": {
 		"oxfmt": "^0.18.0",
-		"typescript": "^5.9.3"
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.16"
 	},
 	"packageManager": "pnpm@10.17.1",
 	"pnpm": {

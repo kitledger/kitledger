@@ -11,13 +11,14 @@
 		}
 	},
 	"files": [
-		"dist"
+		"dist",
+		"!dist/**/*.test.js"
 	],
 	"scripts": {
 		"build": "tsc",
 		"typecheck": "tsc --noEmit"
 	},
-	"peerDependencies": {
+	"dependencies": {
 		"valibot": "^1.1.0"
 	},
 	"publishConfig": {

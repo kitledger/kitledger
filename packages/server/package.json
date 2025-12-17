@@ -11,19 +11,22 @@
 		}
 	},
 	"files": [
-		"dist"
+		"dist",
+		"!dist/**/*.test.js"
 	],
 	"scripts": {
 		"build": "tsc",
+		"test": "vitest run",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.19.6",
 		"@kitledger/core": "workspace:*",
-		"hono": "^4.10.7"
-	},
-	"peerDependencies": {
+		"hono": "^4.10.7",
 		"valibot": "^1.1.0"
+	},
+	"devDependencies": {
+		"@kitledger/admin": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public"

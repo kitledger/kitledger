@@ -10,7 +10,7 @@ export type ServerOptions = {
 	staticUIs?: StaticUIConfig[];
 };
 
-export type ServerConfig = ServerOptions;
+type ServerConfig = ServerOptions;
 
 export function defineServerConfig(options: ServerOptions): ServerConfig {
 	return options;

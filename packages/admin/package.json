@@ -13,7 +13,8 @@
 	},
 	"files": [
 		"dist",
-		"dist-package"
+		"dist-package",
+		"!dist/**/*.test.js"
 	],
 	"scripts": {
 		"dev": "vite",
