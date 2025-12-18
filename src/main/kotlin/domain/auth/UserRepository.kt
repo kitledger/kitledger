@@ -3,11 +3,12 @@ package com.kitledger.domain.auth
 
 import com.kitledger.services.database.SystemPermissionsTable
 import com.kitledger.services.database.UsersTable
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.eq
-import org.jetbrains.exposed.v1.r2dbc.selectAll
-import org.jetbrains.exposed.v1.r2dbc.transactions.suspendTransaction
+import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
 import kotlin.time.ExperimentalTime
 
 /**
@@ -17,21 +18,26 @@ import kotlin.time.ExperimentalTime
  */
 suspend fun getSessionUserFromJwtPayload(jwt: JwtPayload): SessionUser? {
     return try {
-        suspendTransaction {
-            val userId = when (jwt.tokenType) {
-                TokenType.API -> {
-                    getTokenUserId(jwt.tokenId) ?: return@suspendTransaction null
+        // JDBC suspendTransaction executes on the caller's thread, so we
+        // explicitly offload to Dispatchers.IO to prevent blocking.
+        withContext(Dispatchers.IO) {
+            suspendTransaction {
+                val userId = when (jwt.tokenType) {
+                    TokenType.API -> {
+                        getTokenUserId(jwt.tokenId) ?: return@suspendTransaction null
+                    }
+
+                    TokenType.SESSION -> {
+                        getSessionUserId(jwt.tokenId) ?: return@suspendTransaction null
+                    }
                 }
 
-                TokenType.SESSION -> {
-                    getSessionUserId(jwt.tokenId) ?: return@suspendTransaction null
-                }
+                val userResult = UsersTable.selectAll()
+                    .where { UsersTable.id eq userId }
+                    .firstOrNull() ?: return@suspendTransaction null
+
+                return@suspendTransaction userResult.toSessionUser()
             }
-
-            val userResult =
-                UsersTable.selectAll().where { UsersTable.id eq userId }.firstOrNull() ?: return@suspendTransaction null
-
-            return@suspendTransaction userResult.toSessionUser()
         }
     } catch (e: Exception) {
         println(e.toString())

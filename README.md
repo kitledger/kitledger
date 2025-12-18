@@ -1,12 +1,5 @@
 # kitledger
 
-> [!WARNING]
-> Experiment Cancelled.
-> Had some gripes with the complexity of setting up a JVM project with gradle and Kotlin.
-> Coroutines not working well with JDCB and R2DBC not being fully mature with exposed making the runtime brittle unless exceptions are caught in a specific yet.
-> Licensing concerns around Oracle and GraalVM as a critical component for running user scripts. Would be a permanent source for anxiety. Around Deno by comparison everything is MIT licensed.
-> Coroutines are elegant but the advertised simplicity felt like an unfulfilled promise (no pun intended) when the ecosystem doesn't yet seem to have matured around it.
-
 This project was created using the [Ktor Project Generator](https://start.ktor.io).
 
 Here are some useful links to get you started:

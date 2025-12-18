@@ -1,7 +1,9 @@
 package com.kitledger.services.database
 
 import com.kitledger.services.config.AppConfig
-import org.jetbrains.exposed.v1.r2dbc.R2dbcDatabase
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
+import org.jetbrains.exposed.v1.jdbc.Database
 
 /**
  * Creates a database connection.
@@ -10,29 +12,15 @@ import org.jetbrains.exposed.v1.r2dbc.R2dbcDatabase
 object DatabaseFactory {
     fun init() {
         val config = AppConfig.dbConfig
-
-        val queryParams = mutableListOf<String>()
-
-        if (!config.url.contains("maxSize=")) {
-            queryParams.add("maxSize=${config.max}")
-        }
-        if (!config.url.contains("initialSize=")) {
-            queryParams.add("initialSize=5")
-        }
-        if (!config.url.contains("validationQuery=")) {
-            queryParams.add("validationQuery=SELECT%201")
+        val hikariConfig = HikariConfig().apply {
+            jdbcUrl = config.url
+            driverClassName = "org.postgresql.Driver"
+            maximumPoolSize = config.max
+            isAutoCommit = false
+            transactionIsolation = "TRANSACTION_REPEATABLE_READ"
         }
 
-        val finalUrl = if (queryParams.isNotEmpty()) {
-            val separator = if (config.url.contains("?")) "&" else "?"
-            config.url + separator + queryParams.joinToString("&")
-        } else {
-            config.url
-        }
-
-        R2dbcDatabase.connect(
-            url = finalUrl,
-            driver = "postgresql",
-        )
+        val dataSource = HikariDataSource(hikariConfig)
+        Database.connect(dataSource)
     }
 }

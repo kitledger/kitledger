@@ -7,7 +7,6 @@ import com.kitledger.services.database.Migration
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import org.graalvm.polyglot.Context
 
 suspend fun main(args: Array<String>) {
 
@@ -37,14 +36,6 @@ suspend fun main(args: Array<String>) {
  * @receiver Application
  */
 fun Application.module(config: AppConfig) {
-
-    val context = Context.create("js")
-
-    val script = """
-        console.log('Hello from KitActions');
-    """
-
-    context.eval("js", script)
 
     configureRouting()
 }

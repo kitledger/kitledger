@@ -2,13 +2,12 @@ val argon2JvmVersion: String by project
 val auth0JwtVersion: String by project
 val exposedVersion: String by project
 val flywayVersion: String by project
-val graalVmPolyglotVersion: String by project
+val hikaricpVersion: String by project
 val jdbcPostgresDriverVersion: String by project
 val konformVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val postgresDriverVersion: String by project
-val r2dbcPoolVersion: String by project
 val uuidGeneratorVersion: String by project
 
 plugins {
@@ -36,16 +35,14 @@ dependencies {
     implementation("com.auth0:java-jwt:$auth0JwtVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
-    implementation("org.jetbrains.exposed:exposed-r2dbc:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-jdbc:${exposedVersion}")
     implementation("org.jetbrains.exposed:exposed-json:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-kotlin-datetime:$exposedVersion")
     implementation("org.flywaydb:flyway-core:$flywayVersion")
     implementation("org.flywaydb:flyway-database-postgresql:$flywayVersion")
-    implementation("org.postgresql:r2dbc-postgresql:${postgresDriverVersion}")
+    implementation("com.zaxxer:HikariCP:${hikaricpVersion}")
+    implementation("org.postgresql:postgresql:${postgresDriverVersion}")
     implementation("org.postgresql:postgresql:${jdbcPostgresDriverVersion}")
-    implementation("io.r2dbc:r2dbc-pool:${r2dbcPoolVersion}")
-    implementation("org.graalvm.polyglot:polyglot:$graalVmPolyglotVersion")
-    implementation("org.graalvm.polyglot:js-community:$graalVmPolyglotVersion")
     implementation("de.mkammerer:argon2-jvm:$argon2JvmVersion")
     implementation("com.fasterxml.uuid:java-uuid-generator:$uuidGeneratorVersion")
     implementation("io.konform:konform-jvm:$konformVersion")
