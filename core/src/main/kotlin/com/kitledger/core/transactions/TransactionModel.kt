@@ -3,7 +3,7 @@ package com.kitledger.core.transactions
 import java.time.Instant
 
 enum class TransactionModelStatus {
-    ACTIVE, INACTIVE, FROZEN
+    ACTIVE, INACTIVE
 }
 
 data class Transaction<T>(

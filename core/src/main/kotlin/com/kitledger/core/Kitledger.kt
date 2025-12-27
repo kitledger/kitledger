@@ -2,16 +2,25 @@ package com.kitledger.core
 
 import com.kitledger.core.entities.EntityModel
 import com.kitledger.core.transactions.TransactionModel
+import com.kitledger.core.units.UnitModel
 
 data class KitledgerConfig(
+    val entityModels: List<EntityModel>,
     val transactionModels: List<TransactionModel<*>>,
-    val entityModels: List<EntityModel>
+    val unitModels: List<UnitModel>
 )
 
 object KitLedger {
     @JvmStatic
     fun defineConfig(
+        entityModels: List<EntityModel>,
         transactionModels: List<TransactionModel<*>>,
-        entityModels: List<EntityModel>
-    ): KitledgerConfig = KitledgerConfig(transactionModels, entityModels)
+        unitModels: List<UnitModel>
+    ): KitledgerConfig {
+        return KitledgerConfig(
+            entityModels,
+            transactionModels,
+            unitModels
+        )
+    }
 }

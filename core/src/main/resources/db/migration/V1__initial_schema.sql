@@ -24,19 +24,6 @@ CREATE TABLE "api_tokens"
     "revoked_at" timestamp
 );
 
-CREATE TABLE "entity_models"
-(
-    "id"         uuid PRIMARY KEY        NOT NULL,
-    "ref_id"     varchar(64)             NOT NULL,
-    "alt_id"     varchar(64),
-    "name"       varchar(64)             NOT NULL,
-    "active"     boolean   DEFAULT true  NOT NULL,
-    "created_at" timestamp DEFAULT now() NOT NULL,
-    "updated_at" timestamp,
-    CONSTRAINT "entity_models_ref_id_unique" UNIQUE ("ref_id"),
-    CONSTRAINT "entity_models_alt_id_unique" UNIQUE ("alt_id")
-);
-
 CREATE TABLE "ledgers"
 (
     "id"            uuid PRIMARY KEY        NOT NULL,
@@ -97,34 +84,6 @@ CREATE TABLE "system_permissions"
     "user_id"    uuid                    NOT NULL,
     "created_at" timestamp DEFAULT now() NOT NULL,
     "updated_at" timestamp
-);
-
-CREATE TABLE "transaction_models"
-(
-    "id"         uuid PRIMARY KEY        NOT NULL,
-    "ref_id"     varchar(64)             NOT NULL,
-    "alt_id"     varchar(64),
-    "name"       varchar(64)             NOT NULL,
-    "active"     boolean   DEFAULT true  NOT NULL,
-    "created_at" timestamp DEFAULT now() NOT NULL,
-    "updated_at" timestamp,
-    CONSTRAINT "transaction_models_ref_id_unique" UNIQUE ("ref_id"),
-    CONSTRAINT "transaction_models_alt_id_unique" UNIQUE ("alt_id")
-);
-
-CREATE TABLE "unit_models"
-(
-    "id"           uuid PRIMARY KEY        NOT NULL,
-    "ref_id"       varchar(64)             NOT NULL,
-    "alt_id"       varchar(64),
-    "name"         varchar(64)             NOT NULL,
-    "active"       boolean   DEFAULT true  NOT NULL,
-    "base_unit_id" uuid,
-    "created_at"   timestamp DEFAULT now() NOT NULL,
-    "updated_at"   timestamp,
-    CONSTRAINT "unit_models_ref_id_unique" UNIQUE ("ref_id"),
-    CONSTRAINT "unit_models_alt_id_unique" UNIQUE ("alt_id"),
-    CONSTRAINT "unit_models_base_unit_id_unique" UNIQUE ("base_unit_id")
 );
 
 CREATE TABLE "user_roles"
