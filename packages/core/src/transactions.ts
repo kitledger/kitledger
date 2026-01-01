@@ -1,35 +1,36 @@
+import type { Field } from "./fields.js";
+
 export enum TransactionModelStatus {
 	ACTIVE,
 	INACTIVE,
 	FROZEN,
 }
 
-export type Transaction<T = Record<string, any>> = {
+export type Transaction = {
 	id: string;
 	model_ref_id: string;
 	created_at: Date;
 	updated_at: Date;
-	data: T;
+	data: Record<string, any>;
 };
 
-export type TransactionPipe<T> = (transaction: Transaction<T>) => Promise<Transaction<T> | void>;
+export type TransactionHook = (transaction: Transaction) => Promise<Transaction>;
+export type TransactionHooks = {
+	creating?: TransactionHook[];
+	updating?: TransactionHook[];
+	deleting?: TransactionHook[];
+	created?: TransactionHook[];
+	updated?: TransactionHook[];
+	deleted?: TransactionHook[];
+};
 
-export type TransactionListener<T> = (transaction: Readonly<Transaction<T>>) => Promise<void>;
-
-export type TransactionModel<T = Record<string, any>> = {
+export type TransactionModel = {
 	ref_id: string;
 	alt_id?: string;
 	name: string;
 	status: TransactionModelStatus;
-	hooks?: {
-		// "Before" hooks are Pipes
-		creating?: TransactionPipe<T>[];
-		updating?: TransactionPipe<T>[];
-
-		// "After" hooks are Listeners
-		created?: TransactionListener<T>[];
-		updated?: TransactionListener<T>[];
-	};
+	fields?: Field[];
+	hooks?: TransactionHooks;
 };
 
 export type TransactionModelOptions = {
@@ -37,6 +38,8 @@ export type TransactionModelOptions = {
 	alt_id?: string;
 	name: string;
 	status?: TransactionModelStatus;
+	fields?: Field[];
+	hooks?: TransactionHooks;
 };
 
 export function defineTransactionModel(options: TransactionModelOptions): TransactionModel {

@@ -3,12 +3,22 @@ import { defineAdminUI } from "@kitledger/admin";
 import { defineConfig } from "@kitledger/core";
 import { defineEntityModel } from "@kitledger/core/entities";
 import { defineTransactionModel } from "@kitledger/core/transactions";
+import { defineTextField } from "@kitledger/core/fields";
 import { createServer } from "@kitledger/server";
 
 const transactionModels = [
 	defineTransactionModel({
 		ref_id: "INVOICE",
 		name: "Invoice",
+		fields: [
+			defineTextField({
+				ref_id: "INVOICE_NUMBER",
+				name: "Invoice Number",
+				description: "The unique identifier for the invoice",
+				maxLength: 50,
+				format: "plain",
+			}),
+		],
 	}),
 	defineTransactionModel({
 		ref_id: "PAYMENT",
