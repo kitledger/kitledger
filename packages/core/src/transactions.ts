@@ -3,10 +3,9 @@ import type { Field } from "./fields.js";
 export enum TransactionModelStatus {
 	ACTIVE,
 	INACTIVE,
-	FROZEN,
 }
 
-export type InferTransactionData<TFields extends readonly Field[]> = {
+export type InferTransactionMetaType<TFields extends readonly Field[]> = {
 	[K in TFields[number] as K["ref_id"]]: K["__primitive_type"];
 };
 
@@ -43,7 +42,7 @@ export type TransactionModelOptions<TFields extends readonly Field[]> = {
 	name: string;
 	status?: TransactionModelStatus;
 	fields?: TFields;
-	hooks?: TransactionHooks<InferTransactionData<TFields>>;
+	hooks?: TransactionHooks<InferTransactionMetaType<TFields>>;
 };
 
 export function defineTransactionModel<const TFields extends readonly Field[]>(

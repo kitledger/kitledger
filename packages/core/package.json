@@ -1,6 +1,6 @@
 {
 	"name": "@kitledger/core",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"private": false,
 	"license": "Apache-2.0",
 	"type": "module",
@@ -24,6 +24,10 @@
 		"./ui": {
 			"types": "./dist/ui.d.ts",
 			"default": "./dist/ui.js"
+		},
+		"./units": {
+			"types": "./dist/units.d.ts",
+			"default": "./dist/units.js"
 		}
 	},
 	"files": [
