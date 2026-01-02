@@ -2,8 +2,8 @@ import { serve } from "@hono/node-server";
 import { defineAdminUI } from "@kitledger/admin";
 import { defineConfig } from "@kitledger/core";
 import { defineEntityModel } from "@kitledger/core/entities";
+import { defineTextField, defineNumberField } from "@kitledger/core/fields";
 import { defineTransactionModel } from "@kitledger/core/transactions";
-import { defineTextField } from "@kitledger/core/fields";
 import { createServer } from "@kitledger/server";
 
 const transactionModels = [
@@ -18,7 +18,26 @@ const transactionModels = [
 				maxLength: 50,
 				format: "plain",
 			}),
+			defineNumberField({
+				ref_id: "AMOUNT",
+				name: "Amount",
+				description: "The total amount for the invoice",
+				formatting: { style: "currency", currencyCode: "USD" },
+			}),
 		],
+		hooks: {
+			creating: [
+				async (transaction) => {
+					const invoiceNum = transaction.data.INVOICE_NUMBER;
+
+					if (invoiceNum) {
+						console.log("Processing invoice:", invoiceNum.toUpperCase());
+					}
+
+					return transaction;
+				},
+			],
+		},
 	}),
 	defineTransactionModel({
 		ref_id: "PAYMENT",

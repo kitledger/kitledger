@@ -12,9 +12,9 @@
 		}
 	},
 	"files": [
+		"!dist/**/*.test.js",
 		"dist",
-		"dist-package",
-		"!dist/**/*.test.js"
+		"dist-package"
 	],
 	"scripts": {
 		"dev": "vite",

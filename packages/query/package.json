@@ -11,8 +11,8 @@
 		}
 	},
 	"files": [
-		"dist",
-		"!dist/**/*.test.js"
+		"!dist/**/*.test.js",
+		"dist"
 	],
 	"scripts": {
 		"build": "tsc",

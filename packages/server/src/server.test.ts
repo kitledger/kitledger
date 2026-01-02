@@ -1,12 +1,12 @@
-import { defineServerConfig, createServer, ServerOptions } from "./server.js";
+import { defineAdminUI } from "@kitledger/admin";
 import { defineConfig } from "@kitledger/core";
 import { defineEntityModel } from "@kitledger/core/entities";
 import { defineTransactionModel } from "@kitledger/core/transactions";
-import { defineAdminUI } from "@kitledger/admin";
-import { expect, test } from 'vitest';
+import { expect, test } from "vitest";
 
-test('server should be created with correct config', async () => {
+import { defineServerConfig, createServer, ServerOptions } from "./server.js";
 
+test("server should be created with correct config", async () => {
 	const transactionModels = [
 		defineTransactionModel({
 			ref_id: "INVOICE",
@@ -38,7 +38,7 @@ test('server should be created with correct config', async () => {
 	];
 
 	const serverBasePath = "/__kitledger_data";
-	
+
 	const config = defineConfig({
 		transactionModels: transactionModels,
 		entityModels: entityModels,
@@ -56,7 +56,6 @@ test('server should be created with correct config', async () => {
 		staticPaths: ["/static"],
 		staticUIs: [adminUI],
 	});
-	
 
 	const server = createServer(serverConfig);
 	const response = await server.request(`${serverBasePath}/transactions/models`);
@@ -64,6 +63,3 @@ test('server should be created with correct config', async () => {
 	expect(response.status).toBe(200);
 	expect(await response.json()).toEqual(transactionModels);
 });
-
-
-
