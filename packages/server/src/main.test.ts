@@ -4,7 +4,7 @@ import { defineEntityModel } from "@kitledger/core/entities";
 import { defineTransactionModel } from "@kitledger/core/transactions";
 import { expect, test } from "vitest";
 
-import { defineServerConfig, createServer, ServerOptions } from "./server.js";
+import { defineServerConfig, createServer, ServerOptions } from "./main.js";
 
 test("server should be created with correct config", async () => {
 	const transactionModels = [
