@@ -4,7 +4,7 @@ import { defineConfig } from "@kitledger/core";
 import { defineEntityModel } from "@kitledger/core/entities";
 import { defineTextField, defineNumberField } from "@kitledger/core/fields";
 import { defineTransactionModel } from "@kitledger/core/transactions";
-import { defineForm } from "@kitledger/core/ui";
+//import { defineForm } from "@kitledger/core/ui";
 import { createServer } from "@kitledger/server";
 
 const transactionModels = [
@@ -65,7 +65,7 @@ const entityModels = [
 	}),
 ];
 
-const invoiceSimpleForm = defineForm({
+/*const invoiceSimpleForm = defineForm({
 	ref_id: "INVOICE_SIMPLE",
 	name: "Simple Invoice Form",
 	modelRefId: "INVOICE",
@@ -77,7 +77,7 @@ const invoiceDetailForm = defineForm({
 	name: "Detailed Invoice Form",
 	modelRefId: "INVOICE",
 	layout: [{ fieldRefId: "INVOICE_NUMBER" }, { fieldRefId: "AMOUNT" }],
-});
+});*/
 
 const config = defineConfig({
 	transactionModels,
@@ -88,12 +88,11 @@ const adminUI = defineAdminUI({
 	serverPath: "/__kitledger_data",
 	basePath: "/admin",
 	title: "Kitledger Admin UI",
-	forms: [invoiceSimpleForm, invoiceDetailForm],
+	//forms: [invoiceSimpleForm, invoiceDetailForm],
 });
 
-const server = createServer({
+const server = await createServer({
 	systemConfig: config,
-	runtime: "node",
 	staticPaths: [],
 	staticUIs: [adminUI],
 });

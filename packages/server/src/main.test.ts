@@ -52,12 +52,11 @@ test("server should be created with correct config", async () => {
 
 	const serverConfig: ServerOptions = defineServerConfig({
 		systemConfig: config,
-		runtime: "node",
 		staticPaths: ["/static"],
 		staticUIs: [adminUI],
 	});
 
-	const server = createServer(serverConfig);
+	const server = await createServer(serverConfig);
 	const response = await server.request(`${serverBasePath}/transactions/models`);
 
 	expect(response.status).toBe(200);
