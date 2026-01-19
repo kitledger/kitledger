@@ -7,19 +7,20 @@ import * as v from "valibot";
 
 import * as schema from "./schema.js";
 
-type DbOptions = {
+export type KitledgerDbOptions = {
 	url: string;
 	ssl?: boolean;
 	max?: number;
-	migrations_table?: string;
-	migrations_schema?: string;
+	migrationsTable?: string;
+	migrationsSchema?: string;
+	autoMigrate?: boolean;
 };
 
 export type KitledgerDb = PostgresJsDatabase<typeof schema> & {
 	$client: postgres.Sql<{}>;
 };
 
-async function runMigrations(db: KitledgerDb, migrationsTable: string, migrationsSchema: string) {
+export async function runMigrations(db: KitledgerDb, migrationsTable: string, migrationsSchema: string) {
 	await migrate(db, {
 		migrationsFolder: "./migrations",
 		migrationsTable: migrationsTable,
@@ -27,21 +28,27 @@ async function runMigrations(db: KitledgerDb, migrationsTable: string, migration
 	});
 }
 
-export async function initializeDatabase(options: DbOptions) {
-	const dbConfig: DbOptions = {
+export async function initializeDatabase(options: KitledgerDbOptions): Promise<KitledgerDb> {
+	const dbConfig: KitledgerDbOptions = {
 		url: options.url,
 		ssl: options.ssl ? options.ssl : false,
 		max: options.max ? options.max : 10,
+		autoMigrate: options.autoMigrate ?? true,
 	};
 	const db = drizzle({
 		connection: dbConfig,
 		schema: schema,
 	});
 
-	const migrationsTable = options.migrations_table || "schema_history";
-	const migrationsSchema = options.migrations_schema || "public";
+	const migrationsTable = options.migrationsTable || "schema_history";
+	const migrationsSchema = options.migrationsSchema || "public";
 
-	await runMigrations(db, migrationsTable, migrationsSchema);
+	/**
+	 * Auto-migrate database schema if enabled
+	 */
+	if (dbConfig.autoMigrate) {
+		await runMigrations(db, migrationsTable, migrationsSchema);
+	}
 
 	return db;
 }

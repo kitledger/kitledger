@@ -1,5 +1,6 @@
 import { defineAdminUI } from "@kitledger/admin";
 import { defineConfig } from "@kitledger/core";
+import { initializeDatabase } from "@kitledger/core/db";
 import { defineEntityModel } from "@kitledger/core/entities";
 import { defineTransactionModel } from "@kitledger/core/transactions";
 import { expect, test } from "vitest";
@@ -39,9 +40,14 @@ test("server should be created with correct config", async () => {
 
 	const serverBasePath = "/__kitledger_data";
 
+	const database = await initializeDatabase({
+		url: process.env.KL_POSTGRES_URL || "postgres://user:password@localhost:5432/kitledger",
+	});
+
 	const config = defineConfig({
-		transactionModels: transactionModels,
+		database: database,
 		entityModels: entityModels,
+		transactionModels: transactionModels,
 	});
 
 	const adminUI = defineAdminUI({

@@ -1,11 +1,14 @@
 import { serve } from "@hono/node-server";
 import { defineAdminUI } from "@kitledger/admin";
 import { defineConfig } from "@kitledger/core";
+import { initializeDatabase } from "@kitledger/core/db";
 import { defineEntityModel } from "@kitledger/core/entities";
 import { defineTextField, defineNumberField } from "@kitledger/core/fields";
 import { defineTransactionModel } from "@kitledger/core/transactions";
 //import { defineForm } from "@kitledger/core/ui";
 import { createServer } from "@kitledger/server";
+
+process.loadEnvFile(".env");
 
 const transactionModels = [
 	defineTransactionModel({
@@ -79,9 +82,14 @@ const invoiceDetailForm = defineForm({
 	layout: [{ fieldRefId: "INVOICE_NUMBER" }, { fieldRefId: "AMOUNT" }],
 });*/
 
+const database = await initializeDatabase({
+	url: process.env.KL_POSTGRES_URL || "postgres://user:password@localhost:5432/kitledger",
+});
+
 const config = defineConfig({
-	transactionModels,
+	database,
 	entityModels,
+	transactionModels,
 });
 
 const adminUI = defineAdminUI({
