@@ -2,11 +2,14 @@ import { type KitledgerConfig } from "@kitledger/core";
 import { StaticUIConfig } from "@kitledger/core/ui";
 import { Hono, type MiddlewareHandler } from "hono";
 
-// 1. Define the Runtime Types
+/**
+ * Allowed runtimes
+ */
 type Runtime = "node" | "deno" | "bun" | "unknown";
 
-// 2. Define the Type for the serveStatic Factory
-// This ensures 'options' has the correct fields and returns a Hono Middleware
+/**
+ * Ensures 'options' has the correct fields and returns a Hono Middleware
+ */
 type ServeStaticOptions = {
 	root: string;
 	rewriteRequestPath?: (path: string) => string;
@@ -15,16 +18,14 @@ type ServeStaticOptions = {
 
 type ServeStaticFn = (options: ServeStaticOptions) => MiddlewareHandler;
 
-export type ServerOptions = {
-	systemConfig: KitledgerConfig;
-	// Runtime is removed; we detect it automatically now.
-	staticPaths?: string[];
-	staticUIs?: StaticUIConfig[];
-};
-
 type ServerConfig = ServerOptions;
 
-// 3. The Auto-Detection Logic
+type KitledgerContext = {
+	Variables: {
+		config: KitledgerConfig;
+	};
+};
+
 function detectRuntime(): Runtime {
 	// @ts-ignore: Deno global detection
 	if (typeof Deno !== "undefined") return "deno";
@@ -34,12 +35,50 @@ function detectRuntime(): Runtime {
 	return "unknown";
 }
 
+/**
+ * Options for configuring the Kitledger server.
+ */
+export type ServerOptions = {
+	systemConfig: KitledgerConfig;
+	// Runtime is removed; we detect it automatically now.
+	staticPaths?: string[];
+	staticUIs?: StaticUIConfig[];
+};
+
+/**
+ * Factory function to define the server configuration.
+ */
 export function defineServerConfig(options: ServerOptions): ServerConfig {
 	return options;
 }
 
+/**
+ * Factory function to create a Hono server based on the detected runtime.
+ * * This is the main entry point for the server package. It returns an initialized 
+ * Hono instance that has the system configuration injected into its context.
+ * * @param config - The {@link ServerConfig} object containing system settings, static paths, and UI definitions.
+ * @returns A Promise that resolves to the configured Hono application instance.
+ * * @example
+ * ```ts
+ * // Basic usage with Bun
+ * const server = await createServer({
+ * systemConfig: myConfig,
+ * staticPaths: ['/public']
+ * });
+ * * export default { fetch: server.fetch };
+ * ```
+ */
 export async function createServer(config: ServerConfig) {
-	const server = new Hono();
+	const server = new Hono<KitledgerContext>();
+
+	/**
+	 * Ensure all requests have access to the system config.
+	 */
+	server.use("*", (c, next) => {
+		c.set("config", config.systemConfig);
+		return next();
+	});
+
 	const runtime = detectRuntime();
 
 	// 4. Type-Safe Variable Definition
@@ -72,11 +111,11 @@ export async function createServer(config: ServerConfig) {
 	if (config.staticUIs) {
 		for (const staticUI of config.staticUIs) {
 			server.get(`${staticUI.serverPath}/transactions/models`, (c) => {
-				return c.json(config.systemConfig.transactionModels);
+				return c.json(c.get("config").transactionModels);
 			});
 
 			server.get(`${staticUI.serverPath}/entities/models`, (c) => {
-				return c.json(config.systemConfig.entityModels);
+				return c.json(c.get("config").entityModels);
 			});
 
 			const cleanPath = staticUI.basePath.endsWith("/") ? staticUI.basePath.slice(0, -1) : staticUI.basePath;
@@ -86,7 +125,7 @@ export async function createServer(config: ServerConfig) {
 				serveStatic({
 					root: staticUI.assetsPath,
 					rewriteRequestPath: (path) => {
-						const p = path.replace(new RegExp(`^${cleanPath}`), "").replace(/^\//, "");
+						const p = path.slice(cleanPath.length).replace(/^\//, "");
 						if (p === "" || p === "index.html") return "__404__";
 						return p;
 					},
@@ -106,7 +145,7 @@ export async function createServer(config: ServerConfig) {
 				staticPath,
 				serveStatic({
 					root: ".",
-					rewriteRequestPath: (path) => path.replace(new RegExp(`^${staticPath}`), "").replace(/^\//, ""),
+					rewriteRequestPath: (path) => path.slice(staticPath.length).replace(/^\//, ""),
 				}),
 			);
 		}

@@ -42,6 +42,7 @@ test("server should be created with correct config", async () => {
 
 	const database = await initializeDatabase({
 		url: process.env.KL_POSTGRES_URL || "postgres://user:password@localhost:5432/kitledger",
+		autoMigrate: false,
 	});
 
 	const config = defineConfig({
@@ -63,8 +64,13 @@ test("server should be created with correct config", async () => {
 	});
 
 	const server = await createServer(serverConfig);
-	const response = await server.request(`${serverBasePath}/transactions/models`);
+	const transactionResponse = await server.request(`${serverBasePath}/transactions/models`);
 
-	expect(response.status).toBe(200);
-	expect(await response.json()).toEqual(transactionModels);
+	expect(transactionResponse.status).toBe(200);
+	expect(await transactionResponse.json()).toEqual(transactionModels);
+
+	const entityResponse = await server.request(`${serverBasePath}/entities/models`);
+
+	expect(entityResponse.status).toBe(200);
+	expect(await entityResponse.json()).toEqual(entityModels);
 });
