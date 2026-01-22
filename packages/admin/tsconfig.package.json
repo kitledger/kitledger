@@ -30,5 +30,5 @@
 		"outDir": "dist-package",
 		"declaration": true
 	},
-	"include": ["admin.ts"]
+	"include": ["admin.ts", "shared.ts"]
 }

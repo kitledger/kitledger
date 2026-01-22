@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
+import type { AdminUIOptions } from "../shared";
 
 function App() {
-	type UiConfig = {
-		serverPath: string;
-		assetsPath?: string;
-		title?: string;
-	};
 
 	type Model = {
 		ref_id: string;
@@ -15,7 +11,7 @@ function App() {
 	const [transactions, setTransactions] = useState<Model[]>([]);
 	const [entities, setEntities] = useState<Model[]>([]);
 
-	const config: UiConfig = (window as any).KITLEDGER_CONFIG;
+	const config: AdminUIOptions = (window as any).KITLEDGER_CONFIG;
 
 	useEffect(() => {
 		if (!config) return;

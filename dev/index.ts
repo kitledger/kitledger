@@ -66,6 +66,10 @@ const entityModels = [
 		ref_id: "EMPLOYEE",
 		name: "Employee",
 	}),
+	defineEntityModel({
+		ref_id: "PRODUCT",
+		name: "Product",
+	}),
 ];
 
 /*const invoiceSimpleForm = defineForm({

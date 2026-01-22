@@ -3,6 +3,9 @@ import fs from "fs";
 import path from "path";
 import { relative } from "path";
 import { fileURLToPath } from "url";
+import type { AdminUIOptions } from "./shared.js";
+
+export type { AdminUIOptions };
 
 // 1. Resolve the absolute path to the build output
 // Note: Adjust '../dist' if your build output is deeper (e.g. '../dist/client')
@@ -15,15 +18,6 @@ const DIST_PATH = path.resolve(__dirname, "../dist");
  * Use this to configure your static file server (e.g. express.static).
  */
 const assetsPath = relative(process.cwd(), DIST_PATH);
-
-/**
- * Configuration that passes from the Server to the Client.
- */
-export interface AdminUIOptions {
-	serverPath: string;
-	basePath: string;
-	title?: string;
-}
 
 export function defineAdminUI(options: AdminUIOptions): StaticUIConfig {
 	return {
