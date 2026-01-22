@@ -54,7 +54,7 @@ export function defineServerConfig(options: ServerOptions): ServerConfig {
 
 /**
  * Factory function to create a Hono server based on the detected runtime.
- * * This is the main entry point for the server package. It returns an initialized 
+ * * This is the main entry point for the server package. It returns an initialized
  * Hono instance that has the system configuration injected into its context.
  * * @param config - The {@link ServerConfig} object containing system settings, static paths, and UI definitions.
  * @returns A Promise that resolves to the configured Hono application instance.

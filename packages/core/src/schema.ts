@@ -2,7 +2,14 @@ import { relations } from "drizzle-orm";
 import { boolean, index, jsonb, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 import { BalanceType } from "./accounts.js";
-import { timestamps } from "./db.js";
+
+/**
+ * Common database helper for timestamps
+ */
+export const timestamps = {
+	created_at: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+	updated_at: timestamp("updated_at", { mode: "date" }),
+};
 
 export type BaseMetaProperty = Record<string, string | number | boolean | Date | null>;
 

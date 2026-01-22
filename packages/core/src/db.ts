@@ -1,11 +1,15 @@
-import { timestamp } from "drizzle-orm/pg-core";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import postgres from "postgres";
 import * as v from "valibot";
 
 import * as schema from "./schema.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export type KitledgerDbOptions = {
 	url: string;
@@ -21,8 +25,11 @@ export type KitledgerDb = PostgresJsDatabase<typeof schema> & {
 };
 
 export async function runMigrations(db: KitledgerDb, migrationsTable: string, migrationsSchema: string) {
+	const migrationsPath = resolve(__dirname, "../dist/migrations");
+	console.log("***Using migrations path:", migrationsPath);
+
 	await migrate(db, {
-		migrationsFolder: "./migrations",
+		migrationsFolder: migrationsPath,
 		migrationsTable: migrationsTable,
 		migrationsSchema: migrationsSchema,
 	});
@@ -52,14 +59,6 @@ export async function initializeDatabase(options: KitledgerDbOptions): Promise<K
 
 	return db;
 }
-
-/**
- * Common database helper for timestamps
- */
-export const timestamps = {
-	created_at: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
-	updated_at: timestamp("updated_at", { mode: "date" }),
-};
 
 /**
  * Supported operation types for get operations.
