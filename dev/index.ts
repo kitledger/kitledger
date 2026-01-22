@@ -6,7 +6,7 @@ import { defineEntityModel } from "@kitledger/core/entities";
 import { defineTextField, defineNumberField } from "@kitledger/core/fields";
 import { defineTransactionModel } from "@kitledger/core/transactions";
 //import { defineForm } from "@kitledger/core/ui";
-import { createServer } from "@kitledger/server";
+import { createServer, printAsciiLogo } from "@kitledger/server";
 
 process.loadEnvFile(".env");
 
@@ -104,6 +104,8 @@ const server = await createServer({
 	staticPaths: [],
 	staticUIs: [adminUI],
 });
+
+printAsciiLogo();
 
 serve({
 	fetch: server.fetch,

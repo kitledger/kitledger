@@ -9,6 +9,10 @@
 			"types": "./dist/main.d.ts",
 			"default": "./dist/main.js"
 		},
+		"./art": {
+			"types": "./dist/art.d.ts",
+			"default": "./dist/art.js"
+		},
 		"./db": {
 			"types": "./dist/db.d.ts",
 			"default": "./dist/db.js"

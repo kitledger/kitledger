@@ -26,7 +26,6 @@ export type KitledgerDb = PostgresJsDatabase<typeof schema> & {
 
 export async function runMigrations(db: KitledgerDb, migrationsTable: string, migrationsSchema: string) {
 	const migrationsPath = resolve(__dirname, "../dist/migrations");
-	console.log("***Using migrations path:", migrationsPath);
 
 	await migrate(db, {
 		migrationsFolder: migrationsPath,
@@ -42,8 +41,21 @@ export async function initializeDatabase(options: KitledgerDbOptions): Promise<K
 		max: options.max ? options.max : 10,
 		autoMigrate: options.autoMigrate ?? true,
 	};
+	const queryClient = postgres(dbConfig.url, {
+		ssl: dbConfig.ssl,
+		max: dbConfig.max,
+		onnotice: (msg) => {
+			/**
+			 * Ignore notices about skipping already applied migrations
+			 */
+			if(!msg.message.includes("skipping"))
+			{
+				console.log("Kitledger Postgres notice:", msg);
+			}
+		},
+	});
 	const db = drizzle({
-		connection: dbConfig,
+		client: queryClient,
 		schema: schema,
 	});
 

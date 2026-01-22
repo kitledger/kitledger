@@ -1,4 +1,5 @@
 import { type KitledgerConfig } from "@kitledger/core";
+import { getAsciiLogo } from "@kitledger/core/art";
 import { StaticUIConfig } from "@kitledger/core/ui";
 import { Hono, type MiddlewareHandler } from "hono";
 
@@ -50,6 +51,13 @@ export type ServerOptions = {
  */
 export function defineServerConfig(options: ServerOptions): ServerConfig {
 	return options;
+}
+
+/**
+ * Prints the Kitledger ASCII logo to the console.
+ */
+export function printAsciiLogo() {
+	console.log(getAsciiLogo());
 }
 
 /**
