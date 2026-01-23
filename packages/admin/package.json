@@ -7,8 +7,8 @@
 	"main": "dist-package/admin.js",
 	"exports": {
 		".": {
-			"types": "./dist-package/admin.d.ts",
-			"import": "./dist-package/admin.js"
+			"types": "./dist-package/main.d.ts",
+			"import": "./dist-package/main.js"
 		}
 	},
 	"files": [

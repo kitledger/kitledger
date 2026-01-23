@@ -22,6 +22,8 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "pnpm -r run build",
+		"dev:serve": "pnpm -F=dev run serve",
+		"doc": "typedoc",
 		"format": "oxfmt",
 		"test": "pnpm -r run test"
 	},
@@ -30,6 +32,7 @@
 	},
 	"devDependencies": {
 		"oxfmt": "^0.18.0",
+		"typedoc": "^0.28.16",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.16"
 	},
