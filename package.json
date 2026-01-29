@@ -23,9 +23,9 @@
 	"scripts": {
 		"build": "pnpm -r run build && typedoc",
 		"dev:serve": "pnpm -F=dev run serve",
-		"docs:dev": "pnpm -F=docs run dev",
-		"docs:build": "pnpm -F=docs run build",
-		"docs:preview": "pnpm -F=docs run preview",
+		"docs:dev": "pnpm run typedoc && pnpm -F=docs run dev",
+		"docs:build": "pnpm -F=docs run build && pnpm run typedoc",
+		"docs:preview": "pnpm run typedoc && pnpm -F=docs run preview",
 		"typedoc": "typedoc",
 		"format": "oxfmt",
 		"test": "pnpm -r run test"

@@ -1,5 +1,5 @@
 {
 	"entryPointStrategy": "packages",
 	"entryPoints": ["packages/*"],
-	"out": "typedoc"
+	"out": "docs/doc_build/api",
 }
