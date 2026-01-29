@@ -45,12 +45,13 @@ export type UnitModelOptions<TFields extends readonly Field[]> = {
 	hooks?: UnitHooks<InferUnitMetaType<TFields>>;
 };
 
-export function defineUnitModel<const TFields extends readonly Field[]>(options: UnitModelOptions<TFields>): UnitModel {
-	const unitModel: UnitModel = {
+export function defineUnitModel<const TFields extends readonly Field[]>(
+	options: UnitModelOptions<TFields>,
+): UnitModel & { fields: TFields } {
+	return {
 		...options,
 		status: options.status ?? UnitModelStatus.ACTIVE,
-		fields: options.fields as unknown as Field[],
+		fields: options.fields,
 		hooks: options.hooks as unknown as UnitHooks<any>,
-	};
-	return unitModel;
+	} as UnitModel & { fields: TFields };
 }

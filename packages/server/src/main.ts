@@ -126,6 +126,22 @@ export async function createServer(config: ServerConfig) {
 				return c.json(c.get("config").entityModels);
 			});
 
+			server.get(`${staticUI.serverPath}/units/models`, (c) => {
+				return c.json(c.get("config").unitModels);
+			});
+
+			server.get(`${staticUI.serverPath}/transactions/forms`, (c) => {
+				return c.json(c.get("config").transactionForms ?? []);
+			});
+
+			server.get(`${staticUI.serverPath}/entities/forms`, (c) => {
+				return c.json(c.get("config").entityForms ?? []);
+			});
+
+			server.get(`${staticUI.serverPath}/units/forms`, (c) => {
+				return c.json(c.get("config").unitForms ?? []);
+			});
+
 			const cleanPath = staticUI.basePath.endsWith("/") ? staticUI.basePath.slice(0, -1) : staticUI.basePath;
 
 			server.use(

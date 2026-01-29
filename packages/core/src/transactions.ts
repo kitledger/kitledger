@@ -34,7 +34,7 @@ export type TransactionModel = {
 	status: TransactionModelStatus;
 	fields?: Field[];
 	hooks?: TransactionHooks<any>;
-	//postingHook: any; // Temporary. Will be a function that returns an array of ledger entries. It must be called after all the hooks. 
+	//postingHook: any; // Temporary. Will be a function that returns an array of ledger entries. It must be called after all the hooks.
 };
 
 export type TransactionModelOptions<TFields extends readonly Field[]> = {
@@ -48,12 +48,11 @@ export type TransactionModelOptions<TFields extends readonly Field[]> = {
 
 export function defineTransactionModel<const TFields extends readonly Field[]>(
 	options: TransactionModelOptions<TFields>,
-): TransactionModel {
-	const transactionModel: TransactionModel = {
+): TransactionModel & { fields: TFields } {
+	return {
 		...options,
 		status: options.status ?? TransactionModelStatus.ACTIVE,
-		fields: options.fields as unknown as Field[],
+		fields: options.fields,
 		hooks: options.hooks as unknown as TransactionHooks<any>,
-	};
-	return transactionModel;
+	} as TransactionModel & { fields: TFields };
 }

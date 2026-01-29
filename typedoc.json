@@ -1,7 +1,8 @@
 {
-    "entryPointStrategy": "packages",
-    "entryPoints": ["packages/*"],
-    "packageOptions": {
-        "entryPoints": ["src/main.ts", "main.ts"]
-    }
+	"entryPointStrategy": "packages",
+	"entryPoints": ["packages/*"],
+	"packageOptions": {
+		"entryPoints": ["src/main.ts", "main.ts"]
+	},
+	"out": "typedoc"
 }

@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { relative } from "path";
 import { fileURLToPath } from "url";
+
 import type { AdminUIOptions } from "./shared.js";
 
 export type { AdminUIOptions };

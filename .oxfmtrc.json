@@ -8,5 +8,6 @@
 	"experimentalSortImports": {
 		"enabled": true
 	},
+	"ignorePatterns": ["typedoc/**"],
 	"embeddedLanguageFormatting": "auto"
 }

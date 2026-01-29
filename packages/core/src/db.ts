@@ -48,8 +48,7 @@ export async function initializeDatabase(options: KitledgerDbOptions): Promise<K
 			/**
 			 * Ignore notices about skipping already applied migrations
 			 */
-			if(!msg.message.includes("skipping"))
-			{
+			if (!msg.message.includes("skipping")) {
 				console.log("Kitledger Postgres notice:", msg);
 			}
 		},

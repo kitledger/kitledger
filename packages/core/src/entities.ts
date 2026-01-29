@@ -47,12 +47,11 @@ export type EntityModelOptions<TFields extends readonly Field[]> = {
 
 export function defineEntityModel<const TFields extends readonly Field[]>(
 	options: EntityModelOptions<TFields>,
-): EntityModel {
-	const entityModel: EntityModel = {
+): EntityModel & { fields: TFields } {
+	return {
 		...options,
 		status: options.status ?? EntityModelStatus.ACTIVE,
-		fields: options.fields as unknown as Field[],
+		fields: options.fields,
 		hooks: options.hooks as unknown as EntityHooks<any>,
-	};
-	return entityModel;
+	} as EntityModel & { fields: TFields };
 }
