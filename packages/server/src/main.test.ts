@@ -49,6 +49,7 @@ test("server should be created with correct config", async () => {
 		database: database,
 		entityModels: entityModels,
 		transactionModels: transactionModels,
+		unitModels: []
 	});
 
 	const adminUI = defineAdminUI({
