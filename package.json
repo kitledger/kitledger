@@ -21,7 +21,7 @@
 	"license": "Apache-2.0",
 	"main": "index.js",
 	"scripts": {
-		"build": "pnpm -r run build",
+		"build": "pnpm -r run build && typedoc",
 		"dev:serve": "pnpm -F=dev run serve",
 		"docs:dev": "pnpm -F=docs run dev",
 		"docs:build": "pnpm -F=docs run build",
