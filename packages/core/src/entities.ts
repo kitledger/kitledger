@@ -6,14 +6,14 @@ export enum EntityModelStatus {
 }
 
 export type InferEntityMetaType<TFields extends readonly Field[]> = {
-	[K in TFields[number] as K["ref_id"]]: K["__primitive_type"];
+	[K in TFields[number] as K["refId"]]: K["__valueType"];
 };
 
 export type Entity<TData = Record<string, any>> = {
 	id: string;
-	model_ref_id: string;
-	created_at: Date;
-	updated_at: Date;
+	modelRefId: string;
+	createdAt: Date;
+	updatedAt: Date;
 	data: TData;
 };
 
@@ -28,8 +28,8 @@ export type EntityHooks<TData = Record<string, any>> = {
 };
 
 export type EntityModel = {
-	ref_id: string;
-	alt_id?: string;
+	refId: string;
+	altId?: string;
 	name: string;
 	status: EntityModelStatus;
 	fields?: Field[];
@@ -37,8 +37,8 @@ export type EntityModel = {
 };
 
 export type EntityModelOptions<TFields extends readonly Field[]> = {
-	ref_id: string;
-	alt_id?: string;
+	refId: string;
+	altId?: string;
 	name: string;
 	status?: EntityModelStatus;
 	fields?: TFields;

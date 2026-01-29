@@ -6,14 +6,14 @@ export enum TransactionModelStatus {
 }
 
 export type InferTransactionMetaType<TFields extends readonly Field[]> = {
-	[K in TFields[number] as K["ref_id"]]: K["__primitive_type"];
+	[K in TFields[number] as K["refId"]]: K["__valueType"];
 };
 
 export type Transaction<TData = Record<string, any>> = {
 	id: string;
-	model_ref_id: string;
-	created_at: Date;
-	updated_at: Date;
+	modelRefId: string;
+	createdAt: Date;
+	updatedAt: Date;
 	data: TData;
 };
 
@@ -28,17 +28,18 @@ export type TransactionHooks<TData = Record<string, any>> = {
 };
 
 export type TransactionModel = {
-	ref_id: string;
-	alt_id?: string;
+	refId: string;
+	altId?: string;
 	name: string;
 	status: TransactionModelStatus;
 	fields?: Field[];
 	hooks?: TransactionHooks<any>;
+	//postingHook: any; // Temporary. Will be a function that returns an array of ledger entries. It must be called after all the hooks. 
 };
 
 export type TransactionModelOptions<TFields extends readonly Field[]> = {
-	ref_id: string;
-	alt_id?: string;
+	refId: string;
+	altId?: string;
 	name: string;
 	status?: TransactionModelStatus;
 	fields?: TFields;

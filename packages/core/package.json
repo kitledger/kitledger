@@ -25,6 +25,10 @@
 			"types": "./dist/fields.d.ts",
 			"default": "./dist/fields.js"
 		},
+		"./forms": {
+			"types": "./dist/forms.d.ts",
+			"default": "./dist/forms.js"
+		},
 		"./transactions": {
 			"types": "./dist/transactions.d.ts",
 			"default": "./dist/transactions.js"

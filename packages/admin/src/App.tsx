@@ -4,7 +4,7 @@ import type { AdminUIOptions } from "../shared";
 function App() {
 
 	type Model = {
-		ref_id: string;
+		refId: string;
 		name: string;
 	};
 
@@ -38,8 +38,8 @@ function App() {
 			<h2>Transactions</h2>
 			<ul>
 				{transactions.map((t) => (
-					<li key={t.ref_id}>
-						{t.name} ({t.ref_id})
+					<li key={t.refId}>
+						{t.name} ({t.refId})
 					</li>
 				))}
 			</ul>
@@ -47,8 +47,8 @@ function App() {
 			<h2>Entities</h2>
 			<ul>
 				{entities.map((e) => (
-					<li key={e.ref_id}>
-						{e.name} ({e.ref_id})
+					<li key={e.refId}>
+						{e.name} ({e.refId})
 					</li>
 				))}
 			</ul>

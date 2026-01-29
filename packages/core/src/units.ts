@@ -6,14 +6,14 @@ export enum UnitModelStatus {
 }
 
 export type InferUnitMetaType<TFields extends readonly Field[]> = {
-	[K in TFields[number] as K["ref_id"]]: K["__primitive_type"];
+	[K in TFields[number] as K["refId"]]: K["__valueType"];
 };
 
 export type Unit<TData = Record<string, any>> = {
 	id: string;
-	model_ref_id: string;
-	created_at: Date;
-	updated_at: Date;
+	modelRefId: string;
+	createdAt: Date;
+	updatedAt: Date;
 	data: TData;
 };
 
@@ -28,8 +28,8 @@ export type UnitHooks<TData = Record<string, any>> = {
 };
 
 export type UnitModel = {
-	ref_id: string;
-	alt_id?: string;
+	refId: string;
+	altId?: string;
 	name: string;
 	status: UnitModelStatus;
 	fields?: Field[];
@@ -37,8 +37,8 @@ export type UnitModel = {
 };
 
 export type UnitModelOptions<TFields extends readonly Field[]> = {
-	ref_id: string;
-	alt_id?: string;
+	refId: string;
+	altId?: string;
 	name: string;
 	status?: UnitModelStatus;
 	fields?: TFields;

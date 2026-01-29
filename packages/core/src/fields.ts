@@ -9,14 +9,14 @@ export enum FieldType {
 }
 
 interface BaseField {
-	readonly ref_id: string;
+	readonly refId: string;
 	name: string;
 	description?: string;
 }
 
 export interface TextField extends BaseField {
 	type: FieldType.TEXT;
-	readonly __primitive_type?: string;
+	readonly __valueType: string;
 	maxLength?: number;
 	format?: "email" | "plain" | "rich_text";
 }
@@ -28,7 +28,7 @@ export type NumberFormatting =
 
 export interface NumberField extends BaseField {
 	type: FieldType.NUMBER;
-	readonly __primitive_type?: number;
+	readonly __valueType: number;
 	min?: number;
 	max?: number;
 	formatting: NumberFormatting;
@@ -36,20 +36,20 @@ export interface NumberField extends BaseField {
 
 export interface DateField extends BaseField {
 	type: FieldType.DATE;
-	readonly __primitive_type?: Date;
+	readonly __valueType: Date;
 	includeTime: boolean;
 	formatStr: string;
 }
 
 export interface BooleanField extends BaseField {
 	type: FieldType.BOOLEAN;
-	readonly __primitive_type?: boolean;
+	readonly __valueType: boolean;
 	defaultValue?: boolean;
 }
 
 export interface URLField extends BaseField {
 	type: FieldType.URL;
-	readonly __primitive_type?: string;
+	readonly __valueType: string;
 	defaultValue?: string;
 }
 
@@ -57,7 +57,7 @@ export type QueryConfig = {};
 
 export interface SelectField extends BaseField {
 	type: FieldType.SELECT;
-	readonly __primitive_type?: string | number | (string | number)[];
+	readonly __valueType: string | number | (string | number)[];
 	multiSelect: boolean;
 	items: Array<{
 		label: string;
@@ -69,7 +69,7 @@ export interface SelectField extends BaseField {
 
 export interface RelationField extends BaseField {
 	type: FieldType.RELATION;
-	readonly __primitive_type?: any;
+	readonly __valueType: any;
 	multiSelect: boolean;
 	targetEntityId: string;
 	displayFieldId: string;
@@ -78,52 +78,52 @@ export interface RelationField extends BaseField {
 
 export type Field = TextField | NumberField | DateField | BooleanField | URLField | SelectField | RelationField;
 
-export type TextFieldOptions = Omit<TextField, "type" | "__primitive_type" | "ref_id">;
-export type NumberFieldOptions = Omit<NumberField, "type" | "__primitive_type" | "ref_id">;
-export type DateFieldOptions = Omit<DateField, "type" | "__primitive_type" | "ref_id">;
-export type BooleanFieldOptions = Omit<BooleanField, "type" | "__primitive_type" | "ref_id">;
-export type URLFieldOptions = Omit<URLField, "type" | "__primitive_type" | "ref_id">;
-export type SelectFieldOptions = Omit<SelectField, "type" | "__primitive_type" | "ref_id">;
-export type RelationFieldOptions = Omit<RelationField, "type" | "__primitive_type" | "ref_id">;
+export type TextFieldOptions = Omit<TextField, "type" | "__valueType" | "refId">;
+export type NumberFieldOptions = Omit<NumberField, "type" | "__valueType" | "refId">;
+export type DateFieldOptions = Omit<DateField, "type" | "__valueType" | "refId">;
+export type BooleanFieldOptions = Omit<BooleanField, "type" | "__valueType" | "refId">;
+export type URLFieldOptions = Omit<URLField, "type" | "__valueType" | "refId">;
+export type SelectFieldOptions = Omit<SelectField, "type" | "__valueType" | "refId">;
+export type RelationFieldOptions = Omit<RelationField, "type" | "__valueType" | "refId">;
 
 export function defineTextField<const T extends string>(
-	options: TextFieldOptions & { ref_id: T },
-): TextField & { ref_id: T } {
-	return { type: FieldType.TEXT, ...options } as TextField & { ref_id: T };
+	options: TextFieldOptions & { refId: T },
+): TextField & { refId: T } {
+	return { type: FieldType.TEXT, ...options } as TextField & { refId: T };
 }
 
 export function defineNumberField<const T extends string>(
-	options: NumberFieldOptions & { ref_id: T },
-): NumberField & { ref_id: T } {
-	return { type: FieldType.NUMBER, ...options } as NumberField & { ref_id: T };
+	options: NumberFieldOptions & { refId: T },
+): NumberField & { refId: T } {
+	return { type: FieldType.NUMBER, ...options } as NumberField & { refId: T };
 }
 
 export function defineDateField<const T extends string>(
-	options: DateFieldOptions & { ref_id: T },
-): DateField & { ref_id: T } {
-	return { type: FieldType.DATE, ...options } as DateField & { ref_id: T };
+	options: DateFieldOptions & { refId: T },
+): DateField & { refId: T } {
+	return { type: FieldType.DATE, ...options } as DateField & { refId: T };
 }
 
 export function defineBooleanField<const T extends string>(
-	options: BooleanFieldOptions & { ref_id: T },
-): BooleanField & { ref_id: T } {
-	return { type: FieldType.BOOLEAN, ...options } as BooleanField & { ref_id: T };
+	options: BooleanFieldOptions & { refId: T },
+): BooleanField & { refId: T } {
+	return { type: FieldType.BOOLEAN, ...options } as BooleanField & { refId: T };
 }
 
 export function defineURLField<const T extends string>(
-	options: URLFieldOptions & { ref_id: T },
-): URLField & { ref_id: T } {
-	return { type: FieldType.URL, ...options } as URLField & { ref_id: T };
+	options: URLFieldOptions & { refId: T },
+): URLField & { refId: T } {
+	return { type: FieldType.URL, ...options } as URLField & { refId: T };
 }
 
 export function defineSelectField<const T extends string>(
-	options: SelectFieldOptions & { ref_id: T },
-): SelectField & { ref_id: T } {
-	return { type: FieldType.SELECT, ...options } as SelectField & { ref_id: T };
+	options: SelectFieldOptions & { refId: T },
+): SelectField & { refId: T } {
+	return { type: FieldType.SELECT, ...options } as SelectField & { refId: T };
 }
 
 export function defineRelationField<const T extends string>(
-	options: RelationFieldOptions & { ref_id: T },
-): RelationField & { ref_id: T } {
-	return { type: FieldType.RELATION, ...options } as RelationField & { ref_id: T };
+	options: RelationFieldOptions & { refId: T },
+): RelationField & { refId: T } {
+	return { type: FieldType.RELATION, ...options } as RelationField & { refId: T };
 }

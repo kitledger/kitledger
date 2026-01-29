@@ -12,18 +12,18 @@ process.loadEnvFile(".env");
 
 const transactionModels = [
 	defineTransactionModel({
-		ref_id: "INVOICE",
+		refId: "INVOICE",
 		name: "Invoice",
 		fields: [
 			defineTextField({
-				ref_id: "INVOICE_NUMBER",
+				refId: "INVOICE_NUMBER",
 				name: "Invoice Number",
 				description: "The unique identifier for the invoice",
 				maxLength: 50,
 				format: "plain",
 			}),
 			defineNumberField({
-				ref_id: "AMOUNT",
+				refId: "AMOUNT",
 				name: "Amount",
 				description: "The total amount for the invoice",
 				formatting: { style: "currency", currencyCode: "USD" },
@@ -44,47 +44,33 @@ const transactionModels = [
 		},
 	}),
 	defineTransactionModel({
-		ref_id: "PAYMENT",
+		refId: "PAYMENT",
 		name: "Payment",
 	}),
 	defineTransactionModel({
-		ref_id: "CREDIT_NOTE",
+		refId: "CREDIT_NOTE",
 		name: "Credit Note",
 	}),
 ];
 
 const entityModels = [
 	defineEntityModel({
-		ref_id: "CUSTOMER",
+		refId: "CUSTOMER",
 		name: "Customer",
 	}),
 	defineEntityModel({
-		ref_id: "VENDOR",
+		refId: "VENDOR",
 		name: "Vendor",
 	}),
 	defineEntityModel({
-		ref_id: "EMPLOYEE",
+		refId: "EMPLOYEE",
 		name: "Employee",
 	}),
 	defineEntityModel({
-		ref_id: "PRODUCT",
+		refId: "PRODUCT",
 		name: "Product",
 	}),
 ];
-
-/*const invoiceSimpleForm = defineForm({
-	ref_id: "INVOICE_SIMPLE",
-	name: "Simple Invoice Form",
-	modelRefId: "INVOICE",
-	layout: [{ fieldRefId: "INVOICE_NUMBER" }],
-});
-
-const invoiceDetailForm = defineForm({
-	ref_id: "INVOICE_DETAIL",
-	name: "Detailed Invoice Form",
-	modelRefId: "INVOICE",
-	layout: [{ fieldRefId: "INVOICE_NUMBER" }, { fieldRefId: "AMOUNT" }],
-});*/
 
 const database = await initializeDatabase({
 	url: process.env.KL_POSTGRES_URL || "postgres://user:password@localhost:5432/kitledger",

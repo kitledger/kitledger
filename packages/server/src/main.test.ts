@@ -10,30 +10,30 @@ import { defineServerConfig, createServer, ServerOptions } from "./main.js";
 test("server should be created with correct config", async () => {
 	const transactionModels = [
 		defineTransactionModel({
-			ref_id: "INVOICE",
+			refId: "INVOICE",
 			name: "Invoice",
 		}),
 		defineTransactionModel({
-			ref_id: "PAYMENT",
+			refId: "PAYMENT",
 			name: "Payment",
 		}),
 		defineTransactionModel({
-			ref_id: "CREDIT_NOTE",
+			refId: "CREDIT_NOTE",
 			name: "Credit Note",
 		}),
 	];
 
 	const entityModels = [
 		defineEntityModel({
-			ref_id: "CUSTOMER",
+			refId: "CUSTOMER",
 			name: "Customer",
 		}),
 		defineEntityModel({
-			ref_id: "VENDOR",
+			refId: "VENDOR",
 			name: "Vendor",
 		}),
 		defineEntityModel({
-			ref_id: "EMPLOYEE",
+			refId: "EMPLOYEE",
 			name: "Employee",
 		}),
 	];
