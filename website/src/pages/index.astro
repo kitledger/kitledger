@@ -1,11 +1,46 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const allDocs = await getCollection('docs');
+const sortedDocs = allDocs.sort((a, b) => {
+	return (a.data.order || 99) - (b.data.order || 99);
+});
+
+const allPosts = await getCollection('blog', ({ data }) => {
+	return data.draft !== true;
+});
+const sortedPosts = allPosts.sort((a, b) => {
+	return b.data.date.valueOf() - a.data.date.valueOf();
+});
 ---
 
 <Layout>
-	<Welcome />
+	<h1>Kitledger</h1>
+	
+	<h2>Documentation</h2>
+	<ul>
+		{sortedDocs.map((doc) => (
+			<li>
+				<a href={`/docs/${doc.slug}`}>
+					<strong>{doc.data.title}</strong>
+					<span> - {doc.data.description}</span>
+				</a>
+			</li>
+		))}
+	</ul>
+
+	<h2>Latest News</h2>
+	<ul>
+		{sortedPosts.map((post) => (
+			<li>
+				<a href={`/blog/${post.slug}`}>
+					{post.data.title}
+				</a>
+				<time datetime={post.data.date.toISOString()}>
+					{post.data.date.toLocaleDateString()}
+				</time>
+			</li>
+		))}
+	</ul>
 </Layout>
