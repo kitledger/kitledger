@@ -61,19 +61,73 @@ export function printAsciiLogo() {
 }
 
 /**
- * Factory function to create a Hono server based on the detected runtime.
- * * This is the main entry point for the server package. It returns an initialized
- * Hono instance that has the system configuration injected into its context.
- * * @param config - The {@link ServerConfig} object containing system settings, static paths, and UI definitions.
+ * Factory function that initializes the Kitledger server engine based on Hono.
+ *
+ * This function injects the provided {@link ServerConfig} (business logic, UI definitions,
+ * and database connections) into the application context and returns a fully configured
+ * Hono instance.
+ *
+ * @remarks
+ * **Universal Web Standards**
+ * The returned application relies on native Web Standard `Request` and `Response` objects.
+ * This makes the server runtime-agnostic and allows it to be mounted within existing
+ * full-stack frameworks (like Next.js Route Handlers, Astro, or React Router 7) simply
+ * by exporting the `fetch` handler.
+ *
+ * @param config - The {@link ServerConfig} object containing system settings, static paths, and UI definitions.
  * @returns A Promise that resolves to the configured Hono application instance.
- * * @example
+ *
+ * @example
  * ```ts
- * // Basic usage with Bun
+ * // 1. Standalone Usage (Bun)
  * const server = await createServer({
  * systemConfig: myConfig,
  * staticPaths: ['/public']
  * });
- * * export default { fetch: server.fetch };
+ *
+ * export default {
+ * fetch: server.fetch,
+ * port: 3000
+ * };
+ * ```
+ *
+ * @example
+ * ```ts
+ * // 2. Standalone Usage (Deno)
+ * const server = await createServer({
+ * systemConfig: myConfig,
+ * staticPaths: ['/public']
+ * });
+ *
+ * Deno.serve({ port: 8000 }, server.fetch);
+ * ```
+ *
+ * @example
+ * ```ts
+ * // 3. Standalone Usage (Node.js)
+ * import { serve } from '@hono/node-server';
+ *
+ * const server = await createServer({
+ * systemConfig: myConfig,
+ * staticPaths: ['/public']
+ * });
+ *
+ * serve({
+ * fetch: server.fetch,
+ * port: 3000
+ * });
+ * ```
+ *
+ * @example
+ * ```ts
+ * // 4. Framework Integration (Next.js / Astro / React Router 7)
+ * // Because 'server' follows standard Web APIs, you can use it in route handlers.
+ *
+ * const server = await createServer({ ... });
+ *
+ * // Next.js App Router (route.ts)
+ * export const GET = server.fetch;
+ * export const POST = server.fetch;
  * ```
  */
 export async function createServer(config: ServerConfig) {

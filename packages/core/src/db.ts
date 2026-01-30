@@ -11,6 +11,13 @@ import * as schema from "./schema.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+/**
+ * Options for configuring the Kitledger database connection.
+ * 
+ * @remarks
+ * Includes parameters for connection URL, SSL, connection pool size,
+ * migrations table and schema, and auto-migration setting.
+ */
 export type KitledgerDbOptions = {
 	url: string;
 	ssl?: boolean;
@@ -20,10 +27,24 @@ export type KitledgerDbOptions = {
 	autoMigrate?: boolean;
 };
 
+/**
+ * Database instance type for Kitledger, extending PostgresJsDatabase with the defined schema.
+ * 
+ * @remarks
+ * Includes a reference to the underlying Postgres client.
+ */
 export type KitledgerDb = PostgresJsDatabase<typeof schema> & {
 	$client: postgres.Sql<{}>;
 };
 
+/*
+ * Runs database migrations using the specified migrations table and schema.
+ * 
+ * @param db - The Kitledger database instance.
+ * @param migrationsTable - The name of the migrations table.
+ * @param migrationsSchema - The schema where the migrations table is located.
+ * @returns A promise that resolves when migrations are complete.
+ */
 export async function runMigrations(db: KitledgerDb, migrationsTable: string, migrationsSchema: string) {
 	const migrationsPath = resolve(__dirname, "../dist/migrations");
 
@@ -34,6 +55,16 @@ export async function runMigrations(db: KitledgerDb, migrationsTable: string, mi
 	});
 }
 
+/**
+ * Initializes the Kitledger database with the provided options.
+ * 
+ * @remarks
+ * Sets up the database connection, applies migrations automatically if enabled,
+ * and returns the initialized database instance.
+ * 
+ * @param options - Configuration options for the database connection.
+ * @returns A promise that resolves to the initialized Kitledger database instance.
+ */
 export async function initializeDatabase(options: KitledgerDbOptions): Promise<KitledgerDb> {
 	const dbConfig: KitledgerDbOptions = {
 		url: options.url,
@@ -99,8 +130,14 @@ export type GetOperationResult<T> = {
 	errors?: { field?: string; message: string }[];
 };
 
+/**
+ * Type definition for a single row in a query result.
+ */
 export type QueryResultRow = v.InferInput<typeof QueryResultRowSchema>;
 
+/**
+ * Schema definition for a single row in a query result.
+ */
 export const QueryResultRowSchema = v.record(
 	v.string(),
 	v.union([
@@ -113,12 +150,15 @@ export const QueryResultRowSchema = v.record(
 	]),
 );
 
+/**
+ * Schema definition for an array of query result rows.
+ */
 export const QueryResultSchema = v.array(QueryResultRowSchema);
 
 /**
  * Utility function to parse boolean filter values from strings or booleans to be used in queries and filters.
- * @param value
- * @returns
+ * @param value The value to parse, which can be a string or a boolean.
+ * @returns The parsed boolean value, or null if the input is not a valid boolean string.
  */
 export function parseBooleanFilterValue(value: string | boolean): boolean | null {
 	if (typeof value === "boolean") {
