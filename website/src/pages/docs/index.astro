@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allDocs = await getCollection('docs');
+
+const groupedDocs = allDocs.reduce((acc, doc) => {
+	const category = doc.data.category || 'Uncategorized';
+	if (!acc[category]) acc[category] = [];
+	acc[category].push(doc);
+	return acc;
+}, {} as Record<string, typeof allDocs>);
+
+const categories = Object.keys(groupedDocs).sort((a, b) => {
+	// Custom order for known categories, others alphabetic
+	const order = ['Introduction', 'Getting Started', 'Core Concepts', 'Cookbook', 'Interfaces', 'Operations'];
+	const indexA = order.indexOf(a);
+	const indexB = order.indexOf(b);
+	if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+	if (indexA !== -1) return -1;
+	if (indexB !== -1) return 1;
+	return a.localeCompare(b);
+});
+---
+
+<Layout title="Documentation | Kitledger">
+	<main>
+		<h1>Documentation</h1>
+		<p>Reference guide for the Kitledger financial engine.</p>
+
+		<nav>
+			{categories.map((category) => (
+				<section>
+					<h2>{category}</h2>
+					<ul>
+						{groupedDocs[category]
+							.sort((a, b) => (a.data.order || 99) - (b.data.order || 99))
+							.map((doc) => (
+								<li>
+									<a href={`/docs/${doc.slug}`}>
+										{doc.data.title}
+									</a>
+								</li>
+							))}
+					</ul>
+				</section>
+			))}
+		</nav>
+	</main>
+</Layout>
