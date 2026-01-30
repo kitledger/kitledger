@@ -6,6 +6,9 @@ import { fileURLToPath } from "url";
 
 import type { AdminUIOptions } from "./shared.js";
 
+/**
+ * Exports the AdminUIOptions type for external use.
+ */
 export type { AdminUIOptions };
 
 // 1. Resolve the absolute path to the build output
@@ -20,6 +23,15 @@ const DIST_PATH = path.resolve(__dirname, "../dist");
  */
 const assetsPath = relative(process.cwd(), DIST_PATH);
 
+/**
+ * Defines the Admin UI configuration for Kitledger.
+ * 
+ * @remarks
+ * This function generates a StaticUIConfig object based on the provided options.
+ * 
+ * @param options - The configuration options for the Admin UI. 
+ * @returns A StaticUIConfig object for the Admin UI.
+ */
 export function defineAdminUI(options: AdminUIOptions): StaticUIConfig {
 	return {
 		serverPath: options.serverPath,
