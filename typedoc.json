@@ -1,6 +1,6 @@
 {
 	"entryPointStrategy": "packages",
 	"entryPoints": ["packages/*"],
-	"out": "typedoc",
+	"out": "website/public/api",
 	"name": "Kitledger API Documentation",
 }
