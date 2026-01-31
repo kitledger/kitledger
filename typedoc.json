@@ -1,6 +1,6 @@
 {
 	"entryPointStrategy": "packages",
 	"entryPoints": ["packages/*"],
-	"out": "website/dist/api",
+	"out": "website/.vitepress/dist/api",
 	"name": "Kitledger API Documentation",
 }
