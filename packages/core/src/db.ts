@@ -13,7 +13,7 @@ const __dirname = dirname(__filename);
 
 /**
  * Options for configuring the Kitledger database connection.
- * 
+ *
  * @remarks
  * Includes parameters for connection URL, SSL, connection pool size,
  * migrations table and schema, and auto-migration setting.
@@ -29,7 +29,7 @@ export type KitledgerDbOptions = {
 
 /**
  * Database instance type for Kitledger, extending PostgresJsDatabase with the defined schema.
- * 
+ *
  * @remarks
  * Includes a reference to the underlying Postgres client.
  */
@@ -39,7 +39,7 @@ export type KitledgerDb = PostgresJsDatabase<typeof schema> & {
 
 /*
  * Runs database migrations using the specified migrations table and schema.
- * 
+ *
  * @param db - The Kitledger database instance.
  * @param migrationsTable - The name of the migrations table.
  * @param migrationsSchema - The schema where the migrations table is located.
@@ -57,11 +57,11 @@ export async function runMigrations(db: KitledgerDb, migrationsTable: string, mi
 
 /**
  * Initializes the Kitledger database with the provided options.
- * 
+ *
  * @remarks
  * Sets up the database connection, applies migrations automatically if enabled,
  * and returns the initialized database instance.
- * 
+ *
  * @param options - Configuration options for the database connection.
  * @returns A promise that resolves to the initialized Kitledger database instance.
  */

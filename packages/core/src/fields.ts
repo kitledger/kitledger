@@ -160,10 +160,10 @@ export type RelationFieldOptions = Omit<RelationField, "type" | "__valueType" | 
 
 /**
  * Factory functions to define fields of various types.
- * 
+ *
  * @remarks
  * These functions help in creating strongly typed field definitions by inferring
- * 
+ *
  * @param options - The options for defining the field.
  * @returns The defined field with its type.
  */
@@ -180,10 +180,10 @@ export function defineTextField<const T extends string, const R extends boolean 
 
 /**
  * Factory function to define a number field.
- * 
+ *
  * @remarks
  * These functions help in creating strongly typed field definitions by inferring
- * 
+ *
  * @param options - The options for defining the field.
  * @returns The defined field with its type.
  */
@@ -200,10 +200,10 @@ export function defineNumberField<const T extends string, const R extends boolea
 
 /**
  * Factory function to define a date field.
- * 
+ *
  * @remarks
  * These functions help in creating strongly typed field definitions by inferring
- * 
+ *
  * @param options - The options for defining the field.
  * @returns The defined field with its type.
  */
@@ -220,11 +220,11 @@ export function defineDateField<const T extends string, const R extends boolean 
 
 /**
  * Factory function to define a boolean field.
- * 
+ *
  * @remarks
  * These functions help in creating strongly typed field definitions by inferring
- * 
- * @param options - The options for defining the field. 
+ *
+ * @param options - The options for defining the field.
  * @returns The defined field with its type.
  */
 export function defineBooleanField<const T extends string, const R extends boolean = false>(
@@ -256,10 +256,10 @@ export function defineURLField<const T extends string, const R extends boolean =
 
 /**
  * Factory function to define a select field.
- * 
+ *
  * @remarks
  * These functions help in creating strongly typed field definitions by inferring
- * 
+ *
  * @param options - The options for defining the field.
  * @returns The defined field with its type.
  */
@@ -276,10 +276,10 @@ export function defineSelectField<const T extends string, const R extends boolea
 
 /**
  * Factory function to define a relation field.
- * 
+ *
  * @remarks
  * These functions help in creating strongly typed field definitions by inferring
- * 
+ *
  * @param options - The options for defining the field.
  * @returns The defined field with its type.
  */

@@ -4,9 +4,9 @@ Kitledger projects are standard TypeScript applications. [cite_start]You combine
 
 ## Prerequisites
 
-* Node.js (LTS)
-* [cite_start]PostgreSQL Database [cite: 104]
-* TypeScript
+- Node.js (LTS)
+- [cite_start]PostgreSQL Database [cite: 104]
+- TypeScript
 
 ## Quick Summary
 

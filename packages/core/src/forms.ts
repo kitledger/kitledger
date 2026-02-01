@@ -108,10 +108,10 @@ export interface UnitForm<TModel extends UnitModel> extends BaseForm {
 
 /**
  * Factory function to define a transaction form.
- * 
+ *
  * @remarks
  * This is a pure configuration function that helps create a transaction form
- * 
+ *
  * @param model The transaction model the form is based on
  * @param config The configuration options for the form
  * @returns A transaction form definition
@@ -132,10 +132,10 @@ export function defineTransactionForm<const TModel extends TransactionModel>(
 
 /**
  * Factory function to define an entity form.
- * 
+ *
  * @remarks
  * This is a pure configuration function that helps create an entity form
- * 
+ *
  * @param model The entity model the form is based on
  * @param config The configuration options for the form
  * @returns An entity form definition
@@ -156,10 +156,10 @@ export function defineEntityForm<const TModel extends EntityModel>(
 
 /**
  * Factory function to define a unit form.
- * 
+ *
  * @remarks
  * This is a pure configuration function that helps create a unit form
- * 
+ *
  * @param model The unit model the form is based on
  * @param config The configuration options for the form
  * @returns A unit form definition

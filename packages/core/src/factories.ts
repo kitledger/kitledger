@@ -3,7 +3,6 @@ import { v7 } from "uuid";
 
 import { Account, BalanceType } from "./accounts.js";
 import { ApiToken, Permission, PermissionAssignment, Role, SystemPermission, User, UserRole } from "./auth.js";
-import { Ledger } from "./ledgers.js";
 
 /**
  * A generic factory function to create an array of items.
@@ -139,28 +138,11 @@ const makeUserRole = (): UserRole => ({
 	updated_at: faker.date.recent(),
 });
 
-export class LedgerFactory extends BaseFactory<Ledger> {
-	constructor() {
-		super(makeLedger);
-	}
-}
-
 export class AccountFactory extends BaseFactory<Account> {
 	constructor() {
 		super(makeAccount);
 	}
 }
-
-const makeLedger = (): Ledger => ({
-	id: v7(),
-	ref_id: v7(),
-	alt_id: v7(),
-	name: faker.company.name(),
-	description: faker.company.catchPhrase(),
-	active: true,
-	created_at: faker.date.past(),
-	updated_at: faker.date.recent(),
-});
 
 const makeAccount = (): Account => ({
 	id: v7(),

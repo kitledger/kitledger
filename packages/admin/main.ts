@@ -25,11 +25,11 @@ const assetsPath = relative(process.cwd(), DIST_PATH);
 
 /**
  * Defines the Admin UI configuration for Kitledger.
- * 
+ *
  * @remarks
  * This function generates a StaticUIConfig object based on the provided options.
- * 
- * @param options - The configuration options for the Admin UI. 
+ *
+ * @param options - The configuration options for the Admin UI.
  * @returns A StaticUIConfig object for the Admin UI.
  */
 export function defineAdminUI(options: AdminUIOptions): StaticUIConfig {

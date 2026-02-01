@@ -124,20 +124,10 @@ export const accounts = pgTable("accounts", {
 	ref_id: varchar("ref_id", { length: 64 }).notNull().unique(),
 	alt_id: varchar("alt_id", { length: 64 }).unique(),
 	balance_type: varchar("balance_type", { length: 10 }).notNull().$type<BalanceType>(),
-	ledger_id: uuid("ledger_id").notNull(),
+	ledger_id: varchar("ledger_id", { length: 64 }).notNull(),
 	parent_id: uuid("parent_id"),
 	name: varchar("name", { length: 64 }).notNull(),
 	meta: jsonb("meta").$type<BaseMetaProperty>(),
-	active: boolean("active").default(true).notNull(),
-	...timestamps,
-});
-
-export const ledgers = pgTable("ledgers", {
-	id: uuid("id").primaryKey(),
-	ref_id: varchar("ref_id", { length: 64 }).notNull().unique(),
-	alt_id: varchar("alt_id", { length: 64 }).unique(),
-	name: varchar("name", { length: 64 }).notNull(),
-	description: varchar("description", { length: 255 }),
 	active: boolean("active").default(true).notNull(),
 	...timestamps,
 });

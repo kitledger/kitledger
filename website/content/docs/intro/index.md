@@ -7,6 +7,7 @@
 ## Why Kitledger?
 
 Most business software forces painful tradeoffs:
+
 1.  [cite_start]**Monolithic Complexity:** Trying to solve every scenario leads to bloated platforms[cite: 16].
 2.  [cite_start]**Rigid Constraints:** Companies are forced to adapt their processes to the software[cite: 20].
 3.  [cite_start]**The "SaaS Trap":** Integration gaps are filled with spreadsheets and fragile connections[cite: 21].

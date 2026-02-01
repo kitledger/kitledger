@@ -14,7 +14,8 @@ import {
 	maxLimit,
 	parseBooleanFilterValue,
 } from "./db.js";
-import { accounts, ledgers } from "./schema.js";
+import { Ledger } from "./ledgers.js";
+import { accounts } from "./schema.js";
 import {
 	parseValibotIssues,
 	ValidationError,
@@ -52,6 +53,7 @@ export type AccountCreateData = InferOutput<typeof AccountCreateSchema>;
  */
 export async function filterAccounts(
 	db: KitledgerDb,
+	ledgers: Ledger[],
 	params: FilterOperationParameters,
 ): Promise<GetOperationResult<Account>> {
 	const { limit = defaultLimit, offset = defaultOffset, ...filters } = params;
@@ -82,7 +84,7 @@ export async function filterAccounts(
 		}
 
 		if (key === accounts.ledger_id.name && String(value).length > 0) {
-			ledgerId = await findLedgerId(db, String(value));
+			ledgerId = await findLedgerId(ledgers, String(value));
 			if (ledgerId) {
 				filterConditions.push(eq(accounts.ledger_id, ledgerId));
 			}
@@ -155,15 +157,9 @@ export async function findParentAccount(
  * @param ledgerId
  * @returns
  */
-export async function findLedgerId(db: KitledgerDb, ledgerId: string): Promise<string | null> {
-	const ledger = await db.query.ledgers.findFirst({
-		where: and(
-			or(eq(sql`${ledgers.id}::text`, ledgerId), eq(ledgers.ref_id, ledgerId), eq(ledgers.alt_id, ledgerId)),
-			eq(ledgers.active, true),
-		),
-		columns: { id: true },
-	});
-	return ledger ? ledger.id : null;
+export async function findLedgerId(ledgers: Ledger[], ledgerId: string): Promise<string | null> {
+	const ledger = ledgers.find((l) => l.refId === ledgerId);
+	return ledger ? ledger.refId : null;
 }
 
 // ACTIONS
@@ -188,6 +184,7 @@ async function altIdAlreadyExists(db: KitledgerDb, altId: string | null): Promis
 
 async function validateAccountCreate(
 	db: KitledgerDb,
+	ledgers: Ledger[],
 	data: AccountCreateData,
 ): Promise<ValidationResult<AccountCreateData>> {
 	const result = v.safeParse(AccountCreateSchema, data);
@@ -202,7 +199,7 @@ async function validateAccountCreate(
 	const [refIdError, altIdError, ledgerId] = await Promise.all([
 		refIdAlreadyExists(db, result.output.ref_id),
 		altIdAlreadyExists(db, result.output.alt_id ?? null),
-		findLedgerId(db, result.output.ledger_id),
+		findLedgerId(ledgers, result.output.ledger_id),
 	]);
 
 	if (refIdError) {
@@ -254,9 +251,10 @@ async function validateAccountCreate(
 
 export async function createAccount(
 	db: KitledgerDb,
+	ledgers: Ledger[],
 	data: AccountCreateData,
 ): Promise<ValidationSuccess<Account> | ValidationFailure<AccountCreateData>> {
-	const validation = await validateAccountCreate(db, data);
+	const validation = await validateAccountCreate(db, ledgers, data);
 
 	if (!validation.success || !validation.data) {
 		return {

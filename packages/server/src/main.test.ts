@@ -2,7 +2,9 @@ import { defineAdminUI } from "@kitledger/admin";
 import { defineConfig } from "@kitledger/core";
 import { initializeDatabase } from "@kitledger/core/db";
 import { defineEntityModel } from "@kitledger/core/entities";
+import { defineLedger } from "@kitledger/core/ledgers";
 import { defineTransactionModel } from "@kitledger/core/transactions";
+import { defineUnitModel } from "@kitledger/core/units";
 import { expect, test } from "vitest";
 
 import { defineServerConfig, createServer, ServerOptions } from "./main.js";
@@ -38,6 +40,28 @@ test("server should be created with correct config", async () => {
 		}),
 	];
 
+	const unitModels = [
+		defineUnitModel({
+			refId: "CURRENCY",
+			name: "Currency",
+		}),
+		defineUnitModel({
+			refId: "INVENTORY",
+			name: "Inventory",
+		}),
+	];
+
+	const ledgers = [
+		defineLedger(
+			{
+				refId: "MAIN_LEDGER",
+				name: "Main Ledger",
+				description: "The primary ledger for financial transactions",
+			},
+			unitModels[0],
+		),
+	];
+
 	const serverBasePath = "/__kitledger_data";
 
 	const database = await initializeDatabase({
@@ -49,7 +73,8 @@ test("server should be created with correct config", async () => {
 		database: database,
 		entityModels: entityModels,
 		transactionModels: transactionModels,
-		unitModels: []
+		unitModels: unitModels,
+		ledgers: ledgers,
 	});
 
 	const adminUI = defineAdminUI({

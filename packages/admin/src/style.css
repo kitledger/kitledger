@@ -1,110 +1,112 @@
 @import "tailwindcss";
 
 /* 1. Import IBM Plex Sans and IBM Plex Mono */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100..700;1,100..700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100..700;1,100..700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap");
 
 @plugin "daisyui" {
-  themes: kitledger_light --default, kitledger_dark --prefersdark;
+	themes:
+		kitledger_light --default,
+		kitledger_dark --prefersdark;
 }
 
 /* 2. Map them to Tailwind Variables */
 @theme {
-  /* The "Man" side - Readable, Industrial, Official */
-  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-  
-  /* The "Machine" side - Matches your Logo, perfect for ledgers */
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+	/* The "Man" side - Readable, Industrial, Official */
+	--font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+
+	/* The "Machine" side - Matches your Logo, perfect for ledgers */
+	--font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 /* 3. Global Typography Settings */
 :root {
-  /* Crucial for the ERP feel: Ensures numbers line up in tables */
-  font-variant-numeric: tabular-nums slashed-zero; 
-  /* IBM Plex looks crispest with this setting */
-  -webkit-font-smoothing: antialiased; 
+	/* Crucial for the ERP feel: Ensures numbers line up in tables */
+	font-variant-numeric: tabular-nums slashed-zero;
+	/* IBM Plex looks crispest with this setting */
+	-webkit-font-smoothing: antialiased;
 }
 
 /* --- THEME: KITLEDGER LIGHT --- */
 @plugin "daisyui/theme" {
-  name: "kitledger_light";
-  default: true;
-  color-scheme: light;
+	name: "kitledger_light";
+	default: true;
+	color-scheme: light;
 
-  /* Brand Colors */
-  --color-primary: #22C55E;
-  --color-primary-content: #022c22;
-  --color-secondary: #475569; /* Slate-600 */
-  --color-secondary-content: #f8fafc;
-  
-  /* Rugged ERP Accents */
-  --color-accent: #0f172a; /* Slate-900 (High contrast accent) */
-  --color-accent-content: #ffffff;
-  --color-neutral: #1e293b;
-  --color-neutral-content: #f1f5f9;
+	/* Brand Colors */
+	--color-primary: #22c55e;
+	--color-primary-content: #022c22;
+	--color-secondary: #475569; /* Slate-600 */
+	--color-secondary-content: #f8fafc;
 
-  /* Surface Scale */
-  --color-base-100: #ffffff;
-  --color-base-200: #f1f5f9; /* Slate-50 */
-  --color-base-300: #e2e8f0; /* Slate-200 (Borders/Grid lines) */
-  --color-base-content: #0f172a;
+	/* Rugged ERP Accents */
+	--color-accent: #0f172a; /* Slate-900 (High contrast accent) */
+	--color-accent-content: #ffffff;
+	--color-neutral: #1e293b;
+	--color-neutral-content: #f1f5f9;
 
-  /* State Colors */
-  --color-info: #3b82f6;
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-info-content: #eff6ff;
-  --color-success-content: #f0fdf4;
-  --color-warning-content: #451a03;
-  --color-error-content: #450a0a;
+	/* Surface Scale */
+	--color-base-100: #ffffff;
+	--color-base-200: #f1f5f9; /* Slate-50 */
+	--color-base-300: #e2e8f0; /* Slate-200 (Borders/Grid lines) */
+	--color-base-content: #0f172a;
 
-  /* ERP Physicality - Rugged & Dense */
-  --radius-selector: 0.25rem;
-  --radius-field: 0.25rem;
-  --radius-box: 0.25rem;
-  --border: 1px;
-  --depth: 0; /* Flat, clean data presentation */
-  --noise: 0;
+	/* State Colors */
+	--color-info: #3b82f6;
+	--color-success: #22c55e;
+	--color-warning: #f59e0b;
+	--color-error: #ef4444;
+	--color-info-content: #eff6ff;
+	--color-success-content: #f0fdf4;
+	--color-warning-content: #451a03;
+	--color-error-content: #450a0a;
+
+	/* ERP Physicality - Rugged & Dense */
+	--radius-selector: 0.25rem;
+	--radius-field: 0.25rem;
+	--radius-box: 0.25rem;
+	--border: 1px;
+	--depth: 0; /* Flat, clean data presentation */
+	--noise: 0;
 }
 
 /* --- THEME: KITLEDGER DARK --- */
 @plugin "daisyui/theme" {
-  name: "kitledger_dark";
-  prefersdark: true;
-  color-scheme: dark;
+	name: "kitledger_dark";
+	prefersdark: true;
+	color-scheme: dark;
 
-  /* Brand Colors */
-  --color-primary: #22C55E;
-  --color-primary-content: #022c22;
-  --color-secondary: #94a3b8;
-  --color-secondary-content: #0f172a;
-  
-  --color-accent: #2dd4bf; /* Teal-400 */
-  --color-accent-content: #042f2e;
-  --color-neutral: #ccfbf1;
-  --color-neutral-content: #042f2e;
+	/* Brand Colors */
+	--color-primary: #22c55e;
+	--color-primary-content: #022c22;
+	--color-secondary: #94a3b8;
+	--color-secondary-content: #0f172a;
 
-  /* Surface Scale - Based on your #042F2E */
-  --color-base-100: #042F2E; /* Your requested deep teal */
-  --color-base-200: #064e4b; /* Slightly lighter for cards */
-  --color-base-300: #0f766e; /* Even lighter for inputs/borders */
-  --color-base-content: #f0fdfa; /* Off-white teal */
+	--color-accent: #2dd4bf; /* Teal-400 */
+	--color-accent-content: #042f2e;
+	--color-neutral: #ccfbf1;
+	--color-neutral-content: #042f2e;
 
-  /* State Colors */
-  --color-info: #60a5fa;
-  --color-success: #4ade80;
-  --color-warning: #fbbf24;
-  --color-error: #f87171;
-  --color-info-content: #0f172a;
-  --color-success-content: #0f172a;
-  --color-warning-content: #0f172a;
-  --color-error-content: #0f172a;
+	/* Surface Scale - Based on your #042F2E */
+	--color-base-100: #042f2e; /* Your requested deep teal */
+	--color-base-200: #064e4b; /* Slightly lighter for cards */
+	--color-base-300: #0f766e; /* Even lighter for inputs/borders */
+	--color-base-content: #f0fdfa; /* Off-white teal */
 
-  /* ERP Physicality */
-  --radius-selector: 0.25rem;
-  --radius-field: 0.25rem;
-  --radius-box: 0.25rem;
-  --border: 1px;
-  --depth: 0;
-  --noise: 0;
+	/* State Colors */
+	--color-info: #60a5fa;
+	--color-success: #4ade80;
+	--color-warning: #fbbf24;
+	--color-error: #f87171;
+	--color-info-content: #0f172a;
+	--color-success-content: #0f172a;
+	--color-warning-content: #0f172a;
+	--color-error-content: #0f172a;
+
+	/* ERP Physicality */
+	--radius-selector: 0.25rem;
+	--radius-field: 0.25rem;
+	--radius-box: 0.25rem;
+	--border: 1px;
+	--depth: 0;
+	--noise: 0;
 }

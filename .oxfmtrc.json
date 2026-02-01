@@ -8,6 +8,10 @@
 	"experimentalSortImports": {
 		"enabled": true
 	},
-	"ignorePatterns": ["typedoc/**"],
+	"ignorePatterns": [
+		"typedoc/**",
+		"website/.vitepress/dist/**",
+		"website/.vitepress/cache/**"
+	],
 	"embeddedLanguageFormatting": "auto"
 }

@@ -10,7 +10,7 @@ export enum EntityModelStatus {
 
 /**
  * Infers the meta type of an entity based on its fields.
- * 
+ *
  * @param TFields - An array of Field definitions.
  * @returns A mapped type where each field's refId is the key and its value type is the value.
  */
@@ -20,7 +20,7 @@ export type InferEntityMetaType<TFields extends readonly Field[]> = {
 
 /**
  * Type definition for an entity in the system.
- * 
+ *
  * @param TData - The type of the data contained within the entity.
  * @returns An object representing the entity with its metadata and data.
  */
@@ -34,7 +34,7 @@ export type Entity<TData = Record<string, any>> = {
 
 /**
  * Type definition for a hook function that operates on an entity.
- * 
+ *
  * @param TData - The type of the data contained within the entity.
  * @returns A promise that resolves to the modified entity.
  */
@@ -56,7 +56,7 @@ export type EntityHooks<TData = Record<string, any>> = {
 
 /**
  * Type definition for an entity model in the system.
- * 
+ *
  * @returns An object representing the entity model with its metadata, fields, and hooks.
  */
 export type EntityModel = {
@@ -70,7 +70,7 @@ export type EntityModel = {
 
 /**
  * Options for defining an entity model.
- * 
+ *
  * @param TFields - An array of Field definitions.
  * @returns An object containing the options for the entity model.
  */
@@ -83,14 +83,13 @@ export type EntityModelOptions<TFields extends readonly Field[]> = {
 	hooks?: EntityHooks<InferEntityMetaType<TFields>>;
 };
 
-
 /**
  * Defines an entity model with the provided options.
- * 
+ *
  * @remarks
  * This function helps in creating a strongly typed entity model by inferring
  * the types of the fields provided.
- * 
+ *
  * @param options The options for defining the entity model.
  * @returns A strongly typed entity model.
  */

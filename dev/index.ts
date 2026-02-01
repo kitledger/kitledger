@@ -5,6 +5,7 @@ import { initializeDatabase } from "@kitledger/core/db";
 import { defineEntityModel } from "@kitledger/core/entities";
 import { defineTextField, defineNumberField } from "@kitledger/core/fields";
 import { defineTransactionForm } from "@kitledger/core/forms";
+import { defineLedger } from "@kitledger/core/ledgers";
 import { defineTransactionModel } from "@kitledger/core/transactions";
 import { defineUnitModel } from "@kitledger/core/units";
 import { createServer, printAsciiLogo } from "@kitledger/server";
@@ -87,6 +88,17 @@ const unitModels = [
 	}),
 ];
 
+const ledgers = [
+	defineLedger(
+		{
+			refId: "MAIN_LEDGER",
+			name: "Main Ledger",
+			description: "The primary ledger for financial transactions",
+		},
+		unitModels[0],
+	),
+];
+
 const database = await initializeDatabase({
 	url: process.env.KL_POSTGRES_URL || "postgres://user:password@localhost:5432/kitledger",
 });
@@ -110,6 +122,7 @@ const config = defineConfig({
 	transactionModels,
 	unitModels,
 	transactionForms: [chileInvoiceForm],
+	ledgers,
 });
 
 const adminUI = defineAdminUI({

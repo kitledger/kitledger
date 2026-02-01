@@ -1,16 +1,16 @@
 {
-  "name": "website",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "vitepress dev",
-    "build": "vitepress build",
-    "preview": "vitepress preview"
-  },
-  "devDependencies": {
-    "vitepress": "2.0.0-alpha.16"
-  },
-  "dependencies": {
-    "oxc-minify": "^0.111.0"
-  }
+	"name": "website",
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vitepress dev",
+		"build": "vitepress build",
+		"preview": "vitepress preview"
+	},
+	"dependencies": {
+		"oxc-minify": "^0.111.0"
+	},
+	"devDependencies": {
+		"vitepress": "2.0.0-alpha.16"
+	}
 }

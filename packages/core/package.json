@@ -1,6 +1,6 @@
 {
 	"name": "@kitledger/core",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"private": false,
 	"license": "Apache-2.0",
 	"type": "module",
@@ -29,6 +29,10 @@
 			"types": "./dist/forms.d.ts",
 			"default": "./dist/forms.js"
 		},
+		"./ledgers": {
+			"types": "./dist/ledgers.d.ts",
+			"default": "./dist/ledgers.js"
+		},
 		"./transactions": {
 			"types": "./dist/transactions.d.ts",
 			"default": "./dist/transactions.js"
@@ -48,6 +52,8 @@
 	],
 	"scripts": {
 		"build": "tsc && copyfiles -u 1 \"src/migrations/**/*\" dist",
+		"db:custom": "drizzle-kit generate --custom",
+		"db:generate": "drizzle-kit generate",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {

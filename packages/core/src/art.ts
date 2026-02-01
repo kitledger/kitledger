@@ -1,7 +1,6 @@
-
 /**
  * Returns an ASCII representation of the logo for display in the console.
- * 
+ *
  * @returns A string representation of the ASCII logo.
  */
 export function getAsciiLogo(): string {

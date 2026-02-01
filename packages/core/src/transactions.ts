@@ -28,10 +28,10 @@ export type Transaction<TData = Record<string, any>> = {
 
 /**
  * Type definition for a hook function that operates on a transaction.
- * 
+ *
  * @param TData - The type of the data contained within the transaction.
  * @returns A promise that resolves to the modified transaction.
- * 
+ *
  */
 export type TransactionHook<TData> = (transaction: Transaction<TData>) => Promise<Transaction<TData>>;
 
@@ -51,7 +51,7 @@ export type TransactionHooks<TData = Record<string, any>> = {
 
 /**
  * Type definition for a transaction model in the system.
- * 
+ *
  * @returns An object representing the transaction model with its metadata, fields, and hooks.
  */
 export type TransactionModel = {
@@ -65,7 +65,7 @@ export type TransactionModel = {
 };
 
 /** Options for defining a transaction model.
- * 
+ *
  * @param TFields - An array of Field definitions.
  * @returns An object containing the options for the transaction model.
  */
@@ -80,10 +80,10 @@ export type TransactionModelOptions<TFields extends readonly Field[]> = {
 
 /**
  * Defines a transaction model with the given options.
- * 
+ *
  * @remarks
  * Sets default status to ACTIVE if not provided.
- * 
+ *
  * @param options - The options for defining the transaction model.
  * @returns The defined transaction model with its fields.
  */
