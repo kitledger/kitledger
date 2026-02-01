@@ -1,6 +1,6 @@
 {
 	"name": "@kitledger/admin",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"private": false,
 	"license": "Apache-2.0",
 	"type": "module",
@@ -22,8 +22,12 @@
 	},
 	"dependencies": {
 		"@tailwindcss/vite": "^4.1.18",
+		"@vueuse/core": "^14.2.0",
+		"pinia": "^3.0.4",
+		"reka-ui": "^2.8.0",
 		"tailwindcss": "^4.1.18",
-		"vue": "^3.5.27"
+		"vue": "^3.5.27",
+		"vue-router": "^5.0.1"
 	},
 	"devDependencies": {
 		"@kitledger/core": "workspace:*",

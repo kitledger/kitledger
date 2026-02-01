@@ -3,10 +3,7 @@ import type { Field } from "./fields.js";
 /**
  * Enumeration for the status of a transaction model.
  */
-export enum TransactionModelStatus {
-	ACTIVE,
-	INACTIVE,
-}
+export type TransactionModelStatus = "ACTIVE" | "INACTIVE";
 
 /**
  * Infers the meta type of a transaction based on its fields.
@@ -92,7 +89,7 @@ export function defineTransactionModel<const TFields extends readonly Field[]>(
 ): TransactionModel & { fields: TFields } {
 	return {
 		...options,
-		status: options.status ?? TransactionModelStatus.ACTIVE,
+		status: options.status ?? "ACTIVE",
 		fields: options.fields,
 		hooks: options.hooks as unknown as TransactionHooks<any>,
 	} as TransactionModel & { fields: TFields };

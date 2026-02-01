@@ -3,10 +3,7 @@ import type { Field } from "./fields.js";
 /**
  * Enumeration for the status of a unit model.
  */
-export enum UnitModelStatus {
-	ACTIVE,
-	INACTIVE,
-}
+export type UnitModelStatus = "ACTIVE" | "INACTIVE";
 
 /**
  * Infers the meta type of a unit based on its fields.
@@ -97,7 +94,7 @@ export function defineUnitModel<const TFields extends readonly Field[]>(
 ): UnitModel & { fields: TFields } {
 	return {
 		...options,
-		status: options.status ?? UnitModelStatus.ACTIVE,
+		status: options.status ?? "ACTIVE",
 		fields: options.fields,
 		hooks: options.hooks as unknown as UnitHooks<any>,
 	} as UnitModel & { fields: TFields };

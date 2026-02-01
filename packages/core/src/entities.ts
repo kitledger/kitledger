@@ -1,12 +1,6 @@
 import type { Field } from "./fields.js";
 
-/**
- * Enumeration for the status of an entity model.
- */
-export enum EntityModelStatus {
-	ACTIVE,
-	INACTIVE,
-}
+export type EntityModelStatus = "ACTIVE" | "INACTIVE";
 
 /**
  * Infers the meta type of an entity based on its fields.
@@ -98,7 +92,7 @@ export function defineEntityModel<const TFields extends readonly Field[]>(
 ): EntityModel & { fields: TFields } {
 	return {
 		...options,
-		status: options.status ?? EntityModelStatus.ACTIVE,
+		status: options.status ?? "ACTIVE",
 		fields: options.fields,
 		hooks: options.hooks as unknown as EntityHooks<any>,
 	} as EntityModel & { fields: TFields };
