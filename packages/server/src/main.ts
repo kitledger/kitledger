@@ -3,6 +3,15 @@ import { getAsciiLogo } from "@kitledger/core/art";
 import { StaticUIConfig } from "@kitledger/core/ui";
 import { Hono, type MiddlewareHandler } from "hono";
 
+type CorsConfig = {
+	origin: string | string[];
+	allowMethods: string[];
+	allowHeaders: string[];
+	maxAge: number;
+	credentials: boolean;
+	exposeHeaders: string[];
+};
+
 /**
  * Allowed runtimes
  */
@@ -19,7 +28,9 @@ type ServeStaticOptions = {
 
 type ServeStaticFn = (options: ServeStaticOptions) => MiddlewareHandler;
 
-type ServerConfig = ServerOptions;
+type ServerConfig = ServerOptions & {
+	corsConfig: CorsConfig;
+};
 
 type KitledgerContext = {
 	Variables: {
@@ -44,13 +55,34 @@ export type ServerOptions = {
 	// Runtime is removed; we detect it automatically now.
 	staticPaths?: string[];
 	staticUIs?: StaticUIConfig[];
+	corsConfig?: CorsConfig;
 };
 
 /**
  * Factory function to define the server configuration.
  */
-export function defineServerConfig(options: ServerOptions): ServerConfig {
-	return options;
+function defineServerConfig(options: ServerOptions): ServerConfig {
+	/**
+	 * CORS configuration values and defaults.
+	 */
+	const defaultCorsConfig: CorsConfig = {
+		origin: "*",
+		allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+		allowHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+		exposeHeaders: [],
+		credentials: false,
+		maxAge: 86400,
+	};
+
+	const corsConfig: CorsConfig = {
+		...defaultCorsConfig,
+		...options.corsConfig,
+	};
+
+	return {
+		...options,
+		corsConfig,
+	};
 }
 
 /**
@@ -130,7 +162,8 @@ export function printAsciiLogo() {
  * export const POST = server.fetch;
  * ```
  */
-export async function createServer(config: ServerConfig) {
+export async function createServer(options: ServerOptions) {
+	const config = defineServerConfig(options);
 	const server = new Hono<KitledgerContext>();
 
 	/**
