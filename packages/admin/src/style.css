@@ -1,7 +1,7 @@
-@import "tailwindcss";
-
 /* 1. Import IBM Plex Sans and IBM Plex Mono */
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100..700;1,100..700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+
+@import "tailwindcss";
 
 @plugin "daisyui" {
 	themes:

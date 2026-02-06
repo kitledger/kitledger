@@ -127,7 +127,7 @@ const config = defineConfig({
 
 const adminUI = defineAdminUI({
 	serverPath: "/__kitledger_data",
-	basePath: "/admin",
+	basePath: "/",
 	title: "Kitledger Admin UI",
 });
 
