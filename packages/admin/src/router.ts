@@ -5,10 +5,14 @@ import Dashboard from "./views/Dashboard.vue";
 import Settings from "./views/Settings.vue";
 
 const routes: RouteRecordRaw[] = [
-	{ path: "/", component: AdminLayout, children: [
-		{ path: "/", component: Dashboard },
-		{ path: "/settings", component: Settings },
-	]},
+	{
+		path: "/",
+		component: AdminLayout,
+		children: [
+			{ path: "/", component: Dashboard },
+			{ path: "/settings", component: Settings },
+		],
+	},
 ];
 
 export const router = createRouter({

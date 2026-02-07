@@ -10,7 +10,7 @@ export type NotificationActionType = "link";
 export type NotificationAction = {
 	type: NotificationActionType;
 	label: string;
-	target: string
+	target: string;
 };
 
 export interface Notification {
@@ -27,9 +27,10 @@ export const useNotificationsStore = defineStore("notifications", {
 		archivedNotifications: [] as Notification[],
 	}),
 	actions: {
-		addNotification(type: NotificationType, message: string, actions?: NotificationAction[]) {
+		addNotification(notificationOptions: Omit<Notification, "id">) {
 			const id = Date.now();
-			this.notifications.push({ id, type, message, actions });
+			const notification = { id, ...notificationOptions };
+			this.notifications.push(notification);
 			setTimeout(() => {
 				this.removeNotification(id);
 			}, noficationDuration);
@@ -45,4 +46,3 @@ export const useNotificationsStore = defineStore("notifications", {
 		},
 	},
 });
-

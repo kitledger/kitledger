@@ -26,7 +26,7 @@
 	-webkit-font-smoothing: antialiased;
 }
 
-/* --- THEME: KITLEDGER LIGHT --- */
+/* --- THEME: KITLEDGER LIGHT (Unchanged) --- */
 @plugin "daisyui/theme" {
 	name: "kitledger_light";
 	default: true;
@@ -39,7 +39,7 @@
 	--color-secondary-content: #f8fafc;
 
 	/* Rugged ERP Accents */
-	--color-accent: #0f172a; /* Slate-900 (High contrast accent) */
+	--color-accent: #0f172a; /* Slate-900 */
 	--color-accent-content: #ffffff;
 	--color-neutral: #1e293b;
 	--color-neutral-content: #f1f5f9;
@@ -65,47 +65,55 @@
 	--radius-field: 0.25rem;
 	--radius-box: 0.25rem;
 	--border: 1px;
-	--depth: 0; /* Flat, clean data presentation */
+	--depth: 0;
 	--noise: 0;
 }
 
-/* --- THEME: KITLEDGER DARK --- */
+/* --- THEME: KITLEDGER DARK (Industrial Correction) --- */
 @plugin "daisyui/theme" {
 	name: "kitledger_dark";
 	prefersdark: true;
 	color-scheme: dark;
 
-	/* Brand Colors */
+	/* Brand Colors - Green remains the "Signal" color */
 	--color-primary: #22c55e;
-	--color-primary-content: #022c22;
-	--color-secondary: #94a3b8;
-	--color-secondary-content: #0f172a;
+	--color-primary-content: #000000; /* Black text on green for max legibility */
 
-	--color-accent: #2dd4bf; /* Teal-400 */
-	--color-accent-content: #042f2e;
-	--color-neutral: #ccfbf1;
-	--color-neutral-content: #042f2e;
+	/* Secondary - Pure Greys now */
+	--color-secondary: #737373; /* Neutral-500 */
+	--color-secondary-content: #ffffff;
 
-	/* Surface Scale - Based on your #042F2E */
-	--color-base-100: #042f2e; /* Your requested deep teal */
-	--color-base-200: #064e4b; /* Slightly lighter for cards */
-	--color-base-300: #0f766e; /* Even lighter for inputs/borders */
-	--color-base-content: #f0fdfa; /* Off-white teal */
+	/* Accent - Silver/Steel */
+	--color-accent: #d4d4d4; /* Neutral-300 */
+	--color-accent-content: #171717;
 
-	/* State Colors */
-	--color-info: #60a5fa;
-	--color-success: #4ade80;
-	--color-warning: #fbbf24;
-	--color-error: #f87171;
-	--color-info-content: #0f172a;
-	--color-success-content: #0f172a;
-	--color-warning-content: #0f172a;
-	--color-error-content: #0f172a;
+	/* Neutral - Dark Machinery */
+	--color-neutral: #262626; /* Neutral-800 */
+	--color-neutral-content: #f5f5f5;
 
-	/* ERP Physicality */
-	--radius-selector: 0.25rem;
-	--radius-field: 0.25rem;
-	--radius-box: 0.25rem;
+	/* Surface Scale - The "Void" Look */
+	/* No blue undertones. Just ink and darkness. */
+	--color-base-100: #0a0a0a; /* Neutral-950 */
+	--color-base-200: #171717; /* Neutral-900 (Card backgrounds) */
+	--color-base-300: #262626; /* Neutral-800 (Borders) */
+
+	/* Content - Crisp, stark white text */
+	--color-base-content: #e5e5e5; /* Neutral-200 */
+
+	/* State Colors - Desaturated to match the gritty theme */
+	--color-info: #3b82f6;
+	--color-success: #22c55e;
+	--color-warning: #eab308;
+	--color-error: #ef4444;
+	--color-info-content: #000000;
+	--color-success-content: #000000;
+	--color-warning-content: #000000;
+	--color-error-content: #000000;
+
+	/* Physicality */
+	--radius-selector: 0.125rem; /* Sharper corners for industrial feel */
+	--radius-field: 0.125rem;
+	--radius-box: 0.125rem;
 	--border: 1px;
 	--depth: 0;
 	--noise: 0;
